@@ -4,6 +4,7 @@
         <title>Laravel</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+        <link href="{{elixir('css/styles.css')}}" rel="stylesheet" type="text/css">
 
         <style>
             html, body {
@@ -38,7 +39,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title"><i class="fa fa-cog"></i> Laravel 5</div>
             </div>
         </div>
     </body>
