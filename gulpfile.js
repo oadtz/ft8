@@ -22,10 +22,11 @@ elixir(function(mix) {
         ], 'public/js/scripts.js')
         .styles([
             '../../../bower_components/bootstrap/dist/css/bootstrap.min.css',
+            '../../../bower_components/font-awesome/css/font-awesome.min.css',
             '../../../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
-            '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css',
-            '../../../bower_components/font-awesome/css/font-awesome.min.css'
+            '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css'
         ], 'public/css/styles.css')
+        .copy( '../../../bower_components/bootstrap/dist/fonts', 'public/build/fonts' )
         .copy( '../../../bower_components/font-awesome/fonts', 'public/build/fonts' )
         .version([
               'css/styles.css',
