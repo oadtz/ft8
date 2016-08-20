@@ -12,19 +12,25 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix
+    mix.less('style.less', 'resources/assets/css/style.css')
         .scripts([
             '../../../bower_components/jquery/dist/jquery.min.js',
             '../../../bower_components/angular/angular.js',
             '../../../bower_components/bootstrap/dist/js/bootstrap.min.js',
             '../../../bower_components/bootstrap-material-design/dist/js/material.min.js',
-            '../../../bower_components/bootstrap-material-design/dist/js/ripples.min.js'
+            '../../../bower_components/bootstrap-material-design/dist/js/ripples.min.js',
+
+
+            'app.js',
+            'controller.upload.js'
         ], 'public/js/scripts.js')
         .styles([
             '../../../bower_components/bootstrap/dist/css/bootstrap.min.css',
             '../../../bower_components/font-awesome/css/font-awesome.min.css',
             '../../../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
-            '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css'
+            '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css',
+
+            'style.css'
         ], 'public/css/styles.css')
         .copy( '../../../bower_components/bootstrap/dist/fonts', 'public/build/fonts' )
         .copy( '../../../bower_components/font-awesome/fonts', 'public/build/fonts' )

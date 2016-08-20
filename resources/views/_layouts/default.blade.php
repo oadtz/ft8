@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 @endsection
 
+
 @section('javascript')
 <script>
 $(function () {

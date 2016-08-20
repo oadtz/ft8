@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="ft8">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="Thanapat Pirmphol">
-    <title>@yield('title') - FT8.io</title>
+    <title>@yield('title') - @lang('site.app_name')</title>
 
     <link href="{{ elixir('css/styles.css') }}" rel="stylesheet">
+    <style>
+    [ng\:cloak], [ng-cloak], .ng-cloak {
+        display: none !important;
+    }
+    </style>
     @yield('stylesheet')
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -18,37 +23,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body ng-cloak>
 
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          <a class="navbar-brand" href="#">@lang('site.app_name')</a>
         </div>
       </div>
     </nav>
 
+    <div class="container">
   
-	@yield('content')
+	  @yield('content')
 
+    </div>
 
     <script src="{{ elixir('js/scripts.js') }}"></script>
     @yield('javascript')
