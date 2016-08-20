@@ -2,9 +2,6 @@
  * Base structure
  */
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
-  padding-top: 70px;
-}
 /*
  * Global add-ons
  */
@@ -111,6 +108,18 @@ body {
 .upload-drop-zone.drop {
   color: #222;
   border-color: #222;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -9,7 +9,12 @@
     <title>@yield('title') - @lang('site.app_name')</title>
 
     <link href="{{ elixir('css/styles.css') }}" rel="stylesheet">
+    <link href="http://vjs.zencdn.net/5.10.8/video-js.css" rel="stylesheet">
     <style>
+    body {
+      padding-top: 70px !important;
+    }
+
     [ng\:cloak], [ng-cloak], .ng-cloak {
         display: none !important;
     }
@@ -40,6 +45,7 @@
 
     </div>
 
+    <script src="http://vjs.zencdn.net/5.10.8/video.js"></script>
     <script src="{{ elixir('js/scripts.js') }}"></script>
     @yield('javascript')
   </body>
