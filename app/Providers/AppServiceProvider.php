@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App;
+use Auth;
+use MongoId;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +17,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        session_start();
+
+        
+        if (Auth::check()) {
+            App::setLocale(Auth::user()->language);
+        } else {
+            App::setLocale(session('lang'));
+        }
     }
 
     /**
