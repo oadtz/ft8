@@ -20,7 +20,6 @@ class VideoUpdate extends Event implements ShouldBroadcast
     public function __construct(Video $video)
     {
         //
-        \Log::info($video);
         $this->video = $video;
     }
 
