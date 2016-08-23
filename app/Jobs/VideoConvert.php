@@ -32,19 +32,21 @@ class VideoConvert extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $this->video->status = 1;
-        $this->video->save();
-
-        //
-        try {
-            $this->video->process();
-
+        if ($this->video->status > 0) {
             $this->video->status = 2;
-        } catch (\Exception $e) {
-            $this->video->status = 3;
-            $this->video->errorMessages = $e->getMessage();
-        }
+            $this->video->save();
 
-        $this->video->save();
+            //
+            try {
+                $this->video->process();
+
+                $this->video->status = 3;
+            } catch (\Exception $e) {
+                $this->video->status = 4;
+                $this->video->errorMessages = $e->getMessage();
+            }
+
+            $this->video->save();
+        }
     }
 }

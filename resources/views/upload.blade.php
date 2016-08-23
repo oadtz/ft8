@@ -26,12 +26,13 @@
                   </span>
                 </div>
                 <div class="progress">
-                  <div class="progress-bar progress-bar-striped active" ng-class="{ 'progress-bar-success': video.status == 0, 'progress-bar-primary': video.status == 1, 'progress-bar-info': video.status == 2, 'progress-bar-danger': video.status == 3 }" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': progressPct + '%' }">
+                  <div class="progress-bar progress-bar-striped active" ng-class="{ 'progress-bar-success': video.status == 0 || video.status == 1, 'progress-bar-primary': video.status == 2, 'progress-bar-info': video.status == 3, 'progress-bar-danger': video.status == 4 }" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': progressPct + '%' }">
                     <span class="sr-only">
                       <span ng-switch="video.status">
-                        <span ng-switch-when="3">@lang('upload.error')</span>
-                        <span ng-switch-when="2">@lang('upload.done')</span>
-                        <span ng-switch-when="1">@lang('upload.processing')</span>
+                        <span ng-switch-when="4">@lang('upload.error')</span>
+                        <span ng-switch-when="3">@lang('upload.done')</span>
+                        <span ng-switch-when="2">@lang('upload.processing')</span>
+                        <span ng-switch-when="1">@lang('upload.in_queue')</span>
                         <span ng-switch-default>@lang('upload.uploading')</span>
                       </span>
                     </span>
@@ -50,9 +51,7 @@
                     <div class="col-md-10">
                       <select class="form-control" ng-model="video.resolution">
                         <option value="0">Same as Original</option>
-                        <option value="1">Smaller</option>
-                        <option value="2">Smallest</option>
-                        <option value="3">Square</option>
+                        <option value="1">Square</option>
                       </select>
                     </div>
                   </div>

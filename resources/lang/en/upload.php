@@ -6,6 +6,7 @@ return [
 	'clear'					=>	'Clear',
 	'upload'				=>	'Upload',
 	'uploading'				=>	'Uploading...',
+	'in_queue'				=>	'In Queue',
 	'processing'			=>	'Processing...',
 	'done'					=>	'Done',
 	'error'					=>	'Error',

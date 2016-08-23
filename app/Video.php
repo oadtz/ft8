@@ -37,6 +37,7 @@ class Video extends BaseModel
 	{
 		$inFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '/in');
 		$outFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '/out.gif');
+		$filters = '';
 		$dimension = \FFMpeg\FFProbe::create([
                             'ffmpeg.binaries' => config('app.ffmpeg_bin'),
                             'ffprobe.binaries' => config('app.ffprobe_bin'),
@@ -47,24 +48,27 @@ class Video extends BaseModel
                         ->getDimensions();
 
         switch($this->resolution) {
-        	case 1: //smaller
-        		$width = intval($dimension->getWidth() * 0.8);
-        		$height = intval($dimension->getHeight() * 0.8);
-        		break;
-        	case 2: //smallest
-        		$width = intval($dimension->getWidth() * 0.5);
-        		$height = intval($dimension->getHeight() * 0.5);
-        		break;
-        	case 3: //square
-        		$width = $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth();
+        	case 1: //square
+        		if ($dimension->getWidth() < config('ft8.output_max_width'))
+        			$width = $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth();
+        		else
+        			$width = config('ft8.output_max_width');
         		$height = $width;
+
+        		$filters = sprintf('-filter:v "crop=%d:%d"', $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth(), $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth());
         		break;
         	default:
-        		$width = $dimension->getWidth();
-        		$height = $dimension->getHeight();
+        		if ($dimension->getWidth() < config('ft8.output_max_width'))
+        			$ratio = 1;
+        		else
+					$ratio = config('ft8.output_max_width') / $dimension->getWidth();
+        		$width = intval($dimension->getWidth() * $ratio);
+        		$height = intval($dimension->getHeight() * $ratio);
+
+
         }
 
-		$this->cmd = sprintf('%s -y -i %s -s %sx%s -r 15 %s', config('app.ffmpeg_bin'), $inFile, $width, $height, $outFile);
+		$this->cmd = sprintf('%s -y -i %s -s %sx%s -r 10 %s %s', config('app.ffmpeg_bin'), $inFile, $width, $height, $filters, $outFile);
 
 		/*if (!empty($this->overlay)) {
 			$this->cmd .= ' -i ' . public_path('uploads/' . $this->userId . '/' . $this->_id . '_overlay') . ' -filter_complex "[0:v]overlay=(W-w)/2:(H-h)/2"'; 

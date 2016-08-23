@@ -29,12 +29,9 @@ angular.module('ft8')
 	}
 
 	$scope.saveSetting = function () {
-		var video = angular.copy($scope.video);
-
-		video.status = 0;
 		$scope.$saving = true;
 
-		$http.post($rootScope.getUrl('api/video/' + video._id), $scope.video)
+		$http.post($rootScope.getUrl('api/video/' + $scope.video._id), $scope.video)
 			 .success(function (response) {
 		 		$scope.video = response;
 		 		$scope.$saving = false;

@@ -61,6 +61,7 @@ class VideoController extends Controller {
 			$video->fileName = $this->request->file('file')->getClientOriginalName();
 			$video->fileExtension = $this->request->file('file')->getClientOriginalExtension();
 			$video->fileSize = $this->request->file('file')->getClientSize();
+			$video->status = 1;
 			
 			if ($video->save()) {
 				dispatch(new VideoConvert($video));
