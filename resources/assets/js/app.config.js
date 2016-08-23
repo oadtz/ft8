@@ -1,5 +1,5 @@
 angular.module('ft8')
-.run(['$rootScope', function ($rootScope) {
+.run(['$rootScope', '$http', function ($rootScope, $http) {
 	
 	$rootScope.init = function () {
 		/*if (broadcastUrl = $rootScope.getMeta('broadcast_url')) {
@@ -9,6 +9,11 @@ angular.module('ft8')
 	      cluster: 'ap1',
 	      encrypted: true
 	    });
+
+		$http.get($rootScope.getUrl('api/settings'))
+			 .success(function (response) {
+			 	$rootScope.settings = response;
+			 });
 	}
 
 	$rootScope.getMeta = function (meta) {

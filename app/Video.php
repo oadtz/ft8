@@ -5,20 +5,20 @@ namespace App;
 use Auth;
 use App\Events\VideoUpdate;
 use App\Services\StationService;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Video extends BaseModel
 {
-	const FFMPEG_CMD = [
-		'mp4'			=>	'ffmpeg -y -i %s -an -vcodec libx264 -crf 23 -s %s %s',
-		'mov'			=>	'ffmpeg -y -i %s -acodec copy -vcodec copy -f mov -s %s %s',
-		'gif'			=>	'ffmpeg -y -i %s -s %s -r 15 %s',
-		'wmv'			=>	'ffmpeg -y -sameq -i %s -s %s %s'
-	];
+	use SoftDeletes;
+
     public static $cacheEnabled = false;
     protected $collection = 'videos'; 
-	protected $fillable = ['resolution', 'format', 'userId', 'fileName', 'fileExtension', 'fileSize', 'overlay'];
+	protected $fillable = ['resolution', 'format', 'userId', 'fileName', 'fileExtension', 'fileSize'];
+
+    const DELETED_AT = 'deletedDateTime';
+    protected $dates = ['deleted_at'];
 
 	public static function boot()
 	{
@@ -35,21 +35,40 @@ class Video extends BaseModel
 
 	public function process()
 	{
-		$ext = $this->fileExtension;
-		$inFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '_src.' . $ext);
-		foreach (config('ft8.video_formats') as $format) {
-			if ($format['format'] == $this->format) {
-				$ext = $format['ext'];
-			}
-		}
+		$inFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '/in');
+		$outFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '/out.gif');
+		$dimension = \FFMpeg\FFProbe::create([
+                            'ffmpeg.binaries' => config('app.ffmpeg_bin'),
+                            'ffprobe.binaries' => config('app.ffprobe_bin'),
+                        ])
+                        ->streams($inFile) // extracts streams informations
+                        ->videos()                      // filters video streams
+                        ->first()                       // returns the first video stream
+                        ->getDimensions();
 
-		$outFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '.' . $ext);
+        switch($this->resolution) {
+        	case 1: //smaller
+        		$width = intval($dimension->getWidth() * 0.8);
+        		$height = intval($dimension->getHeight() * 0.8);
+        		break;
+        	case 2: //smallest
+        		$width = intval($dimension->getWidth() * 0.5);
+        		$height = intval($dimension->getHeight() * 0.5);
+        		break;
+        	case 3: //square
+        		$width = $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth();
+        		$height = $width;
+        		break;
+        	default:
+        		$width = $dimension->getWidth();
+        		$height = $dimension->getHeight();
+        }
 
-		$this->cmd = sprintf(static::FFMPEG_CMD[$this->format], $inFile, $this->resolution, $outFile);
+		$this->cmd = sprintf('%s -y -i %s -s %sx%s -r 15 %s', config('app.ffmpeg_bin'), $inFile, $width, $height, $outFile);
 
-		if (!empty($this->overlay)) {
+		/*if (!empty($this->overlay)) {
 			$this->cmd .= ' -i ' . public_path('uploads/' . $this->userId . '/' . $this->_id . '_overlay') . ' -filter_complex "[0:v]overlay=(W-w)/2:(H-h)/2"'; 
-		}
+		}*/
 
 		$process = new Process($this->cmd);
 		$process->run();

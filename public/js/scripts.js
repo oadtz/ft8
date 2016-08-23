@@ -31790,7 +31790,7 @@ return{restrict:"AEC",require:"?ngModel",link:function(h,i,j,k){a(h,i,j,k,b,c,d,
 !function(){"use strict";function a(){return window.videojs&&window.videojs.VERSION?window.videojs.VERSION:"0.0.0"}function b(a){return"VIDEO"===a[0].nodeName||"AUDIO"===a[0].nodeName}var c=angular.module("vjs.video",[]);c.controller("VjsVideoController",["$scope",function(c){function d(a,c){var d,e=null;if(!window.videojs)throw new Error("video.js was not found!");if(c){if(d=a[0].querySelectorAll("video, audio"),0===d.length)throw new Error("video tag must be defined within container directive!");if(d.length>1)throw new Error("only one video can be defined within the container directive!");e=d[0]}else{if(!b(a))throw new Error("directive must be attached to a video or audio tag!");e=a[0]}return e}function e(a,b){var c,d,e,f=b,g=document.createElement("style"),h=function(a){var b=a.split(":"),c='the ratio must either be "wide", "standard" or decimal values in the format of w:h';if(2!==b.length)throw new Error(c);if(isNaN(b[0])||isNaN(b[1]))throw new Error(c);if(0===Number(b[0])||0===Number(b[1]))throw new Error("neither the width or height ratio can be zero!");return Number(b[1])/Number(b[0])*100},i=function(a){var b,c=a[0].querySelector(".vjs-tech");if(!c)throw new Error("Failed to find instance of video-js class!");return b="vjs-container-"+c.getAttribute("id"),a[0].setAttribute("id",b),b};switch(f||(f="16:9"),f){case"wide":f="16:9";break;case"standard":f="4:3"}c=i(a),d=h(f),e=["#",c," ",".video-js {padding-top:",d,"%;}\n",".vjs-fullscreen {padding-top: 0px;}"].join(""),g.type="text/css",g.rel="stylesheet",g.styleSheet?g.styleSheet.cssText=e:g.appendChild(document.createTextNode(e)),a[0].appendChild(g)}function f(a,b){var c,d,e="a sources and/or tracks element must be defined for the vjs-media attribute",f="sources must be an array of objects with at least one item",g="tracks must be an array of objects with at least one item";if(a.vjsMedia){if(!a.vjsMedia.sources&&!a.vjsMedia.tracks)throw new Error(e);if(a.vjsMedia.sources&&!(a.vjsMedia.sources instanceof Array))throw new Error(f);if(a.vjsMedia.tracks&&!(a.vjsMedia.tracks instanceof Array))throw new Error(g);c=document.createElement("div"),a.vjsMedia.sources&&a.vjsMedia.sources.forEach(function(a){d=document.createElement("source"),d.setAttribute("src",a.src||""),d.setAttribute("type",a.type||""),c.appendChild(d)}),a.vjsMedia.tracks&&a.vjsMedia.tracks.forEach(function(a){d=document.createElement("track"),d.setAttribute("kind",a.kind||""),d.setAttribute("label",a.label||""),d.setAttribute("src",a.src||""),d.setAttribute("srclang",a.srclang||""),a["default"]===!0&&d.setAttribute("default",""),c.appendChild(d)}),b.call(void 0,{element:c})}}function g(d,g,h,i){var j,k=g.vjsSetup||{},l=g.vjsRatio,m=b(h)||a().match(/^5\./)?!1:!0;return window.videojs?(g.vjsMedia&&g.vjsMedia.poster&&(k.poster=g.vjsMedia.poster),f(g,i),j=c.$watch(function(){return g.vjsMedia},function(a,b){a&&!angular.equals(a,b)&&(j(),m?(window.videojs(d).dispose(),c.$emit("vjsVideoMediaChanged")):c.$emit("vjsVideoMediaChanged"))}),window.videojs(d,k,function(){m&&e(h,l),c.$emit("vjsVideoReady",{id:d.getAttribute("id"),vid:this,player:this,controlBar:this.controlBar})}),void c.$on("$destroy",function(){window.videojs(d).dispose()})):null}var h=this;h.initVideoJs=g,h.getVidElement=d}]),c.directive("vjsVideo",["$compile","$timeout",function(b,c){return{restrict:"A",transclude:!0,scope:{vjsSetup:"=?",vjsRatio:"@",vjsMedia:"=?"},controller:"VjsVideoController",controllerAs:"vjsCtrl",bindToController:!0,link:function(d,e,f,g,h){var i,j,k,l,m=function(a){e.children().remove(),e.append(a.element.childNodes)},n=function(){i=g.getVidElement(e),a().match(/^5\./)&&g.vjsRatio&&(g.vjsSetup||(g.vjsSetup={}),g.vjsSetup.aspectRatio=g.vjsRatio),h(function(a){e.append(a),g.initVideoJs(i,g,e,m)})};k=e.clone(),e.parent().hasClass("vjs-video-wrap")||e.wrap('<div class="vjs-video-wrap"></div>'),j=e.parent(),d.$on("vjsVideoMediaChanged",function(){var a=j.children()[0];c(function(){d.$destroy()}),l=k.clone(),j.append(l),l=b(l)(d.$parent),a.remove()}),n()}}}]),c.directive("vjsVideoContainer",[function(){return{restrict:"AE",transclude:!0,template:'<div class="vjs-directive-container"><div ng-transclude></div></div>',scope:{vjsSetup:"=?",vjsRatio:"@",vjsMedia:"=?"},controller:"VjsVideoController",controllerAs:"vjsCtrl",bindToController:!0,link:function(b,c,d,e,f){var g,h,i=function(a){var b=c[0].querySelector("video, audio");if(b){for(;b.firstChild;)b.removeChild(b.firstChild);for(;a.element.childNodes.length>0;)b.appendChild(a.element.childNodes[0])}},j=function(){if(g=e.getVidElement(c,!0),null!==g.getAttribute("vjs-video"))throw new Error("vjs-video should not be used on the video tag when using vjs-video-container!");if(null!==g.getAttribute("vjs-setup")||null!==g.getAttribute("vjs-media")||null!==g.getAttribute("vjs-ratio"))throw new Error("directive attributes should not be used on the video tag when using vjs-video-container!");a().match(/^5\./)?e.vjsRatio&&(e.vjsSetup||(e.vjsSetup={}),e.vjsSetup.aspectRatio=e.vjsRatio):(g.setAttribute("width","auto"),g.setAttribute("height","auto")),e.initVideoJs(g,e,c,i)};f(function(a){h=a.clone()}),b.$on("vjsVideoMediaChanged",function(){c.children().remove(),c.append(h.clone()),j()}),j()}}}])}();
 var app = angular.module('ft8', ['ngFileUpload'])
 angular.module('ft8')
-.run(['$rootScope', function ($rootScope) {
+.run(['$rootScope', '$http', function ($rootScope, $http) {
 	
 	$rootScope.init = function () {
 		/*if (broadcastUrl = $rootScope.getMeta('broadcast_url')) {
@@ -31800,6 +31800,11 @@ angular.module('ft8')
 	      cluster: 'ap1',
 	      encrypted: true
 	    });
+
+		$http.get($rootScope.getUrl('api/settings'))
+			 .success(function (response) {
+			 	$rootScope.settings = response;
+			 });
 	}
 
 	$rootScope.getMeta = function (meta) {
@@ -31824,32 +31829,24 @@ angular.module('ft8')
 	$scope.init = function () {
 		$scope.progressPct = 0;
 		$scope.setStep(1);
-		$scope.video = {};
-
-		$scope.file = null;
 	}
 
 	$scope.setStep = function (step) {
+		if (step == 1) {
+			$scope.file = null;
+			$scope.video = {};
+		}
 		$scope.step = step;
 	}
 
 	$scope.setFile = function (file) {
 		$scope.$error = null;
 
-		if (file && file.size > 2147483648) {
+		if (file && file.size > $rootScope.settings.max_file_size) {
 			$scope.$error = $('#error_max_file_size').val();
 		} else {
 			$scope.file = file;
 		}
-	}
-
-	$scope.setOverlay = function (file) {
-		$scope.overlay = file;
-
-		if (file)
-			$scope.video.overlay = file.name;
-		else
-			$scope.video.overlay = null;
 	}
 
 	$scope.getFileName = function() {
@@ -31862,19 +31859,14 @@ angular.module('ft8')
 		video.status = 0;
 		$scope.$saving = true;
 
-		Upload.upload({
-			url: $rootScope.getUrl('api/video/' + video._id),
-			data: {
-				file: $scope.overlay,
-				video: $scope.video
-			}
-		}).then(function (response) {
-		 	$scope.video = response.data;
-		 	$scope.$saving = false;
-        }, function (response) {
-			$scope.$saving = false;
-        });
-
+		$http.post($rootScope.getUrl('api/video/' + video._id), $scope.video)
+			 .success(function (response) {
+		 		$scope.video = response;
+		 		$scope.$saving = false;
+			 })
+			 .error(function (response) {
+			 	$scope.$saving = false;
+			 });
 	}
 
 	$scope.uploadFile = function() {

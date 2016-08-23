@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "jenssegers/mongodb": "3.0.*",
         "predis/predis": "~1.0",
-        "pusher/pusher-php-server": "~2.0"
+        "pusher/pusher-php-server": "~2.0",
+        "php-ffmpeg/php-ffmpeg": "~0.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

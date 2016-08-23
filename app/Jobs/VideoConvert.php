@@ -39,11 +39,7 @@ class VideoConvert extends Job implements ShouldQueue
         try {
             $this->video->process();
 
-            if ($this->video->status == 1)
-                $this->video->status = 2;
-            else if ($this->video->status == 0)
-                dispatch(new self($this->video));
-            
+            $this->video->status = 2;
         } catch (\Exception $e) {
             $this->video->status = 3;
             $this->video->errorMessages = $e->getMessage();

@@ -14,6 +14,8 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'ffprobe_bin'   =>  env('FFPROBE_BIN', 'ffprobe'),
+    'ffmpeg_bin'    =>  env('FFMPEG_BIN', 'ffmpeg'),
 
     /*
     |--------------------------------------------------------------------------

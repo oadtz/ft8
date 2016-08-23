@@ -36,14 +36,12 @@ class VideoController extends Controller {
 
 	public function save($video)
 	{
-		$data = $this->request->input('video');
+		$data = $this->request->all();
 
-		if ($this->request->hasFile('file')) {
-			$this->request->file('file')->move(public_path('uploads/' . $data['userId']), $data['_id'] . '_overlay');
+		if ($video = $this->videoService->update($video, $data)) {
+			dispatch(new VideoConvert($video));
 		}
 
-		$video = $this->videoService->update($video, $data);
-		
 		return response()->json($video);
 	}
 
@@ -56,8 +54,8 @@ class VideoController extends Controller {
 			abort(404);
 
 		try {
-			if (!file_exists(public_path('uploads/' . $video->userId))) {
-				@mkdir(public_path('uploads/' . $video->userId));
+			if (!file_exists(public_path('uploads/' . $video->userId . '/' . $video->_id))) {
+				@mkdir(public_path('uploads/' . $video->userId. '/' . $video->_id));
 			}
 
 			$video->fileName = $this->request->file('file')->getClientOriginalName();
@@ -67,7 +65,7 @@ class VideoController extends Controller {
 			if ($video->save()) {
 				dispatch(new VideoConvert($video));
 				
-				$this->request->file('file')->move(public_path('uploads/' . $video->userId), $video->_id . '_src.' . $video->fileExtension);
+				$this->request->file('file')->move(public_path('uploads/' . $video->userId . '/' . $video->_id), 'in');
 
 				return $video;
 			} else {

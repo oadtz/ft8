@@ -45,40 +45,15 @@
                 <legend>@lang('upload.settings')</legend>
                 <div class="well">
 
-                  <!--div class="form-group">
-                    <label class="col-md-2 control-label">@lang('upload.preset')</label>
-
-                    <div class="col-md-10">
-                      <select class="form-control" ng-model="video.preset" ng-options="p as p.name for p in presets" ng-init="presets = {{json_encode(config('ft8.presets'))}}; video.preset = presets[0]">
-                      </select>
-                    </div>
-                  </div-->
-
                   <div class="form-group">
                     <label class="col-md-2 control-label">@lang('upload.resolution')</label>
                     <div class="col-md-10">
-                      <select class="form-control" ng-model="video.resolution" ng-options="r.resolution as r.name for r in resolutions" ng-init="resolutions = {{json_encode(config('ft8.video_resolutions'))}}; video.resolution = resolutions[0].resolution">
+                      <select class="form-control" ng-model="video.resolution">
+                        <option value="0">Same as Original</option>
+                        <option value="1">Smaller</option>
+                        <option value="2">Smallest</option>
+                        <option value="3">Square</option>
                       </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">@lang('upload.format')</label>
-                    <div class="col-md-10">
-                      <select class="form-control" ng-model="video.format" ng-options="f.format as f.name for f in formats" ng-init="formats = {{json_encode(config('ft8.video_formats'))}}; video.format = formats[0].format">
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group is-fileinput">
-                    <label class="col-md-2 control-label">@lang('upload.overlay')</label>
-                    <div class="col-md-10">
-
-                      <span ng-if="video.overlay">@{{video.overlay}}</span>
-                      <span class="btn btn-default" ngf-select="setOverlay($file)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"> 
-                        <i class="fa fa-folder-open"></i> @lang('upload.browse')
-                      </span>
-
                     </div>
                   </div>
 
