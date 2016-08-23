@@ -42,9 +42,8 @@ class VideoController extends Controller {
 			$this->request->file('file')->move(public_path('uploads/' . $data['userId']), $data['_id'] . '_overlay');
 		}
 
-		if ($video = $this->videoService->update($video, $data)) {
-			dispatch(new VideoConvert($video));
-		}
+		$video = $this->videoService->update($video, $data);
+		
 		return response()->json($video);
 	}
 
