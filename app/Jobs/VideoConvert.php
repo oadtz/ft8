@@ -43,7 +43,7 @@ class VideoConvert extends Job implements ShouldQueue
                 $this->video->status = 2;
         } catch (\Exception $e) {
             $this->video->status = 3;
-            $this->video->errorMessages = $e->getMessages();
+            $this->video->errorMessages = $e->getMessage();
         }
 
         $this->video->save();

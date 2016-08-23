@@ -5,7 +5,10 @@ return [
 	'browse'				=>	'Browse',
 	'clear'					=>	'Clear',
 	'upload'				=>	'Upload',
-	'uploading'				=>	'Uploading',
+	'uploading'				=>	'Uploading...',
+	'processing'			=>	'Processing...',
+	'done'					=>	'Done',
+	'error'					=>	'Error',
 	'drop_zone'				=>	'Drag or drop file here. Max size is 2GB.',
 	'status'				=>	'Status',
 	'settings'				=>	'Video Settings',
@@ -14,5 +17,8 @@ return [
 	'resolution'			=>	'Resolution',
 	'format'				=>	'Format',
 	'overlay'				=>	'Overlay/Watermark',
-	'save'					=>	'Save Setting'
+	'save'					=>	'Save Setting',
+	'saving'				=>	'Saving...',
+	'post_actions'			=>	'Post Action',
+	'post_action_email'		=>	'Send Link to Email'
 ];

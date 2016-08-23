@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'socketio_url'	=>	env('SOCKETIO_URL'),
+	'broadcast_url'	=>	env('BROADCAST_URL'),
 	'presets'	=> [
 		[
 			'name'	=>	'Custom'
@@ -19,15 +19,17 @@ return [
 	],	
 
 	'video_formats'		=> [
-		[ 'name' => 'Gif Animation', 'format' => 'gif', 'outfile' => 'gif' ],
-		[ 'name' => 'H.264', 'format' => 'h264', 'outfile' => 'mkv' ],
-		[ 'name' => 'Apple PhotoJPEG', 'format' => 'photojpeg', 'outfile' => 'mov' ]
+		[ 'name' => 'Gif Animation', 'format' => 'gif', 'ext' => 'gif' ],
+		[ 'name' => 'MP4', 'format' => 'mp4', 'ext' => 'mp4' ],
+		[ 'name' => 'Mov', 'format' => 'mov', 'ext' => 'mov' ],
+		[ 'name' => 'Wmv', 'format' => 'wmv', 'ext' => 'wmv' ]
 	],
 
 	'video_resolutions' => [
 		[ 'name' => 'Instagram', 'resolution' => '1000x1000'  ],
-		[ 'name' => 'Facebook HD', 'resolution' => '1080x720' ],
-		[ 'name' => 'Full HD', 'resolution' => '1920x1080' ],
+		[ 'name' => 'VideoHive', 'resolution' => '960x540' ],
+		[ 'name' => '720p', 'resolution' => '1280x720' ],
+		[ 'name' => '1080p', 'resolution' => '1920x1080' ],
 		[ 'name' => '4K', 'resolution' => '3840x2160' ],
 	]
 ];

@@ -25,6 +25,7 @@ elixir(function(mix) {
 
 
             'app.js',
+            'app.config.js',
             'controller.upload.js'
         ], 'public/js/scripts.js')
         .styles([

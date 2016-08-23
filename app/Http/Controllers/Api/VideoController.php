@@ -24,27 +24,56 @@ class VideoController extends Controller {
 
 	}
 
-	public function upload()
+	public function create()
+	{
+		$data = $this->request->all();
+		$data['userId'] = $this->request->cookie('userId');
+
+		$video = $this->videoService->store($data);
+
+		return $video;
+	}
+
+	public function save($video)
+	{
+		$data = $this->request->input('video');
+
+		if ($this->request->hasFile('file')) {
+			$this->request->file('file')->move(public_path('uploads/' . $data['userId']), $data['_id'] . '_overlay');
+		}
+
+		if ($video = $this->videoService->update($video, $data)) {
+			dispatch(new VideoConvert($video));
+		}
+		return response()->json($video);
+	}
+
+	public function upload($video)
 	{
 		if (!$this->request->hasFile('file'))
 			abort(403, trans('error.empty_file'));
 
-		try {
+		if (!$video = $this->videoService->get($video))
+			abort(404);
 
-			$userId = $this->request->cookie('userId');
-			if (!file_exists(public_path('uploads/' . $userId))) {
-				@mkdir(public_path('uploads/' . $userId));
+		try {
+			if (!file_exists(public_path('uploads/' . $video->userId))) {
+				@mkdir(public_path('uploads/' . $video->userId));
 			}
 
-			$this->request->file('file')->move(public_path('uploads/' . $userId), 'src');
+			$video->fileName = $this->request->file('file')->getClientOriginalName();
+			$video->fileExtension = $this->request->file('file')->getClientOriginalExtension();
+			$video->fileSize = $this->request->file('file')->getClientSize();
+			
+			if ($video->save()) {
+				dispatch(new VideoConvert($video));
+				
+				$this->request->file('file')->move(public_path('uploads/' . $video->userId), $video->_id . '_src.' . $video->fileExtension);
 
-			$data = $this->request->input('video');
-			$data['file_id'] = $this->request->cookie('userId');
-			$video = $this->videoService->store($data);
-
-			dispatch(new VideoConvert($video));
-
-			return $video;
+				return $video;
+			} else {
+				return response()->json(false);
+			}
 		} catch (\Exception $e) {
 			return $e->getMessage();
 		}

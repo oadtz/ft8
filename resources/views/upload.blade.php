@@ -2,13 +2,6 @@
 
 @section('title', trans('site.title'))
 
-@section('javascript')
-<script src="{{config('ft8.socketio_url')}}/socket.io/socket.io.js"></script>
-<script>
-  window.socket = io('{{config('ft8.socketio_url')}}');
-</script>
-@endsection
-
 
 @section('content')
 
@@ -16,6 +9,7 @@
   <div class="col-md-12">
     <div class="bs-component">
       <form class="form-horizontal" ng-submit="void(0)">
+      
       <input type="hidden" id="error_max_file_size" value="@lang('error.max_file_size')">
       <div class="row">
           <div ng-show="step == 2">
@@ -24,11 +18,23 @@
               <fieldset>
                 <legend>@lang('upload.status')</legend>
                 <div class="text-center">
-                  @lang('upload.uploading')...
+                  <span ng-switch="video.status">
+                    <span ng-switch-when="3">@lang('upload.error')</span>                    
+                    <span ng-switch-when="2">@lang('upload.done')</span>
+                    <span ng-switch-when="1">@lang('upload.processing')</span>
+                    <span ng-switch-default>@lang('upload.uploading')</span>
+                  </span>
                 </div>
                 <div class="progress">
-                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': progressPct + '%' }">
-                    <span class="sr-only">@lang('upload.uploading')</span>
+                  <div class="progress-bar progress-bar-striped active" ng-class="{ 'progress-bar-success': video.status == 0, 'progress-bar-primary': video.status == 1, 'progress-bar-info': video.status == 2, 'progress-bar-danger': video.status == 3 }" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': progressPct + '%' }">
+                    <span class="sr-only">
+                      <span ng-switch="video.status">
+                        <span ng-switch-when="3">@lang('upload.error')</span>
+                        <span ng-switch-when="2">@lang('upload.done')</span>
+                        <span ng-switch-when="1">@lang('upload.processing')</span>
+                        <span ng-switch-default>@lang('upload.uploading')</span>
+                      </span>
+                    </span>
                   </div>
                 </div>
               </fieldset>
@@ -39,14 +45,14 @@
                 <legend>@lang('upload.settings')</legend>
                 <div class="well">
 
-                  <div class="form-group">
+                  <!--div class="form-group">
                     <label class="col-md-2 control-label">@lang('upload.preset')</label>
 
                     <div class="col-md-10">
                       <select class="form-control" ng-model="video.preset" ng-options="p as p.name for p in presets" ng-init="presets = {{json_encode(config('ft8.presets'))}}; video.preset = presets[0]">
                       </select>
                     </div>
-                  </div>
+                  </div-->
 
                   <div class="form-group">
                     <label class="col-md-2 control-label">@lang('upload.resolution')</label>
@@ -68,23 +74,22 @@
                     <label class="col-md-2 control-label">@lang('upload.overlay')</label>
                     <div class="col-md-10">
 
-                      <input type="file" id="inputFile4">
-                      <div class="input-group">
-                        <input type="text" readonly="" class="form-control" placeholder="Placeholder w/file chooser...">
-                          <span class="input-group-btn input-group-sm">
-                            <button type="button" class="btn btn-fab btn-fab-mini">
-                              <i class="material-icons">attach_file</i>
-                            </button>
-                          </span>
-                      </div>
-
+                      <span ng-if="video.overlay">@{{video.overlay}}</span>
+                      <span class="btn btn-default" ngf-select="setOverlay($file)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"> 
+                        <i class="fa fa-folder-open"></i> @lang('upload.browse')
+                      </span>
 
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
-                      <button type="submit" class="btn btn-primary">@lang('upload.save')</button>
+                      <button type="button" ng-click="saveSetting()" class="btn btn-primary btn-raised" ng-disabled="$saving == true">
+                        <span ng-switch="$saving">
+                          <span ng-switch-when="true">@lang('upload.saving')</span>
+                          <span ng-switch-default>@lang('upload.save')</span>
+                        </span>
+                      </button>
                     </div>
                   </div>
 

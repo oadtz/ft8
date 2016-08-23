@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
-	<meta name="author" content="Thanapat Pirmphol">
+  	<meta name="description" content="">
+  	<meta name="author" content="Thanapat Pirmphol">
+    <meta name="broadcast_url" content="{{config('broadcasting.connections.pusher.key')}}">
+    <base href="{{ url('/') }}">
     <title>@yield('title') - @lang('site.app_name')</title>
 
     <link href="{{ elixir('css/styles.css') }}" rel="stylesheet">
-    <link href="http://vjs.zencdn.net/5.10.8/video-js.css" rel="stylesheet">
     <style>
     body {
       padding-top: 70px !important;
@@ -45,7 +46,7 @@
 
     </div>
 
-    <script src="http://vjs.zencdn.net/5.10.8/video.js"></script>
+    <script src="https://js.pusher.com/3.2/pusher.min.js"></script>
     <script src="{{ elixir('js/scripts.js') }}"></script>
     @yield('javascript')
   </body>
