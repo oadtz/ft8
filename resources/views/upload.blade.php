@@ -134,7 +134,7 @@
               <p>
                 <a class="btn btn-primary btn-lg">Download</a>
                 <a class="btn btn-primary btn-lg">Send Link to Email</a>
-                <a class="btn btn-primary btn-lg">Upload New File</a>
+                <a class="btn btn-primary btn-lg" ng-click="setFile(null)">Upload New File</a>
               </p>
             </div>
           </div>
