@@ -14,9 +14,7 @@ angular.module('ft8')
 
 	$scope.setFile = function (file) {
 		$scope.$error = null;
-		$scope.video = {
-			status: 0
-		};
+		$scope.video = null;
 
 		if (file && file.size > $rootScope.settings.max_file_size) {
 			$scope.$error = $('#error_max_file_size').val();
@@ -47,6 +45,9 @@ angular.module('ft8')
 	}
 
 	$scope.uploadFile = function() {
+		$scope.video = {
+			status: 0
+		};
 		$http.post($rootScope.getUrl('api/video/'), $scope.video)
 			 .success(function (response) {
 			 	$scope.video = response;
