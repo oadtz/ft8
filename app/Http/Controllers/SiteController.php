@@ -26,17 +26,24 @@ class SiteController extends Controller
         return view('upload');
     }
 
-    public function getTest()
+    /*public function getTest()
     {
-        $video = \FFMpeg\FFMpeg::create([
-                            'ffmpeg.binaries' => '/usr/bin/ffmpeg',
-                            'ffprobe.binaries' => '/usr/bin/ffprobe'
-                        ])->open('/var/www/ft8/public/uploads/57b90dd79a892003e67b9924/57bb172f9a8920050f5c4482_src.MP4');
-                        $video->filters()
-                        ->framerate(new \FFMpeg\Coordinate\FrameRate(15), 15)
-                        ->synchronize();
-                        $video->save('/var/www/ft8/public/uploads/57b90dd79a892003e67b9924/57bb172f9a8920050f5c4482.gif');
+        $image = \Image::canvas(320, 180);
 
-        return 'done';
-    }
+        $text = 'ทดสอบ';
+
+        $x = strlen($text);
+
+        $image->text($text, 160, 160, function($font) {
+            $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
+            $font->size(24 );
+            $font->color('#000000');
+            $font->align('center');
+            $font->valign('bottom');
+        });
+
+        //$image->save(public_path('uploads/overlay.png'));
+
+        return $image->response();
+    }*/
 }

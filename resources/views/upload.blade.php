@@ -84,10 +84,17 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">@lang('upload.resolution')</label>
                     <div class="col-md-10">
-                      <select class="form-control" ng-model="video.resolution" ng-init="video.resolution = 0">
-                        <option value="0">Same as Original</option>
-                        <option value="1">Square</option>
-                      </select>
+                      <div class="btn-group">
+                          <label class="btn btn-default" ng-model="video.resolution" uib-btn-radio="0">Same as Source</label>
+                          <label class="btn btn-default" ng-model="video.resolution" uib-btn-radio="1">Square</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">@lang('upload.caption')</label>
+                    <div class="col-md-10">
+                      <input type="text" class="form-control" ng-model="video.caption" maxlength="60">
                     </div>
                   </div>
 
@@ -128,7 +135,7 @@
               <div class="form-group">
                 <label class="col-md-1 control-label">Link</label>
                 <div class="col-md-11">
-                  <input type="text" class="form-control" ng-model="video.link">
+                  <input type="text" class="form-control" ng-model="video.cmd">
                 </div>
               </div>
               <p>
