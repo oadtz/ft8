@@ -19,6 +19,10 @@ class Video extends BaseModel
     protected $appends = ['link', 'url'];
     const DELETED_AT = 'deletedDateTime';
     protected $dates = ['deleted_at'];
+    protected $attributes = [
+        'status'        =>  0,
+        'resolution'    =>  0
+    ];
 
 	public static function boot()
 	{
