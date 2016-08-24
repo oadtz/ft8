@@ -15,7 +15,7 @@ class Video extends BaseModel
 
     public static $cacheEnabled = false;
     protected $collection = 'videos'; 
-	protected $fillable = ['resolution', 'format', 'userId', 'fileName', 'fileExtension', 'fileSize'];
+	protected $fillable = ['resolution', 'userId', 'fileName', 'fileExtension', 'fileSize'];
     protected $appends = ['link', 'url'];
     const DELETED_AT = 'deletedDateTime';
     protected $dates = ['deleted_at'];
@@ -52,34 +52,39 @@ class Video extends BaseModel
 		$inFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '/in');
 		$outFile = public_path('uploads/' . $this->userId . '/' . $this->_id . '/out.gif');
 		$filters = '';
-		$dimension = \FFMpeg\FFProbe::create([
+		$ffprobe = \FFMpeg\FFProbe::create([
                             'ffmpeg.binaries' => config('app.ffmpeg_bin'),
                             'ffprobe.binaries' => config('app.ffprobe_bin'),
                         ])
                         ->streams($inFile) // extracts streams informations
                         ->videos()                      // filters video streams
-                        ->first()                       // returns the first video stream
-                        ->getDimensions();
+                        ->first();                       // returns the first video stream
+        $dimension = $ffprobe->getDimensions();
+        $width = $dimension->getWidth();
+        $height = $dimension->getHeight();
 
         switch($this->resolution) {
         	case 1: //square
-        		if ($dimension->getWidth() < config('ft8.output_max_width'))
-        			$width = $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth();
+        		if ($width < config('ft8.output_max_width'))
+        			$width = ($width >= $height ? $height : $width);
         		else
         			$width = config('ft8.output_max_width');
         		$height = $width;
 
-        		$filters = sprintf('-filter:v "crop=%d:%d"', $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth(), $dimension->getWidth() >= $dimension->getHeight() ? $dimension->getHeight() : $dimension->getWidth());
+        		$filters = sprintf('-filter:v "crop=%d:%d"', ($width >= $height ? $height : $width), ($width >= $height ? $height : $width));
         		break;
         	default:
-        		if ($dimension->getWidth() < config('ft8.output_max_width'))
+        		if ($width < config('ft8.output_max_width'))
         			$ratio = 1;
         		else
-					$ratio = config('ft8.output_max_width') / $dimension->getWidth();
-        		$width = intval($dimension->getWidth() * $ratio);
-        		$height = intval($dimension->getHeight() * $ratio);
+					$ratio = config('ft8.output_max_width') / $width;
+        		$width = intval($width * $ratio);
+        		$height = intval($height * $ratio);
 
-
+                $tags = $ffprob->get('tags');
+                if (isset($tags['rotate']) && ($tags['rotate'] == 90 || $tags['rotate'] == 270)) {
+                    list($width, $height) = [$height, $width];
+                }
         }
 
 		$this->cmd = sprintf('%s -y -i %s -s %sx%s -r 10 %s %s', config('app.ffmpeg_bin'), $inFile, $width, $height, $filters, $outFile);
