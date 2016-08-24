@@ -24,6 +24,13 @@ class VideoController extends Controller {
 
 	}
 
+	public function current()
+	{
+		$userId = $this->request->cookie('userId');
+
+		return $this->videoService->getCurrent($userId);
+	}
+
 	public function create()
 	{
 		$data = $this->request->all();

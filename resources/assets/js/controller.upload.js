@@ -2,6 +2,10 @@ angular.module('ft8')
 .controller('UploadController', ['$scope', '$rootScope', '$http', 'Upload', function ($scope, $rootScope, $http, Upload) {
 
 	$scope.init = function () {
+		$http.get($rootScope.getUrl('api/video/current'))
+		     .success(function (response) {
+		     	$scope.video = response;
+		     });
 	}
 
 	$scope.setStep = function (step) {
