@@ -1,1 +1,1 @@
-var app = angular.module('ft8', ['ngFileUpload'])
+var app = angular.module('ft8', ['ngFileUpload', 'ui.bootstrap'])

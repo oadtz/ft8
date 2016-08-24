@@ -16,7 +16,7 @@ class Video extends BaseModel
     public static $cacheEnabled = false;
     protected $collection = 'videos'; 
 	protected $fillable = ['resolution', 'format', 'userId', 'fileName', 'fileExtension', 'fileSize'];
-
+    protected $appends = ['link', 'url'];
     const DELETED_AT = 'deletedDateTime';
     protected $dates = ['deleted_at'];
 
@@ -32,6 +32,16 @@ class Video extends BaseModel
             event(new VideoUpdate($video));
         });
 	}
+
+    public function getUrlAttribute()
+    {
+        return sprintf('uploads/%s/%s/out.gif', $this->userId, (string)$this->_id);
+    }
+
+    public function getLinkAttribute()
+    {
+        return sprintf('uploads/%s/%s.gif', $this->userId, (string)$this->_id);
+    }
 
 	public function process()
 	{

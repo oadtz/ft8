@@ -2,7 +2,6 @@
 
 @section('title', trans('site.title'))
 
-
 @section('content')
 
 <div class="row" ng-controller="UploadController">
@@ -12,6 +11,42 @@
       
       <input type="hidden" id="error_max_file_size" value="@lang('error.max_file_size')">
       <div class="row">
+          <div ng-show="step == 1">
+
+            <div class="jumbotron">
+              <h1>@lang('upload.title')</h1>
+              <div class="input-group image-preview">
+                <span class="input-group-btn">
+
+                  <button type="button" class="btn btn-info btn-raised" ng-if="file" ng-click="uploadFile()">
+                    <i class="fa fa-upload"></i> @lang('upload.upload'): @{{getFileName()}}
+                  </button> 
+                  
+                  <!-- image-preview-input --> 
+                  <span class="btn btn-default btn-raised" ngf-select="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'"> 
+                    <i class="fa fa-folder-open"></i> @lang('upload.browse')
+                  </span>
+                  <!-- image-preview-clear button -->
+                  <button type="button" class="btn btn-default btn-raised" ng-click="setFile(null)"> 
+                    <i class="fa fa-remove"></i> @lang('upload.clear') 
+                  </button>
+                </span> 
+              </div>
+
+              <div class="alert alert-dismissible alert-danger" ng-show="$error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @{{$error}}
+              </div>
+
+              <!-- Drop Zone -->
+              <!--video class="video-js vjs-default-skin" ngf-src="file" controls preload="auto" width="640" height="264" vjs-video></video-->
+              <div class="upload-drop-zone" ngf-drop="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'" ngf-allow-dir="false">
+                @lang('upload.drop_zone')
+              </div>
+
+            </div>
+          </div>
+
           <div ng-show="step == 2">
 
             <div class="col-sm-2">
@@ -49,7 +84,7 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">@lang('upload.resolution')</label>
                     <div class="col-md-10">
-                      <select class="form-control" ng-model="video.resolution">
+                      <select class="form-control" ng-model="video.resolution" ng-init="video.resolution = 0">
                         <option value="0">Same as Original</option>
                         <option value="1">Square</option>
                       </select>
@@ -81,39 +116,25 @@
             </div>
 
           </div>
-          <div ng-show="step == 1">
 
+          <div ng-show="step == 3">
             <div class="jumbotron">
-              <h1>@lang('upload.title')</h1>
-              <div class="input-group image-preview">
-                <span class="input-group-btn">
+              <h1>Your File is Ready</h1>
 
-                  <button type="button" class="btn btn-info btn-raised" ng-if="file" ng-click="uploadFile()">
-                    <i class="fa fa-upload"></i> @lang('upload.upload'): @{{getFileName()}}
-                  </button> 
-                  
-                  <!-- image-preview-input --> 
-                  <span class="btn btn-default btn-raised" ngf-select="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'"> 
-                    <i class="fa fa-folder-open"></i> @lang('upload.browse')
-                  </span>
-                  <!-- image-preview-clear button -->
-                  <button type="button" class="btn btn-default btn-raised" ng-click="setFile(null)"> 
-                    <i class="fa fa-remove"></i> @lang('upload.clear') 
-                  </button>
-                </span> 
+              <p class="text-center">
+                <img ng-src="@{{getUrl(video.url)}}" ng-if="video.status == 3">
+              </p>
+
+              <div class="form-group">
+                <label class="col-md-1 control-label">Link</label>
+                <div class="col-md-11">
+                  <input type="text" class="form-control" ng-model="video.link">
+                </div>
               </div>
-
-              <div class="alert alert-dismissible alert-danger" ng-show="$error">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                @{{$error}}
-              </div>
-
-              <!-- Drop Zone -->
-              <!--video class="video-js vjs-default-skin" ngf-src="file" controls preload="auto" width="640" height="264" vjs-video></video-->
-              <div class="upload-drop-zone" ngf-drop="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'" ngf-allow-dir="false">
-                @lang('upload.drop_zone')
-              </div>
-
+              <p>
+                <a class="btn btn-primary btn-lg">Download</a>
+                <a class="btn btn-primary btn-lg">Send Link to Email</a>
+              </p>
             </div>
           </div>
 

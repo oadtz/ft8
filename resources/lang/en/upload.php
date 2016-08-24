@@ -10,7 +10,7 @@ return [
 	'processing'			=>	'Processing...',
 	'done'					=>	'Done',
 	'error'					=>	'Error',
-	'drop_zone'				=>	'Drag or drop file here. Max size is 2GB.',
+	'drop_zone'				=>	'Drag or drop file here. Max size is 1GB.',
 	'status'				=>	'Status',
 	'settings'				=>	'Video Settings',
 	'custom_preset'			=>	'Custom',

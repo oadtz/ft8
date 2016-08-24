@@ -39,6 +39,7 @@ class VideoController extends Controller {
 		$data = $this->request->all();
 
 		if ($video = $this->videoService->update($video, $data)) {
+			$video->status = 1;
 			dispatch(new VideoConvert($video));
 		}
 

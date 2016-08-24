@@ -2,15 +2,9 @@ angular.module('ft8')
 .controller('UploadController', ['$scope', '$rootScope', '$http', 'Upload', function ($scope, $rootScope, $http, Upload) {
 
 	$scope.init = function () {
-		$scope.progressPct = 0;
-		$scope.setStep(1);
 	}
 
 	$scope.setStep = function (step) {
-		if (step == 1) {
-			$scope.file = null;
-			$scope.video = {};
-		}
 		$scope.step = step;
 	}
 
@@ -28,6 +22,10 @@ angular.module('ft8')
 		return $scope.file.name;
 	}
 
+	$scope.getUrl = function () {
+		return $scope.video.url;
+	}
+
 	$scope.saveSetting = function () {
 		$scope.$saving = true;
 
@@ -43,14 +41,14 @@ angular.module('ft8')
 
 	$scope.uploadFile = function() {
 
-		$scope.setStep(2);
-
-
+		$scope.video = {
+			status: 0
+		};
 		$http.post($rootScope.getUrl('api/video/'), $scope.video)
 			 .success(function (response) {
 			 	$scope.video = response;
 
-
+				$scope.progressPct = 0;
 		        Upload.upload({
 		            url: $rootScope.getUrl('api/video/' + $scope.video._id + '/upload'),
 		            data: {
@@ -63,21 +61,38 @@ angular.module('ft8')
 		        		$scope.$apply(function () {
 		        			$scope.video = data.video;
 
-		        			if ($scope.video.status == 3) {
-		        				$scope.setStep(1);
+		        			if ($scope.video.status == 4) {
 		        				$scope.$error = $scope.video.errorMessages;
+								$scope.file = null;
+								$scope.video = {};
 		        			}
 		        		});
 			        });
 		        }, function (response) {
-		        	$scope.setStep(1);
 		        	$scope.$error = response;
+					$scope.file = null;
+					$scope.video = {};
 		        }, function (evt) {
 		            $scope.progressPct = parseInt(100.0 * evt.loaded / evt.total)
 		        });
 			 });
 
 	}
+
+	$scope.$watch('video.status', function (status) {
+		switch (status) {
+			case 0:
+			case 1:
+			case 2:
+				$scope.setStep(2);
+				break;
+			case 3:
+				$scope.setStep(3);
+				break;
+			default:
+				$scope.setStep(1);
+		}
+	});
 
 	$scope.init ();
 
