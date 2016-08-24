@@ -81,7 +81,7 @@ class Video extends BaseModel
         		$width = intval($width * $ratio);
         		$height = intval($height * $ratio);
 
-                $tags = $ffprob->get('tags');
+                $tags = $ffprobe->get('tags');
                 if (isset($tags['rotate']) && ($tags['rotate'] == 90 || $tags['rotate'] == 270)) {
                     list($width, $height) = [$height, $width];
                 }
