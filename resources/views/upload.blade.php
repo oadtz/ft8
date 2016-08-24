@@ -122,7 +122,7 @@
               <h1>Your File is Ready</h1>
 
               <p class="text-center">
-                <img ng-src="@{{getUrl(video.url)}}" ng-if="video.status == 3">
+                <img ng-src="@{{getUrl(video.url)}}" ng-if="video.status == 3" style="max-width: 100%">
               </p>
 
               <div class="form-group">
@@ -134,6 +134,7 @@
               <p>
                 <a class="btn btn-primary btn-lg">Download</a>
                 <a class="btn btn-primary btn-lg">Send Link to Email</a>
+                <a class="btn btn-primary btn-lg">Upload New File</a>
               </p>
             </div>
           </div>
