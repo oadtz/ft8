@@ -31,7 +31,7 @@ class VideoService extends BaseService {
 
     public function getCurrent($userId)
     {
-        return Video::where('userId', $userId)->orderBy('createdDateTime', 'desc')->first();
+        return Video::where('userId', $userId)->where('status', '>', 0)->orderBy('createdDateTime', 'desc')->first();
     }
 
 }
