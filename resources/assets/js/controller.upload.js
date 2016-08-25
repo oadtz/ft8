@@ -47,7 +47,8 @@ angular.module('ft8')
 	$scope.uploadFile = function() {
 		$scope.video = {
 			resolution: 0,
-			status: 0
+			status: 0,
+			captionColor: '#ffffff'
 		};
 		
 		$http.post($rootScope.getUrl('api/video/'), $scope.video)

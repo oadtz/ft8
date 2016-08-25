@@ -59,7 +59,7 @@ class Video extends BaseModel
             $size = 150;
 
         $image = Image::canvas($w, $h);
-        $image->text($text, $w/2, $h-100, function($font) {
+        $image->text($text, $w/2, $h-100, function($font) use($color, $size) {
             $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
             $font->size($size);
             $font->color($color);
