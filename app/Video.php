@@ -52,11 +52,11 @@ class Video extends BaseModel
         $text = trim($text);
 
         if (strlen($text) < 10)
-            $size = 240;
-        else if (strlen($text) >= 10 && strlen($text) < 30)
             $size = 200;
-        else
+        else if (strlen($text) >= 10 && strlen($text) < 30)
             $size = 150;
+        else
+            $size = 100;
 
         $image = Image::canvas($w, $h);
         $image->text($text, $w/2, $h-100, function($font) use($color, $size) {
