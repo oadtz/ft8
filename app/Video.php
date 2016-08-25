@@ -51,15 +51,16 @@ class Video extends BaseModel
 
         $text = trim($text);
 
-        if (strlen($text) < 10)
-            $size = 150;
-        else if (strlen($text) >= 10 && strlen($text) < 30)
+        /*if (strlen($text) < 10)
             $size = 100;
-        else
+        else if (strlen($text) >= 10 && strlen($text) < 30)
             $size = 50;
+        else
+            $size = 25;*/
+        $size = $w / 20;
 
         $image = Image::canvas($w, $h);
-        $image->text($text, $w/2, $h-100, function($font) use($color, $size) {
+        $image->text($text, $w/2, $h*0.95, function($font) use($color, $size) {
             $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
             $font->size($size);
             $font->color($color);
