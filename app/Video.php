@@ -16,7 +16,7 @@ class Video extends BaseModel
 
     public static $cacheEnabled = false;
     protected $collection = 'videos'; 
-	protected $fillable = ['resolution', 'userId', 'fileName', 'fileExtension', 'fileSize', 'caption'];
+	protected $fillable = ['resolution', 'userId', 'fileName', 'fileExtension', 'fileSize', 'caption', 'captionColor'];
     protected $appends = ['link', 'url'];
     const DELETED_AT = 'deletedDateTime';
     protected $dates = ['deleted_at'];
@@ -44,22 +44,30 @@ class Video extends BaseModel
         return sprintf('uploads/%s/%s.gif', $this->userId, (string)$this->_id);
     }
 
-    public function generateOverlay($w, $h, $text, $rotate = 0)
+    public function generateCaption($w, $h, $text, $color, $rotate = 0)
     {
         if ($rotate == 90 || $rotate == 270)
             list($w, $h) = [$h, $w];
 
-        $image = Image::canvas($w, $h);
+        $text = trim($text);
 
-        $image->text(trim($text), $w/2, $h-100, function($font) {
+        if (strlen($text) < 10)
+            $size = 240;
+        else if (strlen($text) >= 10 && strlen($text) < 30)
+            $size = 200;
+        else
+            $size = 150;
+
+        $image = Image::canvas($w, $h);
+        $image->text($text, $w/2, $h-100, function($font) {
             $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
-            $font->size(240);
-            $font->color('#ffffff');
+            $font->size($size);
+            $font->color($color);
             $font->align('center');
             $font->valign('bottom');
         });
 
-        if ($image->save(public_path('uploads/' . $this->userId . '/' . $this->_id . '/overlay.png')))
+        if ($image->save(public_path('uploads/' . $this->userId . '/' . $this->_id . '/caption.png')))
             return true;
 
         return false;
@@ -105,8 +113,8 @@ class Video extends BaseModel
         		$height = intval($height * $ratio);
         }
 
-        if (!empty($this->caption) && $this->generateOverlay($dimension->getWidth(), $dimension->getHeight(), $this->caption, isset($tags['rotate']) ? $tags['rotate'] : 0)) {
-            $overlay = '-i ' . public_path('uploads/' . $this->userId . '/' . $this->_id . '/overlay.png  -filter_complex "overlay=0:0"');
+        if (!empty($this->caption) && $this->generateOverlay($dimension->getWidth(), $dimension->getHeight(), $this->caption, $this->captionColor, isset($tags['rotate']) ? $tags['rotate'] : 0)) {
+            $overlay = '-i ' . public_path('uploads/' . $this->userId . '/' . $this->_id . '/caption.png  -filter_complex "overlay=0:0"');
         } else {
             $overlay = '';
         }

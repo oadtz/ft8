@@ -22,6 +22,7 @@ elixir(function(mix) {
             '../../../bower_components/ng-file-upload/ng-file-upload-shim.min.js',
             '../../../bower_components/ng-file-upload/ng-file-upload.min.js',
             '../../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+            '../../../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js',
 
 
             'app.js',
@@ -33,11 +34,13 @@ elixir(function(mix) {
             '../../../bower_components/font-awesome/css/font-awesome.min.css',
             '../../../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
             '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css',
+            '../../../bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css',
 
             'style.css'
         ], 'public/css/styles.css')
         .copy( '../../../bower_components/bootstrap/dist/fonts', 'public/build/fonts' )
         .copy( '../../../bower_components/font-awesome/fonts', 'public/build/fonts' )
+        .copy( '../../../bower_components/angular-bootstrap-colorpicker/img', 'public/build/img' )
         .version([
               'css/styles.css',
               'js/scripts.js'
