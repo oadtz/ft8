@@ -101,7 +101,7 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">@lang('upload.caption')</label>
                     <div class="col-md-10">
-                      <input type="text" class="form-control" ng-model="video.captionColor" maxlength="7">
+                      <input type="text" class="form-control" colorpicker="hex"  ng-model="video.captionColor" maxlength="7">
                     </div>
                   </div>
 

@@ -113,7 +113,7 @@ class Video extends BaseModel
         		$height = intval($height * $ratio);
         }
 
-        if (!empty($this->caption) && $this->generateOverlay($dimension->getWidth(), $dimension->getHeight(), $this->caption, $this->captionColor, isset($tags['rotate']) ? $tags['rotate'] : 0)) {
+        if (!empty($this->caption) && $this->generateCaption($dimension->getWidth(), $dimension->getHeight(), $this->caption, $this->captionColor, isset($tags['rotate']) ? $tags['rotate'] : 0)) {
             $overlay = '-i ' . public_path('uploads/' . $this->userId . '/' . $this->_id . '/caption.png  -filter_complex "overlay=0:0"');
         } else {
             $overlay = '';
