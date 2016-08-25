@@ -119,7 +119,7 @@ class Video extends BaseModel
             $overlay = '';
         }
 
-		$this->cmd = sprintf('%s -y -i %s %s -s %sx%s -r 10 %s %s', config('app.ffmpeg_bin'), $inFile, $overlay, $width, $height, $filters, $outFile);
+		$this->cmd = sprintf('%s -y -i %s %s -s %sx%s -t %d -r 10 %s %s', config('app.ffmpeg_bin'), $inFile, $overlay, $width, $height, config('ft8.output_max_time'), $filters, $outFile);
 
 		/*if (!empty($this->overlay)) {
 			$this->cmd .= ' -i ' . public_path('uploads/' . $this->userId . '/' . $this->_id . '_overlay') . ' -filter_complex "[0:v]overlay=(W-w)/2:(H-h)/2"'; 
