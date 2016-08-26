@@ -1,159 +1,98 @@
 @extends('_layouts.default')
 
-@section('title', trans('site.title'))
+@section('title', 'Easy VDO to Gif Convert')
 
 @section('content')
 
-<div class="row" ng-controller="UploadController">
+<div class="row">
   <div class="col-md-12">
     <div class="bs-component">
       <form class="form-horizontal" ng-submit="void(0)">
-      
-      <input type="hidden" id="error_max_file_size" value="@lang('error.max_file_size')">
-      <div class="row">
-          <div ng-show="step == 1">
 
+
+     		<!-- Step 1 -->
             <div class="jumbotron">
-              <h1>@lang('upload.title')</h1>
-              <div class="input-group image-preview">
+              <h1>Upload Video</h1>
+
+              <div class="input-group">
                 <span class="input-group-btn">
 
-                  <button type="button" class="btn btn-info btn-raised" ng-if="file" ng-click="uploadFile()">
-                    <i class="fa fa-upload"></i> @lang('upload.upload'): @{{getFileName()}}
+                  <button type="button" class="btn btn-info btn-raised">
+                    <i class="fa fa-upload"></i> Upload this file
                   </button> 
                   
                   <!-- image-preview-input --> 
                   <span class="btn btn-default btn-raised" ngf-select="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'"> 
-                    <i class="fa fa-folder-open"></i> @lang('upload.browse')
+                    <i class="fa fa-folder-open"></i> Choose...
                   </span>
                   <!-- image-preview-clear button -->
                   <button type="button" class="btn btn-default btn-raised" ng-click="setFile(null)"> 
-                    <i class="fa fa-remove"></i> @lang('upload.clear') 
+                    <i class="fa fa-remove"></i> Cancel 
                   </button>
                 </span> 
+                <div class="pull-right">
+                	<a href="#">Login</a> to see all your GIF
+                </div>
               </div>
-
-              <div class="alert alert-dismissible alert-danger" ng-show="$error">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                @{{$error}}
-              </div>
-
-              <!-- Drop Zone -->
-              <!--video class="video-js vjs-default-skin" ngf-src="file" controls preload="auto" width="640" height="264" vjs-video></video-->
               <div class="upload-drop-zone" ngf-drop="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'" ngf-allow-dir="false">
-                @lang('upload.drop_zone')
+                <i class="fa fa-film"></i> You can drag n drop your video here.
+                <br>
               </div>
-
-            </div>
-          </div>
-
-          <div ng-show="step == 2">
-
-            <div class="col-sm-2">
-              <fieldset>
-                <legend>@lang('upload.status')</legend>
-                <div class="text-center">
-                  <span ng-switch="video.status">
-                    <span ng-switch-when="3">@lang('upload.error')</span>                    
-                    <span ng-switch-when="2">@lang('upload.done')</span>
-                    <span ng-switch-when="1">@lang('upload.processing')</span>
-                    <span ng-switch-default>@lang('upload.uploading')</span>
-                  </span>
-                </div>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-striped active" ng-class="{ 'progress-bar-success': video.status == 0 || video.status == 1, 'progress-bar-primary': video.status == 2, 'progress-bar-info': video.status == 3, 'progress-bar-danger': video.status == 4 }" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': progressPct + '%' }">
-                    <span class="sr-only">
-                      <span ng-switch="video.status">
-                        <span ng-switch-when="4">@lang('upload.error')</span>
-                        <span ng-switch-when="3">@lang('upload.done')</span>
-                        <span ng-switch-when="2">@lang('upload.processing')</span>
-                        <span ng-switch-when="1">@lang('upload.in_queue')</span>
-                        <span ng-switch-default>@lang('upload.uploading')</span>
-                      </span>
-                    </span>
-                  </div>
-                </div>
-              </fieldset>
+              <p>House rules:</p>
+              <ul>
+              	<li>Maximum video size is 200 MB.</li>
+              	<li>For best result, your GIF will be limited to 15 seconds long.</li>
+              </ul>
             </div>
 
-            <div class="col-sm-7">
-              <fieldset>
-                <legend>@lang('upload.settings')</legend>
-                <div class="well">
-
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">@lang('upload.resolution')</label>
-                    <div class="col-md-10">
-                      <div class="btn-group">
-                          <label class="btn btn-default" ng-model="video.resolution" uib-btn-radio="0">Same as Source</label>
-                          <label class="btn btn-default" ng-model="video.resolution" uib-btn-radio="1">Square</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">@lang('upload.caption')</label>
-                    <div class="col-md-10">
-                      <input type="text" class="form-control" ng-model="video.caption" maxlength="60">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">@lang('upload.caption')</label>
-                    <div class="col-md-10">
-                      <input type="text" class="form-control" colorpicker="hex"  ng-model="video.captionColor" maxlength="7">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="col-md-10 col-md-offset-2">
-                      <button type="button" ng-click="saveSetting()" class="btn btn-primary btn-raised" ng-disabled="$saving == true">
-                        <span ng-switch="$saving">
-                          <span ng-switch-when="true">@lang('upload.saving')</span>
-                          <span ng-switch-default>@lang('upload.save')</span>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </fieldset>
-            </div>
-
-            <div class="col-sm-3">
-              <fieldset>
-                <legend>@lang('upload.post_actions')</legend>
-                <button type="button" class="btn btn-default btn-raised btn-block">
-                  <i class="fa fa-envelope"></i> @lang('upload.post_action_email')...
-                </button>
-              </fieldset>
-            </div>
-
-          </div>
-
-          <div ng-show="step == 3">
+     		<!-- Step 1 -->
             <div class="jumbotron">
-              <h1>Your File is Ready</h1>
+              <h1>Customize Your GIF</h1>
 
-              <p class="text-center">
-                <img ng-src="@{{getUrl(video.url)}}" ng-if="video.status == 3" style="max-width: 100%">
-              </p>
+              <div class="row">
+              	<div class="col-sm-6">
+              		<h4>Output</h4>
 
-              <div class="form-group">
-                <label class="col-md-1 control-label">Link</label>
-                <div class="col-md-11">
-                  <input type="text" class="form-control" ng-model="video.cmd">
-                </div>
+	                  <div class="form-group">
+	                    <label class="col-md-2 control-label">Aspect Ratio</label>
+	                    <div class="col-md-10">
+	                      <div class="btn-group">
+	                          <label class="btn btn-default" ng-model="video.resolution" uib-btn-radio="0">Same as Source</label>
+	                          <label class="btn btn-default" ng-model="video.resolution" uib-btn-radio="1">Square</label>
+	                      </div>
+	                    </div>
+	                  </div>
+	                  <div class="form-group">
+	                    <label class="col-md-2 control-label">Caption</label>
+	                    <div class="col-md-10">
+	                      <input type="text" class="form-control" ng-model="video.caption" maxlength="60">
+	                    </div>
+	                  </div>
+
+	                  <div class="form-group">
+	                    <label class="col-md-2 control-label">Font Color</label>
+	                    <div class="col-md-10">
+	                      <input type="text" class="form-control" colorpicker="hex"  ng-model="video.captionColor" maxlength="7">
+	                    </div>
+	                  </div>
+              	</div>
+              	<div class="col-sm-6">
+              		<h4>Preview</h4>
+              		<div class="text-center" style="background-image: url('{{url('uploads/out.gif')}}'); background-size: 100%; background-repeat: no-repeat; width: 540px; height: 300px; vertical-align: bottom; display: table-cell;">
+              			<span ng-style="{'color': video.captionColor}">@{{video.caption}}</span>
+              		</div>
+              	</div>
+              	<div class="col-sm-12 text-center">
+                  <button type="button" ng-click="saveSetting()" class="btn btn-primary btn-raised" ng-disabled="$saving == true">
+                  	Generate My GIF
+                  </button>
+                  <button type="button" ng-click="saveSetting()" class="btn btn-default" ng-disabled="$saving == true">
+                  	Cancel
+                  </button>
+              	</div>
               </div>
-              <p>
-                <a class="btn btn-primary btn-lg">Download</a>
-                <a class="btn btn-primary btn-lg">Send Link to Email</a>
-                <a class="btn btn-primary btn-lg" ng-click="setFile(null)">Upload New File</a>
-              </p>
             </div>
-          </div>
 
-        </div>
       </form>
     </div>
   </div>

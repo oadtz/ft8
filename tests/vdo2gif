@@ -1,0 +1,15 @@
+ffmpeg -y -i in.mp4 -i caption.png  -filter_complex "overlay=0:0" -s 540x303 -t 60 -r 10 out1.gif; gifsicle -O3 --lossy=80 -o new1.gif out1.gif;
+
+ffmpeg -y -i in.mp4 -i caption.png  -filter_complex "overlay=0:0" -s 540x303 -t 60 -r 10 out1_1.gif; convert -layers Optimize out1_1.gif new1_1.gif;
+
+ffmpeg -y -i in.mp4 -i caption.png  -filter_complex "overlay=0:0" -s 540x303 -t 60 -r 10 -pix_fmt rgb24 out1_2.gif; gifsicle -O3 --lossy=80 -o new1_2.gif out1_2.gif;
+
+ffmpeg -y -i in.mp4 -i caption.png  -filter_complex "overlay=0:0" -s 540x303 -t 60 -r 10  -f image2 out%03d.png; convert -delay 10 -loop 0 out*.png -coalesce -layers OptimizeTransparency out2.gif; gifsicle -O3 --lossy=80 -o new2.gif out2.gif; rm out*.png;
+
+
+
+ffmpeg -v warning -i in.mp4 -vf "fps=10,scale=540:-1:flags=lanczos,palettegen" -y out.png
+ffmpeg -v warning -i in.mp4 -i out.png -lavfi "fps=10,scale=540:-1:flags=lanczos [x]; [x][1:v] paletteuse;movie=caption.png [watermark]; [in][watermark] overlay=0:0 [out]" -y out5.gif
+gifsicle -O3 --lossy=80 -o new5.gif out5.gif
+rm out.png
+

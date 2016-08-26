@@ -1,0 +1,5 @@
+
+ffmpeg -v warning -i in.mp4 -vf "fps=10,scale=540:-1:flags=lanczos,palettegen" -y out.png
+ffmpeg -v warning -i in.mp4 -i out.png -lavfi "movie=caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=10,scale=540:-1:flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=300:300" -t 5 -y out5.gif
+gifsicle -O3 --lossy=80 -o new5.gif out5.gif
+rm out.png
