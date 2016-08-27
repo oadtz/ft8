@@ -11,4 +11,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'api'], function ()
 	Route::get('settings', 'Api\SettingController@index');
 });
 
-Route::controller('/', 'SiteController');
+Route::get('/', 'SiteController@index');
+Route::get('upload', 'SiteController@upload');
+Route::get('gif', 'SiteController@gif');

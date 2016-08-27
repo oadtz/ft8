@@ -11,12 +11,12 @@ class SiteController extends Controller
 {
 
     //
-    public function getIndex()
+    public function index()
     {
-        return redirect()->action('SiteController@getUpload');
+        return redirect()->action('SiteController@upload');
     }
 
-    public function getUpload()
+    public function upload()
     {
     	if (!$userId = $this->request->cookie('userId')) {
     		$userId = (string)new MongoId();
@@ -24,6 +24,11 @@ class SiteController extends Controller
     	Cookie::queue(cookie()->forever('userId', $userId));
 
         return view('upload');
+    }
+
+    public function gif()
+    {
+        return view('gif');
     }
 
     /*public function getTest()

@@ -31,7 +31,7 @@
                   </button>
                 </span> 
                 <div class="pull-right">
-                	<a href="#">Login</a> to see all your GIF
+                  <a href class="btn btn-link btn-success">Login</a>
                 </div>
               </div>
               <div class="upload-drop-zone" ngf-drop="setFile($file)" ngf-pattern="'video/*'" ngf-accept="'video/*'" ngf-allow-dir="false">
@@ -82,12 +82,12 @@
               			<span ng-style="{'color': video.captionColor}">@{{video.caption}}</span>
               		</div>
               	</div>
-              	<div class="col-sm-12 text-center">
-                  <button type="button" ng-click="saveSetting()" class="btn btn-primary btn-raised" ng-disabled="$saving == true">
+              	<div class="col-sm-12">
+                  <button type="button" ng-click="saveSetting()" class="btn btn-lg btn-primary btn-raised" ng-disabled="$saving == true">
                   	Generate My GIF
                   </button>
                   <button type="button" ng-click="saveSetting()" class="btn btn-default" ng-disabled="$saving == true">
-                  	Cancel
+                  	Go Back
                   </button>
               	</div>
               </div>

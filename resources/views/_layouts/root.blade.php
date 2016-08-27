@@ -8,7 +8,7 @@
   	<meta name="author" content="Thanapat Pirmphol">
     <meta name="broadcast_url" content="{{config('broadcasting.connections.pusher.key')}}">
     <base href="{{ url('/') }}">
-    <title>@yield('title') - @lang('site.app_name')</title>
+    <title>@yield('title') - Vdo2Gif</title>
 
     <link href="{{ elixir('css/styles.css') }}" rel="stylesheet">
     <style>
@@ -35,7 +35,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">@lang('site.app_name')</a>
+          <a class="navbar-brand" href="#">Vdo2Gif</a>
         </div>
       </div>
     </nav>
