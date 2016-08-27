@@ -47,6 +47,9 @@ angular.module('ft8')
 		else
 			$scope.$processing = false;
 
+		if (status == 4)
+			window.location.replace($scope.gif.output.url);
+
 	});
 
 	$scope.init();

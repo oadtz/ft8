@@ -166,6 +166,8 @@ class Gif extends BaseModel
                     'ffmpeg -v warning -i '.$this->inputPath.'/input -i '.$this->inputPath.'/pallette.png  -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=15,scale=' . $scale . ':flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/output.gif;'.
                     'gifsicle -O3 --lossy=80 -o '.$this->outputPath.'/output.gif '.$this->inputPath.'/output.gif';
 
+        $output['url'] = asset('gif/' . $this->_id . '/output.gif');
+
         /*$this->cmd = 'ffmpeg -y -i '.$this->inputPath.'/input -i '.$this->inputPath.'/caption.png  -filter_complex "overlay=0:0" -s ' . $output['width'] . 'x' . $output['height'] . ' -t ' . config('site.gif_max_time') . ' -r 10  -f image2 '.$this->inputPath.'/out%03d.png;'.
                     'convert -delay 10 -loop 0 '.$this->inputPath.'/out*.png -coalesce -layers OptimizeTransparency '.$this->inputPath.'/output.gif';*/
 

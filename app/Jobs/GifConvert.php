@@ -42,7 +42,7 @@ class GifConvert extends Job implements ShouldQueue
 
                 $this->gif->status = 4; // Done
 
-                //$this->gif->cleanUpFiles();
+                $this->gif->cleanUpFiles();
             } catch (\Exception $e) {
                 $this->gif->status = 5; // Error
                 $this->gif->error = $e->getMessage();
