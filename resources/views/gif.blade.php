@@ -11,11 +11,14 @@
 	    	<div class="row">
 		    	<figure class="text-center">
 				  <img src="{{url('uploads/out.gif')}}" />
+				  <figcaption>
+				    vdo2gif.com
+				  </figcaption>
 				</figure>
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
 		            <div class="col-md-10">
-		              <input type="text" class="form-control" ng-model="video.url" readonly="readonly">
+		              <input type="text" class="form-control" value="http://bit.ly/sddfsS" readonly="readonly">
 		            </div>
 		        </div>
 		        <div class="col-md-12 text-center">
