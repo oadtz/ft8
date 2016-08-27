@@ -63,8 +63,9 @@ class Gif extends BaseModel
     {
         $path = storage_path('app/public/uploads/' . $this->userId . '/' . $this->_id);
 
-        if (!file_exists($path))
-            @mkdir($path, null, true);
+        if (!file_exists($path)) {
+            @mkdir($path, 0755, true);
+        }
 
         return $path;
     }
@@ -74,7 +75,7 @@ class Gif extends BaseModel
         $path = public_path('gif/' . $this->_id);
 
         if (!file_exists($path))
-            @mkdir($path, null, true);
+            @mkdir($path, 0755, true);
 
         return $path;
     }
