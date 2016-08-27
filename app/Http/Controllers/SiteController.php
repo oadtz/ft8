@@ -13,22 +13,7 @@ class SiteController extends Controller
     //
     public function index()
     {
-        return redirect()->action('SiteController@upload');
-    }
-
-    public function upload()
-    {
-    	if (!$userId = $this->request->cookie('userId')) {
-    		$userId = (string)new MongoId();
-    	}
-    	Cookie::queue(cookie()->forever('userId', $userId));
-
-        return view('upload');
-    }
-
-    public function gif()
-    {
-        return view('gif');
+        return redirect()->action('GifController@upload');
     }
 
     /*public function getTest()

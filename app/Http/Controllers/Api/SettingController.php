@@ -9,12 +9,17 @@ class SettingController extends Controller {
 	{
 		parent::__construct($request);
 
-        $this->middleware('auth', [ 'except'  =>  [ 'index' ] ]);
+        $this->middleware('auth', [ 'except'  =>  [ 'index', 'info' ] ]);
 	}
 
 	public function index()
 	{
-		return response()->json(config('ft8'));
+		return response()->json(config('site'));
+	}
+
+	public function info()
+	{
+		phpinfo();
 	}
 
 }

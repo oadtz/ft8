@@ -23,10 +23,12 @@ elixir(function(mix) {
             '../../../bower_components/ng-file-upload/ng-file-upload.min.js',
             '../../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
             '../../../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js',
+            '../../../bower_components/ng-notify/dist/ng-notify.min.js',
 
 
             'app.js',
             'app.config.js',
+            'app.controller.gif.js',
             'controller.upload.js'
         ], 'public/js/scripts.js')
         .styles([
@@ -35,6 +37,7 @@ elixir(function(mix) {
             '../../../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
             '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css',
             '../../../bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css',
+            '../../../bower_components/ng-notify/dist/ng-notify.min.css',
 
             'style.css'
         ], 'public/css/styles.css')

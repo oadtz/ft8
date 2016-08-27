@@ -1,5 +1,5 @@
 angular.module('ft8')
-.run(['$rootScope', '$http', function ($rootScope, $http) {
+.run(['$rootScope', '$http', 'ngNotify', function ($rootScope, $http, ngNotify) {
 	
 	$rootScope.init = function () {
 		/*if (broadcastUrl = $rootScope.getMeta('broadcast_url')) {
@@ -14,6 +14,16 @@ angular.module('ft8')
 			 .success(function (response) {
 			 	$rootScope.settings = response;
 			 });
+
+		ngNotify.config({
+		    theme: 'pure',
+		    position: 'top',
+		    duration: 3000,
+		    type: 'info',
+		    sticky: false,
+		    button: true,
+		    html: true
+		});
 	}
 
 	$rootScope.getMeta = function (meta) {
@@ -32,3 +42,12 @@ angular.module('ft8')
 	$rootScope.init();
 
 }])
+.filter('bytes', [function() {
+	return function(bytes, precision) {
+		if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+		if (typeof precision === 'undefined') precision = 1;
+		var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+			number = Math.floor(Math.log(bytes) / Math.log(1024));
+		return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+	}
+}]);

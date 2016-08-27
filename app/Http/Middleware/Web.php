@@ -16,8 +16,6 @@ class Web
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        \Log::info('xxxxxxxxxxxx');
-
         return $next($request);
     }
 }

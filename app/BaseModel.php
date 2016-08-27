@@ -17,7 +17,7 @@ class BaseModel extends Eloquent {
     const UPDATED_AT = 'modifiedDateTime';
 
     
-    public static function boot()
+    /*public static function boot()
     {
     	parent::boot();
 
@@ -40,6 +40,6 @@ class BaseModel extends Eloquent {
 				];
 			}
     	});
-    }
+    }*/
 
 }

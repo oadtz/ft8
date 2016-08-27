@@ -10,6 +10,8 @@
     <base href="{{ url('/') }}">
     <title>@yield('title') - Vdo2Gif</title>
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link href="{{ elixir('css/styles.css') }}" rel="stylesheet">
     <style>
     body {
