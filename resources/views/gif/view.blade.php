@@ -26,7 +26,7 @@
 				  	<source src="{{$gif->videoUrl}}" type="video/mp4" />
 				  	<span ng-switch="gif.status">
 				  		<span ng-switch-when="6">
-				  			<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}"  style="max-width: 100%" />
+				  			<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
 				  		</span>
 				  		<span ng-switch-default>
 				  			GIF is being generated...
