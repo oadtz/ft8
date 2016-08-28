@@ -6,7 +6,6 @@
 @parent
 
 <meta name="thumbnail" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">
-<meta property="fb:app_id" content="583800128459368">
 <meta property="og:url" content="{{$gif->output['url']}}">
 <meta property="og:type" content="video.other">
 <meta property="og:image" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">
@@ -23,7 +22,7 @@
 	    <div class="jumbotron">
 	    	<div class="row">
 		    	<figure class="text-center">
-				  <img src="{{$gif->output['url']}}" />
+				  <img src="{{$gif->output['url']}}" class="img-responsive" />
 				  <figcaption>
 				    vdo2gif.com
 				  </figcaption>
@@ -36,8 +35,9 @@
 		        </div>
 		        <div class="col-md-12 text-center">
 		        	<button type="button" class="btn btn-link" title="Share on facebook" ng-click="shareFacebook()">
-		        		<img src="{{url('img/facebook.png')}}" class="img-responsive" alt="Share on facebook">
+		        		<img src="{{url('img/facebook.png')}}" alt="Share on facebook">
 		        	</button>
+		        	<a facebook-feed-share data-url="{{asset('gif/' . $gif->_id . '.html')}}" data-shares="shares"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>
 		        	<!--a href>
 		        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
 		        	</a>

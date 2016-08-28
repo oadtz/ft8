@@ -5,5 +5,6 @@ return [
 	'gif_max_width'			=>	env('GIF_MAX_WIDTH', 480),
 	'gif_max_time'			=>	env('GIF_MAX_TIME', 10),
 	'gif_default_caption'	=>	env('GIF_DEFAULT_CAPTION', ' '),
-	'gif_default_caption_color'		=>	env('GIF_DEFAULT_CAPTION_COLOR', '#FFFFFF')
+	'gif_default_caption_color'		=>	env('GIF_DEFAULT_CAPTION_COLOR', '#FFFFFF'),
+	'facebook_app_id'		=>	env('FACEBOOK_APP_ID')
 ];

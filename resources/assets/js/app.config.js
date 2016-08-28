@@ -1,5 +1,5 @@
 angular.module('ft8')
-.run(['$rootScope', '$http', 'ngNotify', function ($rootScope, $http, ngNotify) {
+.run(['$rootScope', '$http', '$FB', 'ngNotify', function ($rootScope, $http, $FB, ngNotify) {
 	
 	$rootScope.init = function () {
 		/*if (broadcastUrl = $rootScope.getMeta('broadcast_url')) {
@@ -13,6 +13,9 @@ angular.module('ft8')
 		$http.get($rootScope.getUrl('api/settings'))
 			 .success(function (response) {
 			 	$rootScope.settings = response;
+			 	console.log ($rootScope.settings.facebook_app_id);
+
+  				$FB.init($rootScope.settings.facebook_app_id);
 			 });
 
 		ngNotify.config({
