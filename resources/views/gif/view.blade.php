@@ -2,6 +2,15 @@
 
 @section('title', 'Easy VDO to Gif Convert')
 
+@section('stylesheet')
+@parent
+
+<meta property="fb:app_id" content="583800128459368">
+<meta property="og:url" content="{{$gif->output['gif']}}">
+<meta property="og:image" content="{{$gif->output['gif']}}">
+<meta property="og:type" content="video">
+@endsection
+
 @section('content')
 
 <div class="row">
