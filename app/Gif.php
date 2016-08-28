@@ -94,7 +94,7 @@ class Gif extends BaseModel
     public function generateCaption($w, $h)
     {
         $x = $w/2;
-        if ($this->settings['aspectRatio'] == 1) {
+        if (isset($this->settings['aspectRatio']) && $this->settings['aspectRatio'] == 1) {
             $size = min($w, $h) / 20;
 
             $y = min($w, $h) * 0.95;
@@ -107,7 +107,7 @@ class Gif extends BaseModel
         }
 
         $image = Image::canvas($w, $h);
-        $image->text($this->settings['caption'], $x, $y, function($font) use($size) {
+        $image->text(isset($this->settings['caption']) ? $this->settings['caption'] : '', $x, $y, function($font) use($size) {
             $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
             $font->size($size);
             $font->color($this->settings['captionColor']);
