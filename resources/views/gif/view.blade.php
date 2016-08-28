@@ -6,8 +6,8 @@
 @parent
 
 <meta property="fb:app_id" content="583800128459368">
-<meta property="og:url" content="{{$gif->output['gif']}}">
-<meta property="og:image" content="{{$gif->output['gif']}}">
+<meta property="og:url" content="{{$gif->output['url']}}">
+<meta property="og:image" content="{{$gif->output['url']}}">
 <meta property="og:type" content="video">
 @endsection
 
@@ -32,7 +32,7 @@
 		            </div>
 		        </div>
 		        <div class="col-md-12 text-center">
-		        	<button type="button" class="btn btn-link" title="Share on facebook">
+		        	<button type="button" class="btn btn-link" title="Share on facebook" ng-click="shareFacebook()">
 		        		<img src="{{url('img/facebook.png')}}" alt="Share on facebook">
 		        	</button>
 		        	<!--a href>
