@@ -143,7 +143,7 @@ class Gif extends BaseModel
             abort(404);
 
         $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.$this->output['width'].':'.$this->output['height'].':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
-                    'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.$this->output['width'].':'.$this->output['height'].':flags=lanczos,pad='.max($this->output['width'], $this->output['height']).':ih:(ow-iw)/2:color=white [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
+                    'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.$this->output['width'].':'.$this->output['height'].':flags=lanczos [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
                     'gifsicle -O3 --lossy=80 -o '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif '.$this->inputPath.'/output.gif';
 
         $process = new Process($this->cmd);

@@ -5,7 +5,6 @@
 @section('stylesheet')
 @parent
 
-<meta name="thumbnail" content="{{$gif->thumbnailUrl}}">
 <meta property="og:url" content="{{$gif->url}}">
 <meta property="og:type" content="video.other">
 <meta property="og:image" content="{{$gif->thumbnailUrl}}">
