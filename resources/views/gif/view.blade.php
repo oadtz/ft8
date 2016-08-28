@@ -9,7 +9,7 @@
 <meta property="og:url" content="{{$gif->url}}">
 <meta property="og:type" content="video.other">
 <meta property="og:image" content="{{$gif->thumbnailUrl}}">
-<meta property="og:image:width" content="{{ceil($gif->output['width'] * 0.75)}}">
+<meta property="og:image:width" content="{{}}">
 <meta property="og:image:height" content="{{ceil($gif->output['height'] * 0.75)}}">
 @endsection
 
