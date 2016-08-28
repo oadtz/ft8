@@ -31855,6 +31855,19 @@ angular.module('ft8')
 	}
 }]);
 angular.module('ft8')
+.controller('GifViewController', ['$scope', '$rootScope', '$http', 'ngNotify', function ($scope, $rootScope, $http, ngNotify) {
+
+	$scope.init = function () {
+
+	}
+
+	$scope.setGif = function (gif) {
+		$scope.gif = gif;
+	}
+
+	$scope.init();
+
+}])
 .controller('GifGenerateController', ['$scope', '$rootScope', '$http', 'ngNotify', function ($scope, $rootScope, $http, ngNotify) {
 
 	$scope.init = function () {
@@ -31904,7 +31917,7 @@ angular.module('ft8')
 			$scope.$processing = false;
 
 		if (status == 4)
-			window.location.replace($scope.gif.output.url);
+			window.location.replace($rootScope.getUrl('gif/' + $scope.gif._id + '.html'));
 
 	});
 

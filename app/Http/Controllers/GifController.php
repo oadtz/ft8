@@ -30,9 +30,12 @@ class GifController extends Controller
         return view('gif.generate', compact('gif'));
     }
 
-    public function view()
+    public function view(GifService $gifService, $gif)
     {
-        return view('gif.view');
+        if (!$gif = $gifService->get($gif))
+            abort(404);
+
+        return view('gif.view', compact('gif'));
     }
 
 }

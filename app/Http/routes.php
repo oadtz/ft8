@@ -18,7 +18,7 @@ Route::group(['prefix' => 'api', 'middleware' => 'api'], function ()
 	Route::post('gif', 'Api\GifController@create');
 });
 
-Route::get('/', 'SiteController@index');
-Route::get('gif', 'GifController@view');
+Route::get('gif/{gif}.html', 'GifController@view');
 Route::get('gif/upload', 'GifController@upload');
 Route::get('gif/{gif}/generate', 'GifController@generate');
+Route::get('/', 'SiteController@index');
