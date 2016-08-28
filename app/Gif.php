@@ -24,6 +24,7 @@ class Gif extends BaseModel
         'status'        =>  0,
         'settings'      =>  [
             'aspectRatio'   =>  0,
+            'caption'       =>  '',
             'captionColor'  =>  '#FFFFFF'
         ],
         'input'    		=>  [],
@@ -153,7 +154,7 @@ class Gif extends BaseModel
             else
                 $scale = $output['width'] . ':-1';
         } else {
-            $ratio = min($input['width'], config('site.gif_max_width')) / $input['width'];
+            $ratio = min($input['width'], $input['height'], config('site.gif_max_width')) / $input['width'];
 
             $output['width'] = intval($input['width'] * $ratio);
             $output['height'] = intval($input['height'] * $ratio);
@@ -163,9 +164,9 @@ class Gif extends BaseModel
 
         $this->generateCaption($input['width'], $input['height']);
 
-        $this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -vf "fps=15,scale=' . $scale . ':flags=lanczos,palettegen" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/pallette.png;'.
-                    'ffmpeg -v warning -i '.$this->inputPath.'/input -i '.$this->inputPath.'/pallette.png  -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=15,scale=' . $scale . ':flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/output.gif;'.
-                    'gifsicle -O3 --lossy=80 -o '.$this->outputPath.'/output.gif '.$this->inputPath.'/output.gif';
+        $this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -vf "fps=10,scale=' . $scale . ':flags=lanczos,palettegen" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/pallette.png;'.
+                    'ffmpeg -v warning -i '.$this->inputPath.'/input -i '.$this->inputPath.'/pallette.png  -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=10,scale=' . $scale . ':flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/output.gif;'.
+                    'gifsicle -O3 --lossy=150 -o '.$this->outputPath.'/output.gif '.$this->inputPath.'/output.gif';
 
         $output['url'] = asset('gif/' . $this->_id . '/output.gif');
 

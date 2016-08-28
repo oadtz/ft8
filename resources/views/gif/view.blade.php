@@ -23,24 +23,24 @@
 		            </div>
 		        </div>
 		        <div class="col-md-12 text-center">
-		        	<a href>
-		        		<img src="{{url('build/img/facebook.png')}}" alt="Share on Facebook">
+		        	<button type="button" class="btn btn-link" title="Share on facebook">
+		        		<img src="{{url('img/facebook.png')}}" alt="Share on facebook">
+		        	</button>
+		        	<!--a href>
+		        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
 		        	</a>
 		        	<a href>
-		        		<img src="{{url('build/img/twitter.png')}}" alt="Share on Twitter">
+		        		<img src="{{url('img/google_plus.png')}}" alt="Share on Google">
 		        	</a>
 		        	<a href>
-		        		<img src="{{url('build/img/google_plus.png')}}" alt="Share on Google">
+		        		<img src="{{url('img/instagram.png')}}" alt="Share on Instagram">
 		        	</a>
 		        	<a href>
-		        		<img src="{{url('build/img/instagram.png')}}" alt="Share on Instagram">
+		        		<img src="{{url('img/line.png')}}" alt="Share on LINE">
 		        	</a>
 		        	<a href>
-		        		<img src="{{url('build/img/line.png')}}" alt="Share on LINE">
-		        	</a>
-		        	<a href>
-		        		<img src="{{url('build/img/telegram.png')}}" alt="Share to Email">
-		        	</a>
+		        		<img src="{{url('img/telegram.png')}}" alt="Share to Email">
+		        	</a-->
 		        </div>
 	    	</div>
 	    </div>

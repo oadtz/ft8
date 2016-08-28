@@ -16,7 +16,7 @@
       <form class="form-horizontal" ng-submit="void(0)">
         <input type="hidden" ng-init="setGif({{htmlspecialchars(json_encode($gif))}})">
         <div class="jumbotron">
-              <h1>Add Some Cool Text</h1>
+              <h1>Ready to Create You GIF</h1>
 
               <div ng-show="$processing">
                 <div class="text-center">@{{gif.statusName}}</div>

@@ -31878,13 +31878,14 @@ angular.module('ft8')
 		$scope.gif = gif;
 
     	$rootScope.socket.subscribe('gif.' + $scope.gif._id).bind('updated', function(data){
-    		$scope.$apply(function () {
-    			$scope.gif = data.gif;
+    		if ($scope.gif.status != data.gif.status)
+	    		$scope.$apply(function () {
+	    			$scope.gif = data.gif;
 
-    			if ($scope.gif.status == 5) {
-    				$scope.error();
-    			}
-    		});
+	    			if ($scope.gif.status == 5) {
+	    				$scope.error();
+	    			}
+	    		});
         });
 	}
 
