@@ -18,7 +18,6 @@ class Gif extends BaseModel
     public static $cacheEnabled = false;
     protected $collection = 'gifs'; 
 	protected $fillable = ['settings'];
-    const DELETED_AT = 'deletedDateTime';
     protected $dates = ['deleted_at'];
     protected $attributes = [
         'status'        =>  0,
@@ -31,6 +30,8 @@ class Gif extends BaseModel
         'output'		=>	[]
     ];
     protected $appends = ['statusName'];
+    const DELETED_AT = 'deletedDateTime';
+    const OUTPUT_FILE_NAME = 'output';
 
     public static function boot()
     {
@@ -90,6 +91,26 @@ class Gif extends BaseModel
                         ->open($this->inputPath . '/input') // extracts streams informations
                         ->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds(1))                      // filters video streams
                         ->save($this->inputPath . '/preview.jpg');
+    }
+
+    public function generateThumbnail()
+    {
+        if (!file_exists($this->outputPath. '/' . static::OUTPUT_FILE_NAME . '.gif'))
+            abort(404);
+
+        $this->thumbnailCmd = 'gifsicle -O1 --lossy=120 --scale 0.75 -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif';
+
+        $process = new Process($this->thumbnailCmd);
+        $process->setTimeout(60);
+        $process->run();
+
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function generateCaption($w, $h)
@@ -166,9 +187,9 @@ class Gif extends BaseModel
 
         $this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -vf "fps=10,scale=' . $scale . ':flags=lanczos,palettegen" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/pallette.png;'.
                     'ffmpeg -v warning -i '.$this->inputPath.'/input -i '.$this->inputPath.'/pallette.png  -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=10,scale=' . $scale . ':flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/output.gif;'.
-                    'gifsicle -O3 --lossy=150 -o '.$this->outputPath.'/output.gif '.$this->inputPath.'/output.gif';
+                    'gifsicle -O3 --lossy=150 -o '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif '.$this->inputPath.'/output.gif';
 
-        $output['url'] = asset('gif/' . $this->_id . '/output.gif');
+        $output['url'] = asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
 
         /*$this->cmd = 'ffmpeg -y -i '.$this->inputPath.'/input -i '.$this->inputPath.'/caption.png  -filter_complex "overlay=0:0" -s ' . $output['width'] . 'x' . $output['height'] . ' -t ' . config('site.gif_max_time') . ' -r 10  -f image2 '.$this->inputPath.'/out%03d.png;'.
                     'convert -delay 10 -loop 0 '.$this->inputPath.'/out*.png -coalesce -layers OptimizeTransparency '.$this->inputPath.'/output.gif';*/

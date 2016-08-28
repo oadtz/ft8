@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Cookie;
+use App\Gif;
 use App\Services\GifService;
 use MongoDB\BSON\ObjectID as MongoId;
 use Illuminate\Http\Request;
@@ -36,6 +37,17 @@ class GifController extends Controller
             abort(404);
 
         return view('gif.view', compact('gif'));
+    }
+
+    public function thumbnail(GifService $gifService, $gif)
+    {
+        if (!$gif = $gifService->get($gif))
+            abort(404);
+
+        if (!$gif->generateThumbnail())
+            abort(404);
+        
+        return response()->file($gif->outputPath . '/thumbnail.gif'); 
     }
 
 }

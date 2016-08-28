@@ -7,8 +7,10 @@
 
 <meta property="fb:app_id" content="583800128459368">
 <meta property="og:url" content="{{$gif->output['url']}}">
-<meta property="og:image" content="{{$gif->output['url']}}">
-<meta property="og:type" content="video">
+<meta property="og:type" content="video.other">
+<meta property="og:image" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">
+<meta property="og:image:width" content="{{ceil($gif->output['width'] * 0.75)}}">
+<meta property="og:image:height" content="{{ceil($gif->output['height'] * 0.75)}}">
 @endsection
 
 @section('content')
