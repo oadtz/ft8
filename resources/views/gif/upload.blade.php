@@ -9,7 +9,7 @@
     <div class="bs-component" ng-controller="GifUploadController">
       <form class="form-horizontal" ng-submit="void(0)">
 
-            <div class="jumbotron">
+            <div class="well">
               <h1>Upload Video</h1>
 
               <div class="input-group">

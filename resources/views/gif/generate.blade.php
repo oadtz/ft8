@@ -15,7 +15,7 @@
     <div class="bs-component" ng-controller="GifGenerateController">
       <form class="form-horizontal" ng-submit="void(0)">
         <input type="hidden" ng-init="setGif({{htmlspecialchars(json_encode($gif))}})">
-        <div class="jumbotron">
+        <div class="well">
               <h1>Ready to Create You GIF</h1>
 
               <div ng-show="$processing">

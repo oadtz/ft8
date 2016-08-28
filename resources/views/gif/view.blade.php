@@ -18,7 +18,7 @@
   <div class="col-md-12">
     <div class="bs-component" ng-controller="GifViewController">
         <input type="hidden" ng-init="setGif({{htmlspecialchars(json_encode($gif))}})">
-	    <div class="jumbotron">
+	    <div class="well">
 	    	<div class="row">
 	    		<div class="col-lg-12 text-center">
 				  <video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
