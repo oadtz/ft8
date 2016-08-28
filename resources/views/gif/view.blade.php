@@ -1,14 +1,14 @@
 @extends('_layouts.default')
 
-@section('title', 'Easy VDO to Gif Convert')
+@section('title', trans('site.slogan'))
 
 @section('stylesheet')
 @parent
 
-<meta name="thumbnail" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">
-<meta property="og:url" content="{{$gif->output['url']}}">
+<meta name="thumbnail" content="{{$gif->thumbnailUrl}}">
+<meta property="og:url" content="{{$gif->url}}">
 <meta property="og:type" content="video.other">
-<meta property="og:image" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">
+<meta property="og:image" content="{{$gif->thumbnailUrl}}">
 <meta property="og:image:width" content="{{ceil($gif->output['width'] * 0.75)}}">
 <meta property="og:image:height" content="{{ceil($gif->output['height'] * 0.75)}}">
 @endsection
@@ -22,24 +22,42 @@
 	    <div class="jumbotron">
 	    	<div class="row">
 		    	<figure class="text-center">
-				  <img src="{{$gif->output['url']}}" style="max-width: 100%" />
+				  <video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
+				  	<source src="{{$gif->videoUrl}}" type="video/mp4" />
+				  	<span ng-switch="gif.status">
+				  		<span ng-switch-when="6">
+				  			<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}"  style="max-width: 100%" />
+				  		</span>
+				  		<span ng-switch-default>
+				  			GIF is being generated...
+			                <div class="progress">
+			                  <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+			                    <span class="sr-only">
+			                      @{{gif.statusName}}
+			                    </span>
+			                  </div>
+			                </div>
+				  		</span>
+				  	</span>
+
+				  </video>
 				</figure>
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
 		            <div class="col-md-10">
     					<div class="input-group">
-			              <input type="text" class="form-control" ng-model="gif.output.url" readonly="readonly">
+			              <input type="text" class="form-control" ng-model="gif.url" readonly="readonly">
 					      <span class="input-group-btn">
-					        <button type="button" class="btn btn-default" clipboard supported="true" text="gif.output.url" on-copied="copied()"><i class="fa fa-copy"></i> Copy</button>
-					        <!--button type="button" class="btn btn-default"><i class="fa fa-download"></i> Download</button-->
+					        <button type="button" class="btn btn-default" clipboard supported="true" text="gif.url" on-copied="copied()"><i class="fa fa-copy"></i> Copy URL</button>
+					        <button type="button" class="btn btn-default" ng-show="gif.status == 6"><i class="fa fa-download"></i> Download GIF</button>
 					      </span>
     					</div>
 		            </div>
 		        </div>
-		        <div class="form-group">
+		        <div class="form-group" ng-show="gif.status == 6">
 		            <label class="col-md-2 control-label">Share</label>
 			        <div class="col-md-10">
-			        	<a facebook-feed-share class="btn btn-link facebook-share" data-url="{{asset('gif/' . $gif->_id . '.html')}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>
+			        	<a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>
 			        	<!--a href>
 			        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
 			        	</a>

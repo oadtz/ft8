@@ -2,11 +2,18 @@ angular.module('ft8')
 .controller('GifViewController', ['$scope', '$rootScope', '$http', 'ngNotify', function ($scope, $rootScope, $http, ngNotify) {
 
 	$scope.init = function () {
-		$http.get($rootScope.getMeta('thumbnail'));
+		//$http.get($rootScope.getMeta('thumbnail'));
 	}
 
 	$scope.setGif = function (gif) {
 		$scope.gif = gif;
+
+    	$rootScope.socket.subscribe('gif.' + $scope.gif._id).bind('updated', function(data){
+    		if ($scope.gif.status != data.gif.status)
+	    		$scope.$apply(function () {
+	    			$scope.gif = data.gif;
+	    		});
+        });
 	}
 
 	$scope.copied = function () {
@@ -30,7 +37,7 @@ angular.module('ft8')
 	    		$scope.$apply(function () {
 	    			$scope.gif = data.gif;
 
-	    			if ($scope.gif.status == 5) {
+	    			if ($scope.gif.status === -1) {
 	    				$scope.error();
 	    			}
 	    		});
@@ -60,7 +67,7 @@ angular.module('ft8')
 	}
 
 	$scope.$watch('gif.status', function (status) {
-		if (status > 1 && status <= 4)
+		if (status > 1)
 			$scope.$processing = true;
 		else
 			$scope.$processing = false;

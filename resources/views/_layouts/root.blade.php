@@ -9,7 +9,7 @@
     <meta name="broadcast_url" content="{{config('broadcasting.connections.pusher.key')}}">
     <meta property="fb:app_id" content="{{config('site.facebook_app_id')}}">
     <base href="{{ url('/') }}">
-    <title>@yield('title') - Vdo2Gif</title>
+    <title>@yield('title') - @lang('site.app_name')</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />

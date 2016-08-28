@@ -29,9 +29,9 @@ class Gif extends BaseModel
         'input'    		=>  [],
         'output'		=>	[]
     ];
-    protected $appends = ['statusName'];
+    protected $appends = ['statusName', 'url', 'gifUrl', 'thumbnailUrl', 'videoUrl'];
     const DELETED_AT = 'deletedDateTime';
-    const OUTPUT_FILE_NAME = 'output';
+    const OUTPUT_FILE_NAME = 'media';
 
     public static function boot()
     {
@@ -54,6 +54,26 @@ class Gif extends BaseModel
     public function setUserIdAttribute($userId)
     {
     	$this->attributes['userId'] = new MongoId($userId);
+    }
+
+    public function getUrlAttribute()
+    {
+        return asset('gif/' . $this->_id . '.html');
+    }
+
+    public function getGifUrlAttribute()
+    {
+        return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        return asset('gif/' . $this->_id . '/thumbnail.gif');
+    }
+
+    public function getVideoUrlAttribute()
+    {
+        return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4');
     }
 
     public function getStatusNameAttribute()
@@ -95,19 +115,45 @@ class Gif extends BaseModel
 
     public function generateThumbnail()
     {
-        if (!file_exists($this->outputPath. '/' . static::OUTPUT_FILE_NAME . '.gif'))
+        if (!file_exists($this->outputPath. '/' . static::OUTPUT_FILE_NAME . '.mp4'))
             abort(404);
 
-        $this->thumbnailCmd = 'gifsicle -O1 --lossy=120 --scale 0.75 -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif';
+        $dimension = max($this->output['width'], $this->output['height']) * config('site.gif_thumbnail_scale');
+        $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
+                    'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,pad='.$dimension.':ih:(ow-iw)/2:color=white [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
+                    'gifsicle -O3 --lossy=120 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
 
-        $process = new Process($this->thumbnailCmd);
+        //$this->cmd = 'gifsicle -O1 --lossy=120 --scale '.config('site.gif_thumbnail_scale').' -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif;';
+
+        $process = new Process($this->cmd);
         $process->setTimeout(60);
         $process->run();
 
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            return false;
+            throw new ProcessFailedException($process);
+        }
+
+        return true;
+    }
+
+    public function generateGif()
+    {
+        if (!file_exists($this->outputPath. '/' . static::OUTPUT_FILE_NAME . '.mp4'))
+            abort(404);
+
+        $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.$this->output['width'].':'.$this->output['height'].':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
+                    'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.$this->output['width'].':'.$this->output['height'].':flags=lanczos [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
+                    'gifsicle -O3 --lossy=80 -o '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif '.$this->inputPath.'/output.gif';
+
+        $process = new Process($this->cmd);
+        $process->setTimeout(60 * 5);
+        $process->run();
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
 
         return true;
@@ -185,17 +231,10 @@ class Gif extends BaseModel
 
         $this->generateCaption($input['width'], $input['height']);
 
-        $this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -vf "fps=10,scale=' . $scale . ':flags=lanczos,palettegen" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/pallette.png;'.
+        /*$this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -vf "fps=10,scale=' . $scale . ':flags=lanczos,palettegen" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/pallette.png;'.
                     'ffmpeg -v warning -i '.$this->inputPath.'/input -i '.$this->inputPath.'/pallette.png  -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=10,scale=' . $scale . ':flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/output.gif;'.
-                    'gifsicle -O3 --lossy=150 -o '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif '.$this->inputPath.'/output.gif';
-
-        $output['url'] = asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
-
-        /*$this->cmd = 'ffmpeg -y -i '.$this->inputPath.'/input -i '.$this->inputPath.'/caption.png  -filter_complex "overlay=0:0" -s ' . $output['width'] . 'x' . $output['height'] . ' -t ' . config('site.gif_max_time') . ' -r 10  -f image2 '.$this->inputPath.'/out%03d.png;'.
-                    'convert -delay 10 -loop 0 '.$this->inputPath.'/out*.png -coalesce -layers OptimizeTransparency '.$this->inputPath.'/output.gif';*/
-
-        /*$this->cmd = 'ffmpeg -y -i '.$this->inputPath.'/input -i '.$this->inputPath.'/caption.png  -filter_complex "overlay=0:0" -s ' . $output['width'] . 'x' . $output['height'] . ' -t ' . config('site.gif_max_time') . ' -r 10 '.$this->inputPath.'/output.gif;'
-                    .'convert '.$this->inputPath.'/output.gif -strip -coalesce -layers Optimize '.$this->outputPath.'/output.gif';*/
+                    'gifsicle -O3 --lossy=150 -o '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif '.$this->inputPath.'/output.gif';*/
+        $this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -movflags faststart -pix_fmt yuv420p -an -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=' . config('site.gif_framerate') . ',scale=' . $scale . ' [b]; [b] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->outputPath.'/'. static::OUTPUT_FILE_NAME .'.mp4;';
 
 
         $this->input = $input;
@@ -211,7 +250,7 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        return $process->getOutput();
+        return true;
     }
 
     public function cleanUpFiles()

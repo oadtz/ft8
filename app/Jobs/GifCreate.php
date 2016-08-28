@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GifConvert extends Job implements ShouldQueue
+class GifCreate extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -32,19 +32,20 @@ class GifConvert extends Job implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->gif->status > 0) {
-            $this->gif->status = 3; // Processing
+        if ($this->gif->status >= 4) {
+            $this->gif->status = 5; // Processing
             $this->gif->save();
 
             //
             try {
-                $this->gif->process();
+                $this->gif->generateThumbnail();
+                $this->gif->generateGif();
 
-                $this->gif->status = 4; // Done
-
+                $this->gif->status = 6; // Completed
 
                 $this->gif->save();
-                dispatch(new GifCreate($this->gif));
+
+                $this->gif->cleanUpFiles();
             } catch (\Exception $e) {
                 $this->gif->status = -1; // Error
                 $this->gif->error = $e->getMessage();

@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'app_name'				=>	'FT8',
-	'title'					=>	'Simple Video to Gif Generator'
+	'app_name'					=>	'Vdo2Gif',
+	'slogan'					=>	'Video to Gif Generator'
 ];

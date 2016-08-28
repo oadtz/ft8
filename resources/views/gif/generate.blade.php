@@ -1,6 +1,6 @@
 @extends('_layouts.default')
 
-@section('title', 'Easy VDO to Gif Convert')
+@section('title', trans('site.slogan'))
 
 @section('stylesheet')
 @parent
