@@ -9,6 +9,10 @@ angular.module('ft8')
 		$scope.gif = gif;
 	}
 
+	$scope.copied = function () {
+		ngNotify.set('Copied to clipboard successfully.', 'success');
+	}
+
 	$scope.init();
 
 }])

@@ -133,5 +133,8 @@
   direction: ltr;
   cursor: pointer;
 }
+.facebook-share .facebookButton {
+  display: none;
+}
 
 /*# sourceMappingURL=style.css.map */

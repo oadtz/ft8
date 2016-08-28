@@ -31801,7 +31801,90 @@ angular.module("colorpicker.module",[]).factory("Helper",function(){"use strict"
 !function(){"use strict";function a(a){var b='<div class="ngn" ng-class="ngNotify.notifyClass"><span ng-if="ngNotify.notifyHtml" class="ngn-message" ng-bind-html="ngNotify.notifyMessage"></span><span ng-if="!ngNotify.notifyHtml" class="ngn-message" ng-bind="ngNotify.notifyMessage"></span><span ng-show="ngNotify.notifyButton" class="ngn-dismiss" ng-click="dismiss()">&times;</span></div>';a.put(f,b)}function b(a){function b(a,b,c){this.scope=a,this.options=c,this.template=d(b)}var c;b.prototype={show:function(a){this.template.fadeIn(q,a)},dismiss:function(){this.template.fadeOut(m,this.destroy.bind(this))},destroy:function(){a.cancel(c),this.options&&this.options.userCallback&&this.options.userCallback(),this.scope&&this.scope.$destroy(),this.template&&this.template.el.remove(),this.scope=null,this.options=null,this.template=null}};var d=function(a){return new d.fn(a)};return d.fn=function(a){this.el=a},d.fn.prototype._fade=function(b,d,e,f){var g=n/e,h=this.el;h.css("opacity",d);var i=function(){d+=b*g,h.css("opacity",d),(r>=d||d>=s)&&(a.cancel(c),r>=d&&h.css("display","none"),f&&f())};c=a(i,n)},d.fn.prototype.fadeIn=function(a,b){this.el.css("display","block"),this._fade(o,r,a,b)},d.fn.prototype.fadeOut=function(a,b){this._fade(p,s,a,b)},b}function c(){this.$get=["$document","$compile","$log","$rootScope","$timeout","$templateCache","NgNotifyFactory",function(a,b,c,d,m,n,o){var p,q,r={theme:"pure",position:"bottom",duration:l,type:"info",sticky:!1,button:!0,html:!1,target:k},s={notifyClass:"",notifyMessage:""},t={pure:g,prime:"ngn-prime",pastel:"ngn-pastel",pitchy:"ngn-pitchy"},u={info:"ngn-info",error:"ngn-error",success:"ngn-success",warn:"ngn-warn",grimace:"ngn-grimace"},v={bottom:"ngn-bottom",top:"ngn-top"},w=function(){var a=d.$new();return a.ngNotify=angular.extend({},s),a.dismiss=function(){J()},a},x=function(a,c,d){var e={},g=w();"object"==typeof c?e=c:e.type=c;var h=H(e),i={isSticky:C(e),duration:B(e),userCallback:d};angular.extend(g.ngNotify,{notifyHtml:F(e),notifyClass:G(e,i.isSticky,h.found),notifyButton:D(e,i.isSticky),notifyMessage:a});var j=b(n.get(f))(g);return h.target.append(j),new o(g,j,i)},y=function(a){var b=a.type||r.type;return(u[b]||u.info)+h},z=function(a){var b=a.theme||r.theme;return(t[b]||t.pure)+h},A=function(a){var b=a.position||r.position;return(v[b]||v.bottom)+h},B=function(a){var b=a.duration||r.duration;return angular.isNumber(b)?b:l},C=function(a){var b=void 0!==a.sticky?a.sticky:r.sticky;return!!b},D=function(a,b){var c=void 0!==a.button?a.button:r.button;return c&&b},E=function(a){return a.target||r.target},F=function(a){if((a.html||r.html)&&!e)return c.debug("ngNotify warning:\nngSanitize couldn't be located.  In order to use the 'html' option, be sure the ngSanitize source is included in your project."),!1;var b=void 0!==a.html?a.html:r.html;return!!b},G=function(a,b,c){var d=y(a)+z(a)+A(a);return d+=b?i+h:g,d+=E(a)!==k&&c?j+h:g},H=function(a){var b=document.querySelector(E(a));return b?{target:angular.element(b),found:!0}:{target:angular.element(document.querySelector(k)),found:!1}},I=function(){p.options.isSticky||(q=m(function(){p.dismiss()},p.options.duration))},J=function(){p&&p.dismiss()},K=function(a){m.cancel(q),a&&(a.scope&&a.destroy(),a=null)};return{config:function(a){a=a||{},angular.extend(r,a)},set:function(a,b,c){a&&(K(p),p=x(a,b,c),p.show(I))},dismiss:function(){J()},addTheme:function(a,b){a&&b&&(t[a]=b)},addType:function(a,b){a&&b&&(u[a]=b)}}}]}var d=angular.module("ngNotify",[]);d.run(["$templateCache",a]),d.factory("NgNotifyFactory",["$interval",b]),d.provider("ngNotify",c);var e=!1,f="templates/ng-notify/ng-notify.html",g="",h=" ",i="ngn-sticky",j="ngn-component",k="body",l=3e3,m=500,n=25,o=1,p=-1,q=200,r=0,s=1;try{angular.module("ngSanitize")&&(angular.module("ngNotify").requires.push("ngSanitize"),e=!0)}catch(t){}}();
 //# sourceMappingURL=ng-notify.min.js.map
 "use strict";function debounce(t,e,n){var i;return function(){var o=this,r=arguments,u=function(){i=null,n||t.apply(o,r)},c=n&&!i;clearTimeout(i),i=setTimeout(u,e),c&&t.apply(o,r)}}function randomString(t,e){e=e&&e.toLowerCase();for(var n="",i=0,o="a"==e?10:0,r="n"==e?10:62;i++<t;){var u=Math.random()*(r-o)+o<<0;n+=String.fromCharCode(u+=u>9?36>u?55:61:48)}return n}angular.module("djds4rce.angular-socialshare",[]).factory("$FB",["$window",function(t){return{init:function(e){if(!e)throw"FB App Id Cannot be blank";this.fbId=e,t.fbAsyncInit=function(){FB.init({appId:e,channelUrl:"app/channel.html",status:!0,xfbml:!0})},function(t){var e,n="facebook-jssdk",i=t.getElementsByTagName("script")[0];t.getElementById(n)||(e=t.createElement("script"),e.id=n,e.async=!0,e.src="//connect.facebook.net/en_US/all.js",i.parentNode.insertBefore(e,i))}(document)}}}]).directive("facebook",["$http",function(t){return{scope:{callback:"=",shares:"="},transclude:!0,template:'<div class="facebookButton"><div class="pluginButton"><div class="pluginButtonContainer"><div class="pluginButtonImage"><button type="button"><i class="pluginButtonIcon img sp_plugin-button-2x sx_plugin-button-2x_favblue"></i></button></div><span class="pluginButtonLabel">Share</span></div></div></div><div class="facebookCount"><div class="pluginCountButton pluginCountNum"><span ng-transclude></span></div><div class="pluginCountButtonNub"><s></s><i></i></div></div>',link:function(e,n,i){i.$observe("url",function(){i.shares&&i.url&&t.get("https://api.facebook.com/method/links.getStats?urls="+i.url+"&format=json").success(function(t){var n=t[0]?t[0].total_count.toString():0,i="";n.length>6?("0"!=n.slice(-6,-5)&&(i="."+n.slice(-6,-5)),n=n.slice(0,-6),n=n+i+"M"):n.length>3&&("0"!=n.slice(-3,-2)&&(i="."+n.slice(-3,-2)),n=n.slice(0,-3),n=n+i+"k"),e.shares=n}).error(function(){e.shares=0}),n.unbind(),n.bind("click",function(t){FB.ui({method:"share",href:i.url},function(t){void 0!==e.callback&&"function"==typeof e.callback&&e.callback(t)}),t.preventDefault()})})}}}]).directive("facebookFeedShare",["$http",function(t){return{scope:{callback:"=",shares:"="},transclude:!0,template:'<div class="facebookButton"><div class="pluginButton"><div class="pluginButtonContainer"><div class="pluginButtonImage"><button type="button"><i class="pluginButtonIcon img sp_plugin-button-2x sx_plugin-button-2x_favblue"></i></button></div><span class="pluginButtonLabel">Share</span></div></div></div><div class="facebookCount"><div class="pluginCountButton pluginCountNum"><span ng-transclude></span></div><div class="pluginCountButtonNub"><s></s><i></i></div></div>',link:function(e,n,i){i.$observe("url",function(){i.shares&&i.url&&t.get("https://api.facebook.com/method/links.getStats?urls="+i.url+"&format=json").success(function(t){var n=t[0]?t[0].total_count.toString():0,i="";n.length>6?("0"!=n.slice(-6,-5)&&(i="."+n.slice(-6,-5)),n=n.slice(0,-6),n=n+i+"M"):n.length>3&&("0"!=n.slice(-3,-2)&&(i="."+n.slice(-3,-2)),n=n.slice(0,-3),n=n+i+"k"),e.shares=n}).error(function(){e.shares=0}),n.unbind(),n.bind("click",function(t){FB.ui({method:"feed",link:i.url,picture:i.picture,name:i.name,caption:i.caption,description:i.description},function(t){void 0!==e.callback&&"function"==typeof e.callback&&e.callback(t)}),t.preventDefault()})})}}}]).directive("twitter",["$timeout",function(t){return{link:function(e,n,i){var o=debounce(function(){i.url&&t(function(){n[0].innerHTML="",twttr.widgets.createShareButton(i.url,n[0],function(){},{count:i.count,text:i.text,via:i.via,size:i.size})})},75);i.$observe("url",o),i.$observe("text",o)}}}]).directive("linkedin",["$timeout","$http","$window",function(t,e,n){return{scope:{shares:"="},transclude:!0,template:'<div class="linkedinButton"><div class="pluginButton"><div class="pluginButtonContainer"><div class="pluginButtonImage">in</div><span class="pluginButtonLabel"><span>Share</span></span></div></div></div><div class="linkedinCount"><div class="pluginCountButton"><div class="pluginCountButtonRight"><div class="pluginCountButtonLeft"><span ng-transclude></span></div></div></div></div>',link:function(i,o,r){var u=debounce(function(){r.shares&&r.url&&e.jsonp("https://www.linkedin.com/countserv/count/share?url="+r.url+"&callback=JSON_CALLBACK&format=jsonp").success(function(t){i.shares=t.count.toLocaleString()}).error(function(){i.shares=0}),t(function(){o.unbind(),o.bind("click",function(){var t=encodeURIComponent(r.url).replace(/'/g,"%27").replace(/"/g,"%22");n.open("//www.linkedin.com/shareArticle?mini=true&url="+t+"&title="+r.title+"&summary="+r.summary)})})},100);r.$observe("url",u),r.$observe("title",u),r.$observe("summary",u)}}}]).directive("gplus",[function(){return{link:function(t,e,n){var i=debounce(function(){"undefined"==typeof gapi?!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://apis.google.com/js/platform.js",t.onload=o;var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}():o()},100),o=function(t,n){return function(){var t=document.createElement("div"),i=n.id||randomString(5);n.id=i,t.setAttribute("id",i),e.innerHTML="",e.append(t),n["class"]&&-1!=n["class"].indexOf("g-plusone")?window.gapi.plusone.render(i,n):window.gapi.plus.render(i,n)}}(e,n);n.$observe("href",i)}}}]).directive("tumblrText",[function(){return{link:function(t,e,n){var i=document.createElement("a"),o=debounce(function(){i.setAttribute("href","https://www.tumblr.com/share/link?url="+encodeURIComponent(n.url)+"&name="+encodeURIComponent(n.name)+"&description="+encodeURIComponent(n.description)),i.setAttribute("title",n.title||"Share on Tumblr"),i.setAttribute("style",n.styling||"display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('https://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"),e[0].innerHTML="",e.append(i)},100);n.$observe("url",o),n.$observe("name",o),n.$observe("description",o)}}}]).directive("tumblrQoute",[function(){return{link:function(t,e,n){var i=document.createElement("a"),o=debounce(function(){i.setAttribute("href","https://www.tumblr.com/share/quote?quote="+encodeURIComponent(n.qoute)+"&source="+encodeURIComponent(n.source)),i.setAttribute("title",n.title||"Share on Tumblr"),i.setAttribute("style",n.styling||"display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('https://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"),e[0].innerHTML="",e.append(i)},100);n.$observe("qoute",o),n.$observe("source",o)}}}]).directive("tumblrImage",[function(){return{link:function(t,e,n){var i=document.createElement("a"),o=debounce(function(){i.setAttribute("href","https://www.tumblr.com/share/photo?source="+encodeURIComponent(n.source)+"&caption="+encodeURIComponent(n.caption)+"&clickthru="+encodeURIComponent(n.clickthru)),i.setAttribute("title",n.title||"Share on Tumblr"),i.setAttribute("style",n.styling||"display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('https://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"),e[0].innerHTML="",e.append(i)},100);n.$observe("source",o),n.$observe("caption",o),n.$observe("clickthru",o)}}}]).directive("tumblrVideo",[function(){return{link:function(t,e,n){var i=document.createElement("a"),o=debounce(function(){i.setAttribute("href","https://www.tumblr.com/share/video?embed="+encodeURIComponent(n.embedcode)+"&caption="+encodeURIComponent(n.caption)),i.setAttribute("title",n.title||"Share on Tumblr"),i.setAttribute("style",n.styling||"display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('https://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"),e[0].innerHTML="",e.append(i)},100);n.$observe("embedcode",o),n.$observe("caption",o)}}}]).directive("pintrest",["$window","$timeout",function(t,e){return{template:'<a href="{{href}}" data-pin-do="{{pinDo}}" data-pin-config="{{pinConfig}}"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /></a>',link:function(n,i,o){var r=debounce(function(){var n=document.createElement("a");n.setAttribute("href","//www.pinterest.com/pin/create/button/?url="+encodeURIComponent(o.href)+"&media="+encodeURIComponent(o.img)+"&description="+encodeURIComponent(o.description)),n.setAttribute("pinDo",o.pinDo||"buttonPin"),n.setAttribute("pinConfig",o.pinConfig||"beside"),i[0].innerHTML="",i.append(n),e(function(){t.parsePins(i)})},100);o.$observe("href",r),o.$observe("img",r),o.$observe("description",r)}}}]);
-var app = angular.module('ft8', ['ngFileUpload', 'colorpicker.module', 'ui.bootstrap', 'ngNotify', 'djds4rce.angular-socialshare'])
+(function (root, factory) {
+    /* istanbul ignore next */
+    if (typeof define === 'function' && define.amd) {
+        define(['angular'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = factory(require('angular'));
+    } else {
+        root.angularClipboard = factory(root.angular);
+  }
+}(this, function (angular) {
+
+return angular.module('angular-clipboard', [])
+    .factory('clipboard', ['$document', '$window', function ($document, $window) {
+        function createNode(text, context) {
+            var node = $document[0].createElement('textarea');
+            node.style.position = 'absolute';
+            node.textContent = text;
+            node.style.left = '-10000px';
+            node.style.top = ($window.pageYOffset || $document[0].documentElement.scrollTop) + 'px';
+            return node;
+        }
+
+        function copyNode(node) {
+            try {
+                // Set inline style to override css styles
+                $document[0].body.style.webkitUserSelect = 'initial';
+
+                var selection = $document[0].getSelection();
+                selection.removeAllRanges();
+                node.select();
+
+                if(!$document[0].execCommand('copy')) {
+                    throw('failure copy');
+                }
+                selection.removeAllRanges();
+            } finally {
+                // Reset inline style
+                $document[0].body.style.webkitUserSelect = '';
+            }
+        }
+
+        function copyText(text, context) {
+            var node = createNode(text, context);
+            $document[0].body.appendChild(node);
+            copyNode(node);
+            $document[0].body.removeChild(node);
+        }
+
+        return {
+            copyText: copyText,
+            supported: 'queryCommandSupported' in $document[0] && $document[0].queryCommandSupported('copy')
+        };
+    }])
+    .directive('clipboard', ['clipboard', function (clipboard) {
+        return {
+            restrict: 'A',
+            scope: {
+                onCopied: '&',
+                onError: '&',
+                text: '=',
+                supported: '=?'
+            },
+            link: function (scope, element) {
+                scope.supported = clipboard.supported;
+
+                element.on('click', function (event) {
+                    try {
+                        clipboard.copyText(scope.text, element[0]);
+                        if (angular.isFunction(scope.onCopied)) {
+                            scope.$evalAsync(scope.onCopied());
+                        }
+                    } catch (err) {
+                        if (angular.isFunction(scope.onError)) {
+                            scope.$evalAsync(scope.onError({err: err}));
+                        }
+                    }
+                });
+            }
+        };
+    }]);
+
+}));
+
+var app = angular.module('ft8', ['ngFileUpload', 'colorpicker.module', 'ui.bootstrap', 'ngNotify', 'djds4rce.angular-socialshare', 'angular-clipboard'])
 angular.module('ft8')
 .run(['$rootScope', '$http', '$FB', 'ngNotify', function ($rootScope, $http, $FB, ngNotify) {
 	
@@ -31867,6 +31950,10 @@ angular.module('ft8')
 
 	$scope.setGif = function (gif) {
 		$scope.gif = gif;
+	}
+
+	$scope.copied = function () {
+		ngNotify.set('Copied to clipboard successfully.', 'success');
 	}
 
 	$scope.init();

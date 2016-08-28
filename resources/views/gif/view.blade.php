@@ -27,29 +27,35 @@
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
 		            <div class="col-md-10">
-		              <input type="text" class="form-control" ng-model="gif.output.url" readonly="readonly">
+    					<div class="input-group">
+			              <input type="text" class="form-control" ng-model="gif.output.url" readonly="readonly">
+					      <span class="input-group-btn">
+					        <button type="button" class="btn btn-default" clipboard supported="true" text="gif.output.url" on-copied="copied()"><i class="fa fa-copy"></i> Copy</button>
+					        <!--button type="button" class="btn btn-default"><i class="fa fa-download"></i> Download</button-->
+					      </span>
+    					</div>
 		            </div>
 		        </div>
-		        <div class="col-md-12 text-center">
-		        	<button type="button" class="btn btn-link" title="Share on facebook" ng-click="shareFacebook()">
-		        		<img src="{{url('img/facebook.png')}}" alt="Share on facebook">
-		        	</button>
-		        	<a facebook-feed-share data-url="{{asset('gif/' . $gif->_id . '.html')}}" data-shares="shares"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>
-		        	<!--a href>
-		        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
-		        	</a>
-		        	<a href>
-		        		<img src="{{url('img/google_plus.png')}}" alt="Share on Google">
-		        	</a>
-		        	<a href>
-		        		<img src="{{url('img/instagram.png')}}" alt="Share on Instagram">
-		        	</a>
-		        	<a href>
-		        		<img src="{{url('img/line.png')}}" alt="Share on LINE">
-		        	</a>
-		        	<a href>
-		        		<img src="{{url('img/telegram.png')}}" alt="Share to Email">
-		        	</a-->
+		        <div class="form-group">
+		            <label class="col-md-2 control-label">Share</label>
+			        <div class="col-md-10">
+			        	<a facebook-feed-share class="btn btn-link facebook-share" data-url="{{asset('gif/' . $gif->_id . '.html')}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>
+			        	<!--a href>
+			        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
+			        	</a>
+			        	<a href>
+			        		<img src="{{url('img/google_plus.png')}}" alt="Share on Google">
+			        	</a>
+			        	<a href>
+			        		<img src="{{url('img/instagram.png')}}" alt="Share on Instagram">
+			        	</a>
+			        	<a href>
+			        		<img src="{{url('img/line.png')}}" alt="Share on LINE">
+			        	</a>
+			        	<a href>
+			        		<img src="{{url('img/telegram.png')}}" alt="Share to Email">
+			        	</a-->
+			        </div>
 		        </div>
 	    	</div>
 	    </div>

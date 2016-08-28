@@ -25,6 +25,7 @@ elixir(function(mix) {
             '../../../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js',
             '../../../bower_components/ng-notify/dist/ng-notify.min.js',
             '../../../bower_components/angular-socialshare/angular-socialshare.min.js',
+            '../../../bower_components/angular-clipboard/angular-clipboard.js',
 
 
             'app.js',

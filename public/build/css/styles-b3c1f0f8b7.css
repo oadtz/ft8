@@ -152,6 +152,9 @@ body{background-color:#EEE}body.inverse{background:#333}body.inverse,body.invers
   direction: ltr;
   cursor: pointer;
 }
+.facebook-share .facebookButton {
+  display: none;
+}
 
 /*# sourceMappingURL=style.css.map */
 
