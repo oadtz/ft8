@@ -21,7 +21,24 @@
 	    <div class="well">
 	    	<div class="row">
 	    		<div class="col-lg-12 text-center">
-				  <video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
+	    			<span ng-switch="gif.status">
+				  		<span ng-switch-when="6">
+		    				<figure class="text-center">
+				  				<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
+							</figure>
+				  		</span>
+				  		<span ng-switch-default>
+				  			GIF is being generated...
+			                <div class="progress">
+			                  <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+			                    <span class="sr-only">
+			                      @{{gif.statusName}}
+			                    </span>
+			                  </div>
+			                </div>
+				  		</span>
+				  	</span>
+				  <!--video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
 				  	<source src="{{$gif->videoUrl}}" type="video/mp4" />
 				  	<span ng-switch="gif.status">
 				  		<span ng-switch-when="6">
@@ -41,7 +58,7 @@
 				  		</span>
 				  	</span>
 
-				  </video>
+				  </video-->
 	    		</div>
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
