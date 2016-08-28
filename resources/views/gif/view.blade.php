@@ -21,12 +21,14 @@
         <input type="hidden" ng-init="setGif({{htmlspecialchars(json_encode($gif))}})">
 	    <div class="jumbotron">
 	    	<div class="row">
-		    	<figure class="text-center">
+	    		<div class="col-lg-12 text-center">
 				  <video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
 				  	<source src="{{$gif->videoUrl}}" type="video/mp4" />
 				  	<span ng-switch="gif.status">
 				  		<span ng-switch-when="6">
-				  			<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
+		    				<figure class="text-center">
+				  				<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
+							</figure>
 				  		</span>
 				  		<span ng-switch-default>
 				  			GIF is being generated...
@@ -41,7 +43,7 @@
 				  	</span>
 
 				  </video>
-				</figure>
+	    		</div>
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
 		            <div class="col-md-10">
