@@ -22,10 +22,7 @@
 	    <div class="jumbotron">
 	    	<div class="row">
 		    	<figure class="text-center">
-				  <img src="{{$gif->output['url']}}" class="img-responsive" />
-				  <figcaption>
-				    vdo2gif.com
-				  </figcaption>
+				  <img src="{{$gif->output['url']}}" style="max-width: 100%" />
 				</figure>
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
