@@ -31858,7 +31858,7 @@ angular.module('ft8')
 .controller('GifViewController', ['$scope', '$rootScope', '$http', 'ngNotify', function ($scope, $rootScope, $http, ngNotify) {
 
 	$scope.init = function () {
-
+		$http.get($rootScope.getMeta('thumbnail'));
 	}
 
 	$scope.setGif = function (gif) {
