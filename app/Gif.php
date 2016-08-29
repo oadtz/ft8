@@ -164,6 +164,8 @@ class Gif extends BaseModel
 
     public function generateCaption($w, $h, $aspectRatio, $text, $textColor)
     {
+        $fontFile = resource_path('assets/fonts/Kanit-Regular.ttf');
+
         $x = $w/2;
         if ($aspectRatio == 1) {
             $size = min($w, $h) / 15;
@@ -178,18 +180,27 @@ class Gif extends BaseModel
         }
 
         $image = Image::canvas($w, $h);
-        $image->text($text, $x, $y, function($font) use($size, $textColor) {
-            $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
+
+        $image->text($text, $x + 5, $y + 5, function($font) use($fontFile, $size) {
+            $font->file($fontFile);
+            $font->size($size);
+            $font->color('#000000'); // Glow color
+            $font->align('center');
+            $font->valign('bottom');
+        });
+
+        $image->text($text, $x, $y, function($font) use($fontFile, $size, $textColor) {
+            $font->file($fontFile);
             $font->size($size);
             $font->color($textColor);
             $font->align('center');
             $font->valign('bottom');
         });
 
-        if ($image->save($this->inputPath . '/caption.png'))
-            return true;
+        if (!$image->save($this->inputPath . '/caption.png'))
+            return false;
 
-        return false;
+        return true;
     }
 
     public function process()
