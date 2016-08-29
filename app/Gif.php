@@ -124,7 +124,7 @@ class Gif extends BaseModel
             $pad = 'iw:' . ceil($this->output['width']*$this->output['thumbnailScale']) . ':0:(oh-ih)/2';
         $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
                     'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.ceil($this->output['width']*$this->output['thumbnailScale']).':'.ceil($this->output['height']*$this->output['thumbnailScale']).':flags=lanczos,pad='.$pad.':color=black [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
-                    'gifsicle -O1 --lossy=120 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
+                    'gifsicle -O1 --lossy=80 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
 
         //$this->cmd = 'gifsicle -O1 --lossy=120 --scale '.config('site.gif_thumbnail_scale').' -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif;';
 
