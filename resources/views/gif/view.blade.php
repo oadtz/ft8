@@ -21,7 +21,7 @@
 	    		<div class="col-lg-12 text-center">
 				  <video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
 				  	<source src="{{$gif->videoUrl}}" type="video/mp4" />
-				  	<span ng-switch="gif.status">
+				  	<!--span ng-switch="gif.status">
 				  		<span ng-switch-when="6">
 		    				<figure class="text-center">
 				  				<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
@@ -37,7 +37,7 @@
 			                  </div>
 			                </div>
 				  		</span>
-				  	</span>
+				  	</span-->
 
 				  </video>
 	    		</div>
@@ -53,7 +53,7 @@
     					</div>
 		            </div>
 		        </div>
-		        <div class="form-group" ng-show="gif.status == 6">
+		        <div class="form-group">
 		            <label class="col-md-2 control-label">Share</label>
 			        <div class="col-md-10">
 			        	<a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>

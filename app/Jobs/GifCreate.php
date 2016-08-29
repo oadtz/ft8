@@ -38,7 +38,6 @@ class GifCreate extends Job implements ShouldQueue
 
             //
             try {
-                $this->gif->generateThumbnail();
                 $this->gif->generateGif();
 
                 $this->gif->status = 6; // Completed

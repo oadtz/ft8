@@ -39,9 +39,9 @@ class GifConvert extends Job implements ShouldQueue
             //
             try {
                 $this->gif->process();
+                $this->gif->generateThumbnail();
 
                 $this->gif->status = 4; // Done
-
 
                 $this->gif->save();
                 dispatch(new GifCreate($this->gif));
