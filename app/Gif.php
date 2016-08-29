@@ -124,7 +124,7 @@ class Gif extends BaseModel
             $pad = 'iw:' . ceil($this->output['width']*$this->output['thumbnailScale']) . ':0:(oh-ih)/2';
         $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
                     'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.ceil($this->output['width']*$this->output['thumbnailScale']).':'.ceil($this->output['height']*$this->output['thumbnailScale']).':flags=lanczos,pad='.$pad.':color=black [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
-                    'gifsicle -O1 --lossy=120 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
+                    'gifsicle -O1 --lossy=80 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
 
         //$this->cmd = 'gifsicle -O1 --lossy=120 --scale '.config('site.gif_thumbnail_scale').' -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif;';
 
@@ -162,10 +162,10 @@ class Gif extends BaseModel
         return true;
     }
 
-    public function generateCaption($w, $h)
+    public function generateCaption($w, $h, $aspectRatio, $text, $textColor)
     {
         $x = $w/2;
-        if (isset($this->settings['aspectRatio']) && $this->settings['aspectRatio'] == 1) {
+        if ($aspectRatio == 1) {
             $size = min($w, $h) / 15;
 
             $y = min($w, $h) * 0.95;
@@ -178,10 +178,10 @@ class Gif extends BaseModel
         }
 
         $image = Image::canvas($w, $h);
-        $image->text(isset($this->settings['caption']) ? $this->settings['caption'] : '', $x, $y, function($font) use($size) {
+        $image->text($text, $x, $y, function($font) use($size, $textColor) {
             $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
             $font->size($size);
-            $font->color($this->settings['captionColor']);
+            $font->color($textColor);
             $font->align('center');
             $font->valign('bottom');
         });
@@ -224,7 +224,7 @@ class Gif extends BaseModel
             else
                 $scale = $output['width'] . ':-1';
         } else {
-            $ratio = min($input['width'], $input['height'], config('site.gif_max_width')) / $input['width'];
+            $ratio = min($input['width'], $input['height'], config('site.gif_max_width')) / max($input['width'], $input['height']);
 
             $output['width'] = ceil($input['width'] * $ratio);
             $output['height'] = ceil($input['height'] * $ratio);
@@ -244,7 +244,13 @@ class Gif extends BaseModel
             $output['thumbnailScale'] = 1;
         }
 
-        $this->generateCaption($input['width'], $input['height']);
+        $this->generateCaption(
+                    $input['width'], 
+                    $input['height'], 
+                    isset($this->settings['aspectRatio']) ? $this->settings['aspectRatio'] : 0,
+                    isset($this->settings['caption']) ? $this->settings['caption'] : config('site.gif_default_caption'),
+                    isset($this->settings['captionColor']) ? $this->settings['captionColor'] : config('site.gif_default_caption_color')
+                );
 
         /*$this->cmd = 'ffmpeg -v warning -i '.$this->inputPath.'/input -vf "fps=10,scale=' . $scale . ':flags=lanczos,palettegen" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/pallette.png;'.
                     'ffmpeg -v warning -i '.$this->inputPath.'/input -i '.$this->inputPath.'/pallette.png  -lavfi "movie='.$this->inputPath.'/caption.png [watermark]; [0:v][watermark] overlay=0:0 [a]; [a] fps=10,scale=' . $scale . ':flags=lanczos [b]; [b][1:v] paletteuse[c]; [c] crop=' . $output['width'] . ':' . $output['height'] . '" -t ' . config('site.gif_max_time') . ' -y '.$this->inputPath.'/output.gif;'.

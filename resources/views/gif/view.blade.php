@@ -58,7 +58,7 @@
 			        <div class="col-md-10">
 			        	<ul class="list-inline">
 			        		<li><a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a></li>
-			        		<li><a href="http://line.me/R/msg/text/?{{$gif->url}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li>
+			        		<li><a href="http://line.me/R/msg/text/?{{$gif->gifUrl}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li>
 			        	</ul>
 
 			        	<!--a href>

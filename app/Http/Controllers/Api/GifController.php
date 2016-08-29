@@ -100,6 +100,14 @@ class GifController extends Controller {
 
 		$image = Image::make($gif->inputPath . '/preview.jpg');
 
+		if ($this->request->has('caption')) {
+
+			$gif->generateCaption($image->width(), $image->height(), $this->request->input('aspect'), $this->request->input('caption'), $this->request->input('color', config('site.gif_default_caption_color')));
+
+			$image->insert(storage_path('app/public/uploads/' . $gif->userId .'/' . $gif->_id . '/caption.png'));
+		}
+
+
 		if ($this->request->input('aspect') == 1) {
 			$w = $image->width();
 			$h = $image->height();
@@ -120,7 +128,10 @@ class GifController extends Controller {
 			});
 		}
 
-		return $image->response('jpg', 60);
+		$bg = Image::canvas(max($image->width(), $image->height()), max($image->width(), $image->height()), '#FFFFFF');
+		$bg->insert($image, 'center');
+
+		return $bg->response('jpg', 60);
 	}
 
 	public function previewPlaceholder($gif)

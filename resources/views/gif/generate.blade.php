@@ -33,34 +33,43 @@
                   <h4>Output</h4>
 
                     <div class="form-group">
-                      <label class="col-md-2 control-label">Aspect Ratio</label>
+                      <label class="col-md-2 control-label">Crop</label>
                       <div class="col-md-10">
                         <div class="btn-group">
-                            <label class="btn btn-default" ng-model="gif.settings.aspectRatio"  ng-disabled="$processing == true" uib-btn-radio="0">Same as Source</label>
-                            <label class="btn btn-default" ng-model="gif.settings.aspectRatio"  ng-disabled="$processing == true" uib-btn-radio="1">Square</label>
+                            <label class="btn btn-default" ng-model="gif.settings.aspectRatio"  ng-disabled="$processing == true" uib-btn-radio="0">Original</label>
+                            <label class="btn btn-default" ng-model="gif.settings.aspectRatio"  ng-disabled="$processing == true" uib-btn-radio="1">Center</label>
                         </div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-md-2 control-label">Caption</label>
+                      <label class="col-md-2 control-label">Subtitle</label>
                       <div class="col-md-10">
-                        <input type="text" class="form-control"  ng-disabled="$processing == true" ng-model="gif.settings.caption" maxlength="60">
+                        <input type="text" class="form-control" ng-disabled="$processing == true" ng-model="gif.settings.caption" ng-model-options="{ debounce: 1000 }" maxlength="60">
                       </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" ng-show="gif.settings.caption">
                       <label class="col-md-2 control-label">Font Color</label>
                       <div class="col-md-10">
-                        <input type="text" class="form-control" colorpicker="hex"  ng-disabled="$processing == true" ng-model="gif.settings.captionColor" maxlength="7">
+                        <!--input type="text" class="form-control" colorpicker="hex" ng-disabled="$processing == true" ng-model="gif.settings.captionColor" ng-model-options="{ debounce: 1000 }" maxlength="7"-->
+                        <div class="btn-group">
+                            <label class="btn btn-default" ng-model="gif.settings.captionColor"  ng-disabled="$processing == true" uib-btn-radio="'#FFFFFF'"><div class="swatch" style="background-color: #FFFFFF"></div></label>
+                            <label class="btn btn-default" ng-model="gif.settings.captionColor"  ng-disabled="$processing == true" uib-btn-radio="'#888888'"><div class="swatch" style="background-color: #888888"></div></label>
+                            <label class="btn btn-default" ng-model="gif.settings.captionColor"  ng-disabled="$processing == true" uib-btn-radio="'#000000'"><div class="swatch" style="background-color: #000000"></div></label>
+                            <label class="btn btn-default" ng-model="gif.settings.captionColor"  ng-disabled="$processing == true" uib-btn-radio="'#FF0000'"><div class="swatch" style="background-color: #FF0000"></div></label>
+                            <label class="btn btn-default" ng-model="gif.settings.captionColor"  ng-disabled="$processing == true" uib-btn-radio="'#00FF00'"><div class="swatch" style="background-color: #00FF00"></div></label>
+                            <label class="btn btn-default" ng-model="gif.settings.captionColor"  ng-disabled="$processing == true" uib-btn-radio="'#0000FF'"><div class="swatch" style="background-color: #0000FF"></div></label>
+                        </div>
                       </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                   <h4>Preview</h4>
-                      <div class="text-center upload-preview" ng-style="{ 'background-image': 'url(' + getUrl('api/gif/' + gif._id + '/upload/preview?aspect=' + gif.settings.aspectRatio) + ')' }">
+                      <!--div class="text-center upload-preview" ng-style="{ 'background-image': 'url(' + getUrl('api/gif/' + gif._id + '/upload/preview?aspect=' + gif.settings.aspectRatio + '&caption=' + gif.settings.caption + '&color=' + gif.settings.color) + ')' }">
                         <img ng-src="@{{getUrl('api/gif/' + gif._id + '/upload/preview-placeholder?aspect=' + gif.settings.aspectRatio)}}"  class="img-responsive">
                         <span ng-style="{'color': gif.settings.captionColor}">@{{gif.settings.caption}}</span>
-                      </div>
+                      </div-->
+                      <img ng-show="gif" ng-src="@{{getPreviewUrl()}}" class="img-responsive">
                 </div>
                 <div class="col-sm-12">
                   <button type="button" ng-click="generate()" class="btn btn-lg btn-primary btn-raised" ng-disabled="$processing == true">

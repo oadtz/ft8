@@ -28,7 +28,7 @@ angular.module('ft8')
 	$scope.init();
 
 }])
-.controller('GifGenerateController', ['$scope', '$rootScope', '$http', 'ngNotify', function ($scope, $rootScope, $http, ngNotify) {
+.controller('GifGenerateController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'ngNotify', function ($scope, $rootScope, $http, $httpParamSerializer, ngNotify) {
 
 	$scope.init = function () {
 
@@ -65,6 +65,16 @@ angular.module('ft8')
 			.error(function () {
 				$scope.error();
 			});
+	}
+
+	$scope.getPreviewUrl = function () {
+		params = {
+			aspect: $scope.gif.settings.aspectRatio,
+			caption: $scope.gif.settings.caption,
+			color: $scope.gif.settings.captionColor
+		};
+
+		return $rootScope.getUrl('api/gif/' + $scope.gif._id + '/upload/preview?' + $httpParamSerializer(params));
 	}
 
 	$scope.cancel = function () {
