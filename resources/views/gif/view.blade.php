@@ -8,8 +8,6 @@
 <meta property="og:url" content="{{$gif->thumbnailUrl}}">
 <meta property="og:type" content="video.other">
 <meta property="og:image" content="{{$gif->thumbnailUrl}}">
-<meta property="og:image:width" content="{{$gif->output['thumbnailWidth']}}">
-<meta property="og:image:height" content="{{$gif->output['thumbnailHeight']}}">
 @endsection
 
 @section('content')

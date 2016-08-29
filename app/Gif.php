@@ -119,8 +119,8 @@ class Gif extends BaseModel
             abort(404);
 
         $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
-                    'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,pad='.max($this->output['thumbnailWidth'], $this->output['thumbnailHeight']).':ih:(ow-iw)/2:color=white [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
-                    'gifsicle -O1 --lossy=160 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
+                    'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.ceil($this->output['width']*$this->output['thumbnailScale']).':'.ceil($this->output['height']*$this->output['thumbnailScale']).':flags=lanczos,pad='.ceil(max($this->output['width'], $this->output['height'])*$this->output['thumbnailScale']).':ih:(ow-iw)/2:color=black [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
+                    'gifsicle -O1 --lossy=120 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
 
         //$this->cmd = 'gifsicle -O1 --lossy=120 --scale '.config('site.gif_thumbnail_scale').' -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif;';
 
@@ -162,13 +162,13 @@ class Gif extends BaseModel
     {
         $x = $w/2;
         if (isset($this->settings['aspectRatio']) && $this->settings['aspectRatio'] == 1) {
-            $size = min($w, $h) / 20;
+            $size = min($w, $h) / 15;
 
             $y = min($w, $h) * 0.95;
             if ($w < $h)
                 $y += ($h - $w) / 2;
         } else {
-            $size = $w / 20;
+            $size = $w / 15;
 
             $y = $h * 0.95;
         }
@@ -222,17 +222,22 @@ class Gif extends BaseModel
         } else {
             $ratio = min($input['width'], $input['height'], config('site.gif_max_width')) / $input['width'];
 
-            $output['width'] = intval($input['width'] * $ratio);
-            $output['height'] = intval($input['height'] * $ratio);
+            $output['width'] = ceil($input['width'] * $ratio);
+            $output['height'] = ceil($input['height'] * $ratio);
 
             $scale = $output['width'] . ':-1';
         }
 
-        if ($output['width'] <= $output['height'])
-            $output['thumbnailWidth'] = $output['thumbnailHeight'] = ceil(max($output['width'], $output['height']) * config('site.gif_thumbnail_scale'));
+        /*if (max($this->output['thumbnailWidth'], $this->output['thumbnailHeight']) > config('site.gif_thumbnail_width'))
+            $output['thumbnailWidth'] = $output['thumbnailHeight'] = config('site.gif_thumbnail_width');
         else {
-            $output['thumbnailWidth'] = ceil($output['width'] * config('site.gif_thumbnail_scale'));
-            $output['thumbnailHeight'] = ceil($output['height'] * config('site.gif_thumbnail_scale'));
+            $output['thumbnailWidth'] = max($this->output['thumbnailWidth'], $this->output['thumbnailHeight']);
+            $output['thumbnailHeight'] = max($this->output['thumbnailWidth'], $this->output['thumbnailHeight']);
+        }*/
+        if (max($output['width'], $output['height']) > config('site.gif_thumbnail_width')) {
+            $output['thumbnailScale'] = config('site.gif_thumbnail_width')/max($output['width'], $output['height']);
+        } else {
+            $output['thumbnailScale'] = 1;
         }
 
         $this->generateCaption($input['width'], $input['height']);
