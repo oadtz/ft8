@@ -44,19 +44,23 @@
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">URL</label>
 		            <div class="col-md-10">
-    					<div class="input-group">
 			              <input type="text" class="form-control" ng-model="gif.url" readonly="readonly">
 					      <span class="input-group-btn">
-					        <button type="button" class="btn btn-default" clipboard supported="true" text="gif.url" on-copied="copied()"><i class="fa fa-copy"></i> Copy URL</button>
-					        <button type="button" class="btn btn-default" ng-show="gif.status == 6"><i class="fa fa-download"></i> Download GIF</button>
+					        <button type="button" class="btn btn-default" clipboard supported="clipboard.supported" text="gif.url" on-copied="copied()"><i class="fa fa-copy"></i> Copy Link</button>
+					        <button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i> Email GIF</button>
+					        <button type="button" class="btn btn-default" ng-show="gif.status == 6" ng-click="download('gif')"><i class="fa fa-download"></i> Download GIF</button>
+					        <button type="button" class="btn btn-default" ng-click="download('mp4')"><i class="fa fa-download"></i> Download MP4</button>
 					      </span>
-    					</div>
 		            </div>
 		        </div>
 		        <div class="form-group">
 		            <label class="col-md-2 control-label">Share</label>
 			        <div class="col-md-10">
-			        	<a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a>
+			        	<ul class="list-inline">
+			        		<li><a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a></li>
+			        		<li><a href="http://line.me/R/msg/text/?{{$gif->url}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li>
+			        	</ul>
+
 			        	<!--a href>
 			        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
 			        	</a>

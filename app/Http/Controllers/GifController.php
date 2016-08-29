@@ -12,7 +12,6 @@ use App\Http\Requests;
 class GifController extends Controller
 {
 
-
     public function upload()
     {
     	if (!$userId = $this->request->cookie('userId')) {
@@ -37,6 +36,26 @@ class GifController extends Controller
             abort(404);
 
         return view('gif.view', compact('gif'));
+    }
+
+    public function download(GifService $gifService, $gif, $type = 'gif')
+    {
+        if (!$gif = $gifService->get($gif))
+            abort(404);
+
+        if ($type == 'mp4') {
+            $mediaPath = public_path('gif/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.mp4');
+            if (!file_exists($mediaPath))
+                abort(404);
+
+            return response()->download($mediaPath, $gif->_id . '.mp4');
+        }
+
+        $mediaPath = public_path('gif/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.gif');
+        if (!file_exists($mediaPath))
+            abort(404);
+
+        return response()->download($mediaPath, $gif->_id . '.gif');
     }
 
     public function thumbnail(GifService $gifService, $gif)

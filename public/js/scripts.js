@@ -31942,10 +31942,11 @@ angular.module('ft8')
 	}
 }]);
 angular.module('ft8')
-.controller('GifViewController', ['$scope', '$rootScope', '$http', 'ngNotify', function ($scope, $rootScope, $http, ngNotify) {
+.controller('GifViewController', ['$scope', '$rootScope', '$http', 'ngNotify', 'clipboard', function ($scope, $rootScope, $http, ngNotify, clipboard) {
 
 	$scope.init = function () {
 		//$http.get($rootScope.getMeta('thumbnail'));
+		$scope.clipboard = clipboard;
 	}
 
 	$scope.setGif = function (gif) {
@@ -31960,7 +31961,11 @@ angular.module('ft8')
 	}
 
 	$scope.copied = function () {
-		ngNotify.set('Copied to clipboard successfully.', 'success');
+		ngNotify.set('Link copied to your clipboard.', 'success');
+	}
+
+	$scope.download = function (type) {
+		window.location.href = $rootScope.getUrl('gif/' + $scope.gif._id + '/download/' + type);
 	}
 
 	$scope.init();
