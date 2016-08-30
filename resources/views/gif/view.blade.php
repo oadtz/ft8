@@ -1,6 +1,6 @@
 @extends('_layouts.default')
 
-@section('title', $gif->output['caption'] || 'Untitled GIF animation')
+@section('title', isset($gif->output['caption']) ? $gif->output['caption'] : 'Untitled GIF animation')
 
 @section('stylesheet')
 @parent
