@@ -22,7 +22,7 @@
 @section('javascript')
 @parent
 
-@if(config('site.faebook_app_id') != '')
+@if(config('site.facebook_app_id') != '')
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -31,8 +31,8 @@
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId={{config('site.facebook_app_id')}}";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 @endif
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 @endsection
 
 @section('content')
