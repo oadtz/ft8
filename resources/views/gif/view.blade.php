@@ -1,6 +1,6 @@
 @extends('_layouts.default')
 
-@section('title', trans('site.slogan'))
+@section('title', $gif->output['caption'] || 'Untitled GIF animation')
 
 @section('stylesheet')
 @parent
