@@ -48,14 +48,20 @@ class GifController extends Controller
             if (!file_exists($mediaPath))
                 abort(404);
 
-            return response()->download($mediaPath, $gif->_id . '.mp4');
+            return response()->download($mediaPath, $gif->_id . '.mp4', [
+                                    'Content-Transfer-Encoding' =>  'binary'
+
+                                ]);
         }
 
         $mediaPath = public_path('gif/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.gif');
         if (!file_exists($mediaPath))
             abort(404);
 
-        return response()->download($mediaPath, $gif->_id . '.gif');
+        return response()->download($mediaPath, $gif->_id . '.gif', [
+                                    'Content-Transfer-Encoding' =>  'binary'
+
+                                ]);
     }
 
     public function thumbnail(GifService $gifService, $gif)
