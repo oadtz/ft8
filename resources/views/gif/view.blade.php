@@ -5,14 +5,24 @@
 @section('stylesheet')
 @parent
 
+<meta property="og:site_name" content="{{trans('site.app_name')}}" />
+<meta property="og:title" content="{{$gif->settings['caption'] or 'Untitled GIF animation'}} - {{trans('site.app_name')}}" />
 <meta property="og:url" content="{{$gif->thumbnailUrl}}">
 <meta property="og:type" content="video.other">
 <meta property="og:image" content="{{$gif->thumbnailUrl}}">
+<meta property="og:image:type" content="image/gif">
+<meta property="og:type" content="image">
+<meta property="og:image" content="{{$gif->thumbnailUrl}}">
+<meta property="og:image:type" content="image/gif">
+<meta property="og:type" content="video">
+<meta property="og:video" content="{{$gif->videoUrl}}">
+<meta property="og:video:type" content="video/mp4">
 @endsection
 
 @section('javascript')
 @parent
 
+@if(config('site.faebook_app_id') != '')
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -22,6 +32,7 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+@endif
 @endsection
 
 @section('content')
@@ -61,9 +72,9 @@
 			              <input type="text" class="form-control" ng-model="gif.url" readonly="readonly">
 					      <span class="input-group-btn">
 					        <button type="button" class="btn btn-default" clipboard supported="clipboard.supported" text="gif.url" on-copied="copied()"><i class="fa fa-copy"></i> Copy Link</button>
-					        <button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i> Email GIF</button>
+					        {{--<!--button type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i> Email GIF</button-->--}}
 					        <button type="button" class="btn btn-default" ng-show="gif.status == 6" ng-click="download('gif')"><i class="fa fa-download"></i> Download GIF</button>
-					        <button type="button" class="btn btn-default" ng-click="download('mp4')"><i class="fa fa-download"></i> Download MP4</button>
+					        {{--<!--button type="button" class="btn btn-default" ng-click="download('mp4')"><i class="fa fa-download"></i> Download MP4</button-->--}}
 					      </span>
 		            </div>
 		        </div>

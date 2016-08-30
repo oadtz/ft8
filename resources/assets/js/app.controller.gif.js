@@ -9,12 +9,23 @@ angular.module('ft8')
 	$scope.setGif = function (gif) {
 		$scope.gif = gif;
 
-    	$rootScope.socket.subscribe('gif.' + $scope.gif._id).bind('updated', function(data){
-    		if ($scope.gif.status != data.gif.status)
-	    		$scope.$apply(function () {
-	    			$scope.gif = data.gif;
-	    		});
-        });
+		if ($rootScope.pusher) {
+	    	$rootScope.pusher.subscribe('gif.' + $scope.gif._id).bind('updated', function(data){
+	    		if ($scope.gif.status != data.gif.status) {
+		    		$scope.$apply(function () {
+		    			$scope.gif = data.gif;
+		    		});
+	    		}
+	        });
+		} else if ($rootScope.socket) {
+            $rootScope.socket.on('gif.' + $scope.gif._id + ':updated', function(data){
+	    		if ($scope.gif.status != data.gif.status) {
+                    $scope.$apply(function () {
+		    			$scope.gif = data.gif;
+                    });
+                }
+            });
+		}
 	}
 
 	$scope.copied = function () {
@@ -37,16 +48,23 @@ angular.module('ft8')
 	$scope.setGif = function (gif) {
 		$scope.gif = gif;
 
-    	$rootScope.socket.subscribe('gif.' + $scope.gif._id).bind('updated', function(data){
-    		if ($scope.gif.status != data.gif.status)
-	    		$scope.$apply(function () {
-	    			$scope.gif = data.gif;
-
-	    			if ($scope.gif.status === -1) {
-	    				$scope.error();
-	    			}
-	    		});
-        });
+		if ($rootScope.pusher) {
+	    	$rootScope.pusher.subscribe('gif.' + $scope.gif._id).bind('updated', function(data){
+	    		if ($scope.gif.status != data.gif.status) {
+		    		$scope.$apply(function () {
+		    			$scope.gif = data.gif;
+		    		});
+	    		}
+	        });
+		} else if ($rootScope.socket) {
+            $rootScope.socket.on('gif.' + $scope.gif._id + ':updated', function(data){
+	    		if ($scope.gif.status != data.gif.status) {
+                    $scope.$apply(function () {
+		    			$scope.gif = data.gif;
+                    });
+                }
+            });
+		}
 	}
 
 	$scope.error = function (message) {
@@ -87,7 +105,7 @@ angular.module('ft8')
 		else
 			$scope.$processing = false;
 
-		if (status == 4)
+		if (status >= 4)
 			window.location.replace($rootScope.getUrl('gif/' + $scope.gif._id + '.html'));
 
 	});

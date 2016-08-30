@@ -24,7 +24,7 @@ elixir(function(mix) {
             '../../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
             '../../../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js',
             '../../../bower_components/ng-notify/dist/ng-notify.min.js',
-            '../../../bower_components/angular-socialshare/angular-socialshare.min.js',
+            //'../../../bower_components/angular-socialshare/angular-socialshare.min.js',
             '../../../bower_components/angular-clipboard/angular-clipboard.js',
 
 
@@ -40,7 +40,7 @@ elixir(function(mix) {
             '../../../bower_components/bootstrap-material-design/dist/css/ripples.min.css',
             '../../../bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css',
             '../../../bower_components/ng-notify/dist/ng-notify.min.css',
-            '../../../bower_components/angular-socialshare/angular-socialshare.min.css',
+            //'../../../bower_components/angular-socialshare/angular-socialshare.min.css',
 
             'style.css'
         ], 'public/css/styles.css')

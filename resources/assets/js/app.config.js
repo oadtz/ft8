@@ -1,21 +1,20 @@
 angular.module('ft8')
-.run(['$rootScope', '$http', '$FB', 'ngNotify', function ($rootScope, $http, $FB, ngNotify) {
+.run(['$rootScope', '$http', 'ngNotify', function ($rootScope, $http, ngNotify) {
 	
 	$rootScope.init = function () {
-		/*if (broadcastUrl = $rootScope.getMeta('broadcast_url')) {
+		/**/
+		if ($rootScope.getMeta('broadcast_token')) {
+			$rootScope.pusher = new Pusher($rootScope.getMeta('broadcast_token'), {
+		      cluster: 'ap1',
+		      encrypted: true
+		    });
+		} else if (broadcastUrl = $rootScope.getMeta('broadcast_url')) {
 			$rootScope.socket = io(broadcastUrl);
-		}*/
-		$rootScope.socket = new Pusher($rootScope.getMeta('broadcast_url'), {
-	      cluster: 'ap1',
-	      encrypted: true
-	    });
+		}
 
 		$http.get($rootScope.getUrl('api/settings'))
 			 .success(function (response) {
 			 	$rootScope.settings = response;
-			 	console.log ($rootScope.settings.facebook_app_id);
-
-  				$FB.init($rootScope.settings.facebook_app_id);
 			 });
 
 		ngNotify.config({

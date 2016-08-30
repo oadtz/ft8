@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   	<meta name="description" content="">
   	<meta name="author" content="Thanapat Pirmphol">
-    <meta name="broadcast_url" content="{{config('broadcasting.connections.pusher.key')}}">
+    @if(config('broadcasting.default') == 'pusher')
+    <meta name="broadcast_token" content="{{config('broadcasting.connections.pusher.key')}}">
+    @else
+    <meta name="broadcast_url" content="{{config('site.broadcast_url')}}">
+    @endif
     <meta property="fb:app_id" content="{{config('site.facebook_app_id')}}">
     <base href="{{ url('/') }}">
     <title>@yield('title') - @lang('site.app_name')</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link href="{{ elixir('css/styles.css') }}" rel="stylesheet">
     <style>
     body {
@@ -49,7 +51,11 @@
 
     </div>
 
-    <script src="https://js.pusher.com/3.2/pusher.min.js"></script>
+    @if(config('broadcasting.default') == 'pusher')
+    <script src="//js.pusher.com/3.2/pusher.min.js"></script>
+    @else
+    <script src="{{ config('site.broadcast_url') }}/socket.io/socket.io.js"></script>
+    @endif
     <script src="{{ elixir('js/scripts.js') }}"></script>
     @yield('javascript')
   </body>

@@ -1,1 +1,1 @@
-var app = angular.module('ft8', ['ngFileUpload', 'colorpicker.module', 'ui.bootstrap', 'ngNotify', 'djds4rce.angular-socialshare', 'angular-clipboard'])
+var app = angular.module('ft8', ['ngFileUpload', 'colorpicker.module', 'ui.bootstrap', 'ngNotify', 'angular-clipboard'])
