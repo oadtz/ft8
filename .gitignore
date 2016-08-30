@@ -1,4 +1,5 @@
 /node_modules
+/public/gif
 /public/storage
 Homestead.yaml
 Homestead.json
