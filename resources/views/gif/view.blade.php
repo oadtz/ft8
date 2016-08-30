@@ -21,7 +21,7 @@
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId={{config('site.facebook_app_id')}}";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 @endsection
 
 @section('content')
@@ -71,18 +71,37 @@
 		            <label class="col-md-2 control-label">Share</label>
 			        <div class="col-md-10">
 			        	<ul class="list-inline">
-			        		<li><a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a></li>
-			        		<li><a href="http://line.me/R/msg/text/?{{$gif->gifUrl}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li>
+			        		<!--li><a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a></li>
+			        		<li><a href="http://line.me/R/msg/text/?{{$gif->gifUrl}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li-->
 
 			        		<li>
 			        			<div class="fb-share-button" data-href="{{$gif->url}}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{$gif->url}}F&amp;src=sdkpreparse">Share</a></div>
 			        		</li>
 			        		<li>
+			        			<div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="{{$gif->url}}"></div>
+			        		</li>
+			        		<li>
 			        			<span>
-									<script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
-									<script type="text/javascript">
-										new media_line_me.LineButton({"pc":false,"lang":"en","type":"a"});
-									</script>
+								<script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
+								<script type="text/javascript">
+								new media_line_me.LineButton({"pc":false,"lang":"en","type":"a"});
+								</script>
+								</span>
+							</li>
+			        		<li>
+								<span>
+								<script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
+								<script type="text/javascript">
+								new media_line_me.LineButton({"pc":false,"lang":"en","type":"a","text":"{{$gif->gifUrl}}","withUrl":true});
+								</script>
+								</span>
+			        		</li>
+			        		<li>
+								<span>
+								<script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
+								<script type="text/javascript">
+								new media_line_me.LineButton({"pc":false,"lang":"en","type":"a","text":"{{$gif->videoUrl}}"});
+								</script>
 								</span>
 			        		</li>
 			        	</ul>
