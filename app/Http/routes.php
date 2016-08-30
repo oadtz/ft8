@@ -19,7 +19,10 @@ Route::group(['prefix' => 'api', 'middleware' => 'api'], function ()
 
 Route::get('gif/{gif}/download/{type?}', 'GifController@download');
 Route::get('gif/{gif}.html', 'GifController@view');
-Route::get('gif/{gif}/thumbnail.gif', 'GifController@thumbnail');
+//Route::get('gif/{gif}/thumbnail.gif', 'GifController@thumbnail');
 Route::get('gif/upload', 'GifController@upload');
 Route::get('gif/{gif}/generate', 'GifController@generate');
 Route::get('/', 'SiteController@index');
+/*Route::get('test', function () {
+	return env('ASSET_PATH');
+});*/

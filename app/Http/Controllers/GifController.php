@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Cookie;
+use Storage;
 use App\Gif;
 use App\Services\GifService;
 use MongoDB\BSON\ObjectID as MongoId;
@@ -44,11 +45,11 @@ class GifController extends Controller
             abort(404);
 
         if ($type == 'mp4') {
-            $mediaPath = public_path('gif/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.mp4');
-            if (!file_exists($mediaPath))
+
+            if (!Storage::disk(env('ASSET_STORAGE'))->exists(env('ASSET_FOLDER') . '/mp4/' . $gif->_id . '.mp4'))
                 abort(404);
 
-            return response()->download($mediaPath, $gif->_id . '.mp4', [
+            return response()->download(Storage::disk(env('ASSET_STORAGE'))->get(env('ASSET_FOLDER') . '/mp4/' . $gif->_id . '.mp4'), $gif->_id . '.mp4', [
                                     'Content-Description'       =>  'File Transfer',
                                     'Content-Transfer-Encoding' =>  'binary',
                                     'Expires'                   =>  '0',
@@ -57,11 +58,10 @@ class GifController extends Controller
                                 ]);
         }
 
-        $mediaPath = public_path('gif/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.gif');
-        if (!file_exists($mediaPath))
+        if (!Storage::disk(env('ASSET_STORAGE'))->exists(env('ASSET_FOLDER') . '/gif/' . $gif->_id . '.gif'))
             abort(404);
 
-        return response()->download($mediaPath, $gif->_id . '.gif', [
+        return response()->download(Storage::disk(env('ASSET_STORAGE'))->get(env('ASSET_FOLDER') . '/gif/' . $gif->_id . '.gif'), $gif->_id . '.gif', [
                                     'Content-Description'       =>  'File Transfer',
                                     'Content-Transfer-Encoding' =>  'binary',
                                     'Expires'                   =>  '0',
@@ -70,7 +70,7 @@ class GifController extends Controller
                                 ]);
     }
 
-    public function thumbnail(GifService $gifService, $gif)
+    /*public function thumbnail(GifService $gifService, $gif)
     {
         if (!$gif = $gifService->get($gif))
             abort(404);
@@ -78,7 +78,7 @@ class GifController extends Controller
         if (!$gif->generateThumbnail())
             abort(404);
         
-        return response()->file($gif->outputPath . '/thumbnail.gif'); 
-    }
+        return response()->file(Storage::disk(env('ASSET_STORAGE'))->get(env('ASSET_FOLDER') . '/gif/' . $gif->_id . '_thumbnail.gif')); 
+    }*/
 
 }

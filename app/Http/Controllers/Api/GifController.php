@@ -104,7 +104,7 @@ class GifController extends Controller {
 
 			$gif->generateCaption($image->width(), $image->height(), $this->request->input('aspect'), $this->request->input('caption'), $this->request->input('color', config('site.gif_default_caption_color')));
 
-			$image->insert(storage_path('app/public/uploads/' . $gif->userId .'/' . $gif->_id . '/caption.png'));
+			$image->insert($gif->inputPath . '/caption.png');
 		}
 
 

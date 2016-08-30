@@ -16,24 +16,8 @@ class SiteController extends Controller
         return redirect()->action('GifController@upload');
     }
 
-    /*public function getTest()
+    public function test()
     {
-        $image = \Image::canvas(320, 180);
-
-        $text = 'ทดสอบ';
-
-        $x = strlen($text);
-
-        $image->text($text, 160, 160, function($font) {
-            $font->file(resource_path('assets/fonts/Kanit-Regular.ttf'));
-            $font->size(24 );
-            $font->color('#000000');
-            $font->align('center');
-            $font->valign('bottom');
-        });
-
-        //$image->save(public_path('uploads/overlay.png'));
-
-        return $image->response();
-    }*/
+        return response()->json(\Storage::disk('local')->exists('test/test'));
+    }
 }

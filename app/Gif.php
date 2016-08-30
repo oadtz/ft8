@@ -5,6 +5,7 @@ namespace App;
 use Auth;
 use Cookie;
 use Image;
+use Storage;
 use App\Events\GifUpdate;
 use MongoDB\BSON\ObjectID as MongoId;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
@@ -63,17 +64,20 @@ class Gif extends BaseModel
 
     public function getGifUrlAttribute()
     {
-        return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
+        //return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
+        return Storage::disk(env('ASSET_STORAGE'))->url(env('ASSET_FOLDER') . '/gif/' . $this->_id . '.gif');
     }
 
     public function getThumbnailUrlAttribute()
     {
-        return asset('gif/' . $this->_id . '/thumbnail.gif');
+        //return asset('gif/' . $this->_id . '/thumbnail.gif');
+        return Storage::disk(env('ASSET_STORAGE'))->url(env('ASSET_FOLDER') . '/gif/' . $this->_id . '_thumbnail.gif');
     }
 
     public function getVideoUrlAttribute()
     {
-        return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4');
+        //return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4');
+        return Storage::disk(env('ASSET_STORAGE'))->url(env('ASSET_FOLDER') . '/mp4/' . $this->_id . '.mp4');
     }
 
     public function getStatusNameAttribute()
@@ -83,7 +87,7 @@ class Gif extends BaseModel
 
     public function getInputPathAttribute()
     {
-        $path = storage_path('app/public/uploads/' . $this->userId . '/' . $this->_id);
+        $path = storage_path('app/in/' . $this->_id);
 
         if (!file_exists($path)) {
             @mkdir($path, 0755, true);
@@ -94,7 +98,7 @@ class Gif extends BaseModel
 
     public function getOutputPathAttribute()
     {
-        $path = public_path('gif/' . $this->_id);
+        $path = storage_path('app/out/' . $this->_id);
 
         if (!file_exists($path))
             @mkdir($path, 0755, true);
@@ -105,8 +109,8 @@ class Gif extends BaseModel
     public function generatePreview($width = null)
     {
     	$ffmpeg = \FFMpeg\FFMpeg::create([
-                            'ffmpeg.binaries' => config('app.ffmpeg_bin'),
-                            'ffprobe.binaries' => config('app.ffprobe_bin'),
+                            'ffmpeg.binaries' => env('FFMPEG_BIN', 'ffmpeg'),
+                            'ffprobe.binaries' => env('FFPROBE_BIN', 'ffprobe'),
                         ])
                         ->open($this->inputPath . '/input') // extracts streams informations
                         ->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds(1))                      // filters video streams
@@ -138,6 +142,12 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
+        \Log::info(env('ASSET_PATH'));
+        Storage::disk(env('ASSET_STORAGE'))->put(
+            env('ASSET_FOLDER') . '/gif/' . $this->_id . '_thumbnail.gif',
+            file_get_contents($this->outputPath.'/thumbnail.gif')
+        );
+
         return true;
     }
 
@@ -158,6 +168,12 @@ class Gif extends BaseModel
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
+
+        \Log::info(env('ASSET_PATH'));
+        Storage::disk(env('ASSET_STORAGE'))->put(
+            env('ASSET_FOLDER') . '/gif/' . $this->_id . '.gif',
+            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif')
+        );
 
         return true;
     }
@@ -212,8 +228,8 @@ class Gif extends BaseModel
         $output = $this->output;
 
         $ffprobe = \FFMpeg\FFProbe::create([
-                            'ffmpeg.binaries' => config('app.ffmpeg_bin'),
-                            'ffprobe.binaries' => config('app.ffprobe_bin'),
+                            'ffmpeg.binaries' => env('FFMPEG_BIN', 'ffmpeg'),
+                            'ffprobe.binaries' => env('FFPROBE_BIN', 'ffprobe'),
                         ])
                         ->streams($inputFile) // extracts streams informations
                         ->videos()                      // filters video streams
@@ -282,12 +298,18 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
+        \Log::info(env('ASSET_PATH'));
+        Storage::disk(env('ASSET_STORAGE'))->put(
+            env('ASSET_FOLDER') . '/mp4/' . $this->_id . '.mp4',
+            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4')
+        );
+
         return true;
     }
 
     public function cleanUpFiles()
     {
-        $process = new Process('rm -rf ' . $this->inputPath);
+        $process = new Process('rm -rf ' . $this->inputPath . '; rm -rf ' . $this->outputPath);
         $process->run();
 
         return $process->isSuccessful();
