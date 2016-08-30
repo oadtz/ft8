@@ -49,8 +49,11 @@ class GifController extends Controller
                 abort(404);
 
             return response()->download($mediaPath, $gif->_id . '.mp4', [
-                                    'Content-Transfer-Encoding' =>  'binary'
-
+                                    'Content-Description'       =>  'File Transfer',
+                                    'Content-Transfer-Encoding' =>  'binary',
+                                    'Expires'                   =>  '0',
+                                    'Cache-Control'             =>  'must-revalidate, post-check=0, pre-check=0',
+                                    'Pragma'                    =>  'public'
                                 ]);
         }
 
@@ -59,8 +62,11 @@ class GifController extends Controller
             abort(404);
 
         return response()->download($mediaPath, $gif->_id . '.gif', [
-                                    'Content-Transfer-Encoding' =>  'binary'
-
+                                    'Content-Description'       =>  'File Transfer',
+                                    'Content-Transfer-Encoding' =>  'binary',
+                                    'Expires'                   =>  '0',
+                                    'Cache-Control'             =>  'must-revalidate, post-check=0, pre-check=0',
+                                    'Pragma'                    =>  'public'
                                 ]);
     }
 
