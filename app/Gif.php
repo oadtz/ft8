@@ -108,9 +108,10 @@ class Gif extends BaseModel
 
     public function generatePreview($width = null)
     {
+        \Log::info(env('FFPROBE_BIN', 'ffprobe'));
     	$ffmpeg = \FFMpeg\FFMpeg::create([
-                            'ffmpeg.binaries' => env('FFMPEG_BIN', 'ffmpeg'),
-                            'ffprobe.binaries' => env('FFPROBE_BIN', 'ffprobe'),
+                            'ffmpeg.binaries' => '/usr/bin/ffmpeg',
+                            'ffprobe.binaries' => '/usr/bin/ffprobe',
                         ])
                         ->open($this->inputPath . '/input') // extracts streams informations
                         ->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds(1))                      // filters video streams
@@ -142,7 +143,6 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        \Log::info(env('ASSET_PATH'));
         Storage::disk(env('ASSET_STORAGE'))->put(
             env('ASSET_FOLDER') . '/gif/' . $this->_id . '_thumbnail.gif',
             file_get_contents($this->outputPath.'/thumbnail.gif')
@@ -169,7 +169,6 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        \Log::info(env('ASSET_PATH'));
         Storage::disk(env('ASSET_STORAGE'))->put(
             env('ASSET_FOLDER') . '/gif/' . $this->_id . '.gif',
             file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif')
@@ -228,8 +227,8 @@ class Gif extends BaseModel
         $output = $this->output;
 
         $ffprobe = \FFMpeg\FFProbe::create([
-                            'ffmpeg.binaries' => env('FFMPEG_BIN', 'ffmpeg'),
-                            'ffprobe.binaries' => env('FFPROBE_BIN', 'ffprobe'),
+                            'ffmpeg.binaries' => '/usr/bin/ffmpeg',
+                            'ffprobe.binaries' => '/usr/bin/ffprobe',
                         ])
                         ->streams($inputFile) // extracts streams informations
                         ->videos()                      // filters video streams
@@ -298,7 +297,6 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        \Log::info(env('ASSET_PATH'));
         Storage::disk(env('ASSET_STORAGE'))->put(
             env('ASSET_FOLDER') . '/mp4/' . $this->_id . '.mp4',
             file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4')
