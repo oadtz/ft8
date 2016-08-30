@@ -13,7 +13,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'api'], function ()
 
 	Route::post('gif/{gif}/upload', 'Api\GifController@upload');
 	Route::get('gif/{gif}/upload/preview', 'Api\GifController@previewUpload');
-	Route::get('gif/{gif}/upload/preview-placeholder', 'Api\GifController@previewPlaceholder');
 	Route::post('gif/{gif}/generate', 'Api\GifController@generate');
 	Route::post('gif', 'Api\GifController@create');
 });

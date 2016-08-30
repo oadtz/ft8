@@ -32,7 +32,7 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 @endif
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="//apis.google.com/js/platform.js" async defer></script>
 @endsection
 
 @section('content')
@@ -46,7 +46,8 @@
 	    		<div class="col-lg-12 text-center">
 				  <video autoplay="autoplay" loop="loop" width="{{$gif->output['width']}}" height="{{$gif->output['height']}}" style="max-width: 100%">
 				  	<source src="{{$gif->videoUrl}}" type="video/mp4" />
-				  	<span ng-switch="gif.status">
+				  	<img src="{{$gif->gifUrl}}" ng-src="@{{gif.gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
+				  	{{--<!--span ng-switch="gif.status">
 				  		<span ng-switch-when="6">
 		    				<figure class="text-center">
 				  				<img src="{{$gif->gifUrl}}" ng-if="gif.status == 6"  style="max-width: 100%" />
@@ -62,7 +63,7 @@
 			                  </div>
 			                </div>
 				  		</span>
-				  	</span>
+				  	</span-->--}}
 
 				  </video>
 	    		</div>
@@ -82,8 +83,8 @@
 		            <label class="col-md-2 control-label">Share</label>
 			        <div class="col-md-10">
 			        	<ul class="list-inline">
-			        		<!--li><a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a></li>
-			        		<li><a href="http://line.me/R/msg/text/?{{$gif->gifUrl}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li-->
+			        		{{--<!--li><a facebook-feed-share class="btn btn-link facebook-share" data-url="{{$gif->url}}" data-shares="shares" title="Share on facebook"><img src="{{url('img/facebook.png')}}" alt="Share on facebook"></a></li>
+			        					        					        		<li><a href="http://line.me/R/msg/text/?{{$gif->gifUrl}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li-->--}}
 
 			        		<li>
 			        			<div class="fb-share-button" data-href="{{$gif->url}}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{$gif->url}}F&amp;src=sdkpreparse">Share</a></div>
@@ -101,6 +102,7 @@
 							</li>
 			        	</ul>
 
+			        	{{--
 			        	<!--a href>
 			        		<img src="{{url('img/twitter.png')}}" alt="Share on Twitter">
 			        	</a>
@@ -116,6 +118,7 @@
 			        	<a href>
 			        		<img src="{{url('img/telegram.png')}}" alt="Share to Email">
 			        	</a-->
+			        	--}}
 			        </div>
 		        </div>
 	    	</div>

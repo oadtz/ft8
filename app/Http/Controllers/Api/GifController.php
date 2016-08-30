@@ -113,11 +113,11 @@ class GifController extends Controller {
 			$h = $image->height();
 
 			if ($w > $h)
-				$image->resize(null, config('site.gif_max_width'), function ($constraint) {
+				$image->resize(null, min($h, config('site.gif_max_width')), function ($constraint) {
 				    $constraint->aspectRatio();
 				});
 			else
-				$image->resize(config('site.gif_max_width'), null, function ($constraint) {
+				$image->resize(min($w, config('site.gif_max_width')), null, function ($constraint) {
 				    $constraint->aspectRatio();
 				});
 
@@ -132,31 +132,6 @@ class GifController extends Controller {
 		$bg->insert($image, 'center');
 
 		return $bg->response('jpg', 60);
-	}
-
-	public function previewPlaceholder($gif)
-	{
-		if (!$gif = $this->gifService->get($gif))
-			abort(404);
-
-		if (!file_exists($gif->inputPath . '/preview.jpg'))
-			abort(404);
-
-		$image = Image::make($gif->inputPath . '/preview.jpg');
-		$w = $image->width();
-		$h = $image->height();
-
-		if ($this->request->input('aspect') == 1) {
-			$image = Image::canvas(min($w, $h, config('site.gif_max_width')), min($w, $h, config('site.gif_max_width')));
-		} else {
-			$image = Image::canvas($w, $h);
-
-			$image->resize(config('site.gif_max_width'), null, function ($constraint) {
-			    $constraint->aspectRatio();
-			});
-		}
-
-		return $image->response('png', 10);
 	}
 
 }
