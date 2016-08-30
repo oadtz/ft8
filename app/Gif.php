@@ -65,19 +65,19 @@ class Gif extends BaseModel
     public function getGifUrlAttribute()
     {
         //return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
-        return Storage::disk(env('ASSET_STORAGE'))->url(env('ASSET_FOLDER') . '/gif/' . $this->_id . '.gif');
+        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->_id . '.gif');
     }
 
     public function getThumbnailUrlAttribute()
     {
         //return asset('gif/' . $this->_id . '/thumbnail.gif');
-        return Storage::disk(env('ASSET_STORAGE'))->url(env('ASSET_FOLDER') . '/gif/' . $this->_id . '_thumbnail.gif');
+        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif');
     }
 
     public function getVideoUrlAttribute()
     {
         //return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4');
-        return Storage::disk(env('ASSET_STORAGE'))->url(env('ASSET_FOLDER') . '/mp4/' . $this->_id . '.mp4');
+        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/mp4/' . $this->_id . '.mp4');
     }
 
     public function getStatusNameAttribute()
@@ -143,8 +143,8 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        Storage::disk(env('ASSET_STORAGE'))->put(
-            env('ASSET_FOLDER') . '/gif/' . $this->_id . '_thumbnail.gif',
+        Storage::disk(config('_protected.asset_storage'))->put(
+            config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif',
             file_get_contents($this->outputPath.'/thumbnail.gif')
         );
 
@@ -169,8 +169,8 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        Storage::disk(env('ASSET_STORAGE'))->put(
-            env('ASSET_FOLDER') . '/gif/' . $this->_id . '.gif',
+        Storage::disk(config('_protected.asset_storage'))->put(
+            config('_protected.asset_folder') . '/gif/' . $this->_id . '.gif',
             file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif')
         );
 
@@ -297,8 +297,8 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        Storage::disk(env('ASSET_STORAGE'))->put(
-            env('ASSET_FOLDER') . '/mp4/' . $this->_id . '.mp4',
+        Storage::disk(config('_protected.asset_storage'))->put(
+            config('_protected.asset_folder') . '/mp4/' . $this->_id . '.mp4',
             file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4')
         );
 

@@ -46,10 +46,10 @@ class GifController extends Controller
 
         if ($type == 'mp4') {
 
-            if (!Storage::disk(env('ASSET_STORAGE'))->exists(env('ASSET_FOLDER') . '/mp4/' . $gif->_id . '.mp4'))
+            if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/mp4/' . $gif->_id . '.mp4'))
                 abort(404);
 
-            return response()->download(Storage::disk(env('ASSET_STORAGE'))->get(env('ASSET_FOLDER') . '/mp4/' . $gif->_id . '.mp4'), $gif->_id . '.mp4', [
+            return response()->download(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/mp4/' . $gif->_id . '.mp4'), $gif->_id . '.mp4', [
                                     'Content-Description'       =>  'File Transfer',
                                     'Content-Transfer-Encoding' =>  'binary',
                                     'Expires'                   =>  '0',
@@ -58,10 +58,10 @@ class GifController extends Controller
                                 ]);
         }
 
-        if (!Storage::disk(env('ASSET_STORAGE'))->exists(env('ASSET_FOLDER') . '/gif/' . $gif->_id . '.gif'))
+        if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/gif/' . $gif->_id . '.gif'))
             abort(404);
 
-        return response()->download(Storage::disk(env('ASSET_STORAGE'))->get(env('ASSET_FOLDER') . '/gif/' . $gif->_id . '.gif'), $gif->_id . '.gif', [
+        return response()->download(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->_id . '.gif'), $gif->_id . '.gif', [
                                     'Content-Description'       =>  'File Transfer',
                                     'Content-Transfer-Encoding' =>  'binary',
                                     'Expires'                   =>  '0',
@@ -78,7 +78,7 @@ class GifController extends Controller
         if (!$gif->generateThumbnail())
             abort(404);
         
-        return response()->file(Storage::disk(env('ASSET_STORAGE'))->get(env('ASSET_FOLDER') . '/gif/' . $gif->_id . '_thumbnail.gif')); 
+        return response()->file(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->_id . '_thumbnail.gif')); 
     }*/
 
 }
