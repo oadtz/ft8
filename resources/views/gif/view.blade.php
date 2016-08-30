@@ -88,22 +88,6 @@
 								</script>
 								</span>
 							</li>
-			        		<li>
-								<span>
-								<script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
-								<script type="text/javascript">
-								new media_line_me.LineButton({"pc":false,"lang":"en","type":"a","text":"{{$gif->gifUrl}}","withUrl":true});
-								</script>
-								</span>
-			        		</li>
-			        		<li>
-								<span>
-								<script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
-								<script type="text/javascript">
-								new media_line_me.LineButton({"pc":false,"lang":"en","type":"a","text":"{{$gif->videoUrl}}"});
-								</script>
-								</span>
-			        		</li>
 			        	</ul>
 
 			        	<!--a href>
