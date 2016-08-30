@@ -34,8 +34,10 @@ return array(
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'MongoDB\\' => array($vendorDir . '/mongodb/mongodb/src'),
     'League\\OAuth1\\' => array($vendorDir . '/league/oauth1-client/src'),
+    'League\\Flysystem\\AwsS3v3\\' => array($vendorDir . '/league/flysystem-aws-s3-v3/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Laravel\\Socialite\\' => array($vendorDir . '/laravel/socialite/src'),
+    'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'Intervention\\Image\\' => array($vendorDir . '/intervention/image/src/Intervention/Image'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
@@ -47,5 +49,6 @@ return array(
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
     'ClassPreloader\\' => array($vendorDir . '/classpreloader/classpreloader/src'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
+    'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
     'App\\' => array($baseDir . '/app'),
 );
