@@ -65,19 +65,19 @@ class Gif extends BaseModel
     public function getGifUrlAttribute()
     {
         //return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
-        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->_id . '.gif');
+        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->userId . '/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif');
     }
 
     public function getThumbnailUrlAttribute()
     {
-        return asset('gif/' . $this->_id . '/thumbnail.gif');
-        //return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif');
+        //return asset('gif/' . $this->_id . '/thumbnail.gif');
+        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->userId . '/' . $this->_id . '/thumbnail.gif');
     }
 
     public function getVideoUrlAttribute()
     {
         //return asset('gif/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4');
-        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/mp4/' . $this->_id . '.mp4');
+        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/mp4/' . $this->userId . '/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4');
     }
 
     public function getStatusNameAttribute()
@@ -122,13 +122,20 @@ class Gif extends BaseModel
         if (!file_exists($this->outputPath. '/' . static::OUTPUT_FILE_NAME . '.mp4'))
             abort(404);
 
-        if ($this->output['width'] < $this->output['height'])
-            $pad = ceil($this->output['height']*$this->output['thumbnailScale']) . ':ih:(ow-iw)/2:0';
-        else
+        $output = $this->output;
+        if ($output['width'] < $output['height']) {
+            $pad = ceil($output['height']*$output['thumbnailScale']) . ':ih:(ow-iw)/2:0';
+            $output['thumbnailWidth'] = $output['thumbnailHeight'] = ceil($output['height']*$output['thumbnailScale']);
+        } else {
             $pad = 'iw:' . ceil($this->output['width']*$this->output['thumbnailScale']) . ':0:(oh-ih)/2';
+            $output['thumbnailWidth'] = $output['thumbnailHeight'] = ceil($this->output['width']*$this->output['thumbnailScale']);
+        }
+
         $this->cmd = 'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -vf "scale='.ceil($this->output['width']*config('site.gif_thumbnail_scale')).':'.ceil($this->output['height']*config('site.gif_thumbnail_scale')).':flags=lanczos,palettegen"  -y '.$this->inputPath.'/pallette.png;'.
                     'ffmpeg -v warning -i '.$this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4 -i '.$this->inputPath.'/pallette.png  -lavfi "scale='.ceil($this->output['width']*$this->output['thumbnailScale']).':'.ceil($this->output['height']*$this->output['thumbnailScale']).':flags=lanczos,pad='.$pad.':color=black [a]; [a][1:v] paletteuse" -y '.$this->inputPath.'/output.gif;'.
                     'gifsicle -O1 --lossy=80 -o '.$this->outputPath.'/thumbnail.gif '.$this->inputPath.'/output.gif';
+
+        $this->output = $output;
 
         //$this->cmd = 'gifsicle -O1 --lossy=120 --scale '.config('site.gif_thumbnail_scale').' -o '.$this->outputPath.'/thumbnail.gif '.$this->outputPath.'/' . static::OUTPUT_FILE_NAME . '.gif;';
 
@@ -143,7 +150,7 @@ class Gif extends BaseModel
         }
 
         Storage::disk(config('_protected.asset_storage'))->put(
-            config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif',
+            config('_protected.asset_folder') . '/gif/' . $this->userId . '/' . $this->_id . '/thumbnail.gif',
             file_get_contents($this->outputPath.'/thumbnail.gif'),
             'public'
         );
@@ -170,7 +177,7 @@ class Gif extends BaseModel
         }
 
         Storage::disk(config('_protected.asset_storage'))->put(
-            config('_protected.asset_folder') . '/gif/' . $this->_id . '.gif',
+            config('_protected.asset_folder') . '/gif/' . $this->userId . '/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif',
             file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif'),
             'public'
         );
@@ -299,7 +306,7 @@ class Gif extends BaseModel
         }
 
         Storage::disk(config('_protected.asset_storage'))->put(
-            config('_protected.asset_folder') . '/mp4/' . $this->_id . '.mp4',
+            config('_protected.asset_folder') . '/mp4/' . $this->userId . '/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4',
             file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4'),
             'public'
         );

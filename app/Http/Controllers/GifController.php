@@ -46,7 +46,7 @@ class GifController extends Controller
 
         if ($type == 'mp4') {
 
-            if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/mp4/' . $gif->_id . '.mp4'))
+            if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/mp4/' . $gif->userId . '/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.mp4'))
                 abort(404);
 
             /*return response()->download(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/mp4/' . $gif->_id . '.mp4'), $gif->_id . '.mp4', [
@@ -56,7 +56,7 @@ class GifController extends Controller
                                     'Cache-Control'             =>  'must-revalidate, post-check=0, pre-check=0',
                                     'Pragma'                    =>  'public'
                                 ]);*/
-            return response(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/mp4/' . $gif->_id . '.mp4'))
+            return response(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/mp4/' . $gif->userId . '/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.mp4'))
                     ->header('Content-Disposition', ' attachment; filename="' .$gif->_id. '.mp4"')
                     ->header('Content-Type', 'video/mp4')
                     ->header('Content-Description', 'File Transfer')
@@ -66,7 +66,7 @@ class GifController extends Controller
                     ->header('Pragma', 'public');
         }
 
-        if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/gif/' . $gif->_id . '.gif'))
+        if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/gif/' . $gif->userId . '/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.gif'))
             abort(404);
 
         /*return response(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->_id . '.gif'), $gif->_id . '.gif', [
@@ -76,7 +76,7 @@ class GifController extends Controller
                                     'Cache-Control'             =>  'must-revalidate, post-check=0, pre-check=0',
                                     'Pragma'                    =>  'public'
                                 ]);*/
-        return response(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->_id . '.gif'))
+        return response(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->userId . '/' . $gif->_id . '/' . Gif::OUTPUT_FILE_NAME . '.gif'))
                 ->header('Content-Disposition', ' attachment; filename="' .$gif->_id. '.gif"')
                 ->header('Content-Type', 'image/gif')
                 ->header('Content-Description', 'File Transfer')
@@ -95,7 +95,7 @@ class GifController extends Controller
         //if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/gif/' . $gif->_id . '_thumbnail.gif'))
         //    abort(404);
 
-        return redirect(Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $gif->_id . '_thumbnail.gif')); 
+        return redirect(Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $gif->userId . '/' . $gif->_id . '/thumbnail.gif')); 
     }
 
 }

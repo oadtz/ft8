@@ -7,16 +7,16 @@
 
 <meta property="og:site_name" content="{{trans('site.app_name')}}" />
 <meta property="og:title" content="{{!empty($gif->settings['caption']) ? $gif->settings['caption'] : 'Untitled GIF animation'}} - {{trans('site.app_name')}}" />
-<meta property="og:url" content="{{$gif->thumbnailUrl}}">
+<meta property="og:url" content="{{$gif->url}}">
 <meta property="og:type" content="video.other">
-<meta property="og:image" content="{{$gif->thumbnailUrl}}">
-<meta property="og:image:type" content="image/gif">
-<meta property="og:type" content="image">
 <meta property="og:image" content="{{$gif->thumbnailUrl}}">
 <meta property="og:image:type" content="image/gif">
 <meta property="og:type" content="video">
 <meta property="og:video" content="{{$gif->videoUrl}}">
 <meta property="og:video:type" content="video/mp4">
+<meta property="og:type" content="image">
+<meta property="og:image" content="{{$gif->gifUrl}}">
+<meta property="og:image:type" content="image/gif">
 @endsection
 
 @section('javascript')
