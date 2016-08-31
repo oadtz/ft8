@@ -108,7 +108,6 @@ class Gif extends BaseModel
 
     public function generatePreview($width = null)
     {
-        \Log::info(env('FFPROBE_BIN', 'ffprobe'));
     	$ffmpeg = \FFMpeg\FFMpeg::create([
                             'ffmpeg.binaries' => '/usr/bin/ffmpeg',
                             'ffprobe.binaries' => '/usr/bin/ffprobe',
