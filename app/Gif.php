@@ -145,7 +145,8 @@ class Gif extends BaseModel
 
         Storage::disk(config('_protected.asset_storage'))->put(
             config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif',
-            file_get_contents($this->outputPath.'/thumbnail.gif')
+            file_get_contents($this->outputPath.'/thumbnail.gif'),
+            'public'
         );
 
         return true;
@@ -171,7 +172,8 @@ class Gif extends BaseModel
 
         Storage::disk(config('_protected.asset_storage'))->put(
             config('_protected.asset_folder') . '/gif/' . $this->_id . '.gif',
-            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif')
+            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif'),
+            'public'
         );
 
         return true;
@@ -299,7 +301,8 @@ class Gif extends BaseModel
 
         Storage::disk(config('_protected.asset_storage'))->put(
             config('_protected.asset_folder') . '/mp4/' . $this->_id . '.mp4',
-            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4')
+            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4'),
+            'public'
         );
 
         return true;

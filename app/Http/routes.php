@@ -23,6 +23,12 @@ Route::get('gif/{gif}.html', 'GifController@view');
 Route::get('gif/upload', 'GifController@upload');
 Route::get('gif/{gif}/generate', 'GifController@generate');
 Route::get('/', 'SiteController@index');
-/*Route::get('test', function () {
-	return env('ASSET_PATH');
-});*/
+Route::get('test', function () {
+
+	\Storage::disk('s3')
+			->put('aaaa/aaaa/test.txt', 'test', 'public');
+
+
+	return response(\Storage::disk('s3')->url('aaaa/aaaa/test.txt'));
+
+});
