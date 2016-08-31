@@ -95,7 +95,7 @@ class GifController extends Controller
         //if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/gif/' . $gif->_id . '_thumbnail.gif'))
         //    abort(404);
 
-        return redirect(Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $gif->userId . '/' . $gif->_id . '/thumbnail.gif')); 
+        return response(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->userId . '/' . $gif->_id . '/thumbnail.gif'))->header('Content-Type', 'image/gif'); 
     }
 
 }
