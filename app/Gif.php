@@ -70,8 +70,8 @@ class Gif extends BaseModel
 
     public function getThumbnailUrlAttribute()
     {
-        //return asset('gif/' . $this->_id . '/thumbnail.gif');
-        return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif');
+        return asset('gif/' . $this->_id . '/thumbnail.gif');
+        //return Storage::disk(config('_protected.asset_storage'))->url(config('_protected.asset_folder') . '/gif/' . $this->_id . '_thumbnail.gif');
     }
 
     public function getVideoUrlAttribute()

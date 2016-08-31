@@ -86,15 +86,16 @@ class GifController extends Controller
                 ->header('Pragma', 'public');
     }
 
-    /*public function thumbnail(GifService $gifService, $gif)
+    public function thumbnail(GifService $gifService, $gif)
     {
         if (!$gif = $gifService->get($gif))
             abort(404);
 
-        if (!$gif->generateThumbnail())
+        //if (!$gif->generateThumbnail())
+        if (!Storage::disk(config('_protected.asset_storage'))->exists(config('_protected.asset_folder') . '/gif/' . $gif->_id . '_thumbnail.gif'))
             abort(404);
         
         return response()->file(Storage::disk(config('_protected.asset_storage'))->get(config('_protected.asset_folder') . '/gif/' . $gif->_id . '_thumbnail.gif')); 
-    }*/
+    }
 
 }
