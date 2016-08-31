@@ -5,9 +5,6 @@
 @section('meta')
 @parent
 
-@if(!$once)
-<meta http-equiv="refresh" content="0; url={{url('/')}}">
-@endif
 <meta property="og:site_name" content="{{trans('site.app_name')}}" />
 <meta property="og:title" content="{{!empty($gif->settings['caption']) ? $gif->settings['caption'] : 'Untitled GIF animation'}}" />
 <meta property="og:url" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">
@@ -96,7 +93,7 @@
 			        					        					        		<li><a href="http://line.me/R/msg/text/?{{$gif->gifUrl}}" target="_blank" class="btn btn-link" title="Share to LINE"><img src="{{url('img/line.png')}}" alt="Share to LINE"></a></li-->--}}
 
 			        		<li class="btn btn-link">
-			        			<div class="fb-share-button" data-href="{{$gif->url}}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{$gif->url}}F&amp;src=sdkpreparse">Share</a></div>
+			        			<div class="fb-share-button" data-href="{{action('GifController@upload', [ 'referer' => $gif->_id ])}}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{action('GifController@upload', [ 'referer' => $gif->_id ])}}F&amp;src=sdkpreparse">Share</a></div>
 			        		</li>
 			        		<li class="btn btn-link">
 			        			<div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="{{$gif->url}}"></div>

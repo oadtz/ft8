@@ -106,7 +106,7 @@ angular.module('ft8')
 			$scope.$processing = false;
 
 		if (status >= 4)
-			window.location.replace($rootScope.getUrl('gif/' + $scope.gif._id));
+			window.location.replace($rootScope.getUrl('gif/' + $scope.gif._id + '.html'));
 
 	});
 
