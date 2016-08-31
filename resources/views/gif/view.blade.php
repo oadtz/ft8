@@ -13,6 +13,7 @@
 <meta property="og:image:type" content="image/gif">
 <meta property="og:image:width" content="{{$gif->output['thumbnailWidth']}}">
 <meta property="og:image:height" content="{{$gif->output['thumbnailHeight']}}">
+{{--
 <meta property="og:type" content="image">
 <meta property="og:image" content="{{$gif->gifUrl}}">
 <meta property="og:image:type" content="image/gif">
@@ -23,6 +24,7 @@
 <meta property="og:video:type" content="video/mp4">
 <meta property="og:video:width" content="{{$gif->output['width']}}">
 <meta property="og:video:height" content="{{$gif->output['height']}}">
+--}}
 @endsection
 
 @section('javascript')
