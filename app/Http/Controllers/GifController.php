@@ -13,14 +13,16 @@ use App\Http\Requests;
 class GifController extends Controller
 {
 
-    public function upload()
+    public function upload(GifService $gifService)
     {
     	if (!$userId = $this->request->cookie('userId')) {
     		$userId = (string)new MongoId();
     	}
     	Cookie::queue(cookie()->forever('userId', $userId));
 
-        return view('gif.upload');
+        $gif = $gifService->get(session('gif'));
+
+        return view('gif.upload', compact('gif'));
     }
 
     public function generate(GifService $gifService, $gif)

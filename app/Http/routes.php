@@ -16,19 +16,17 @@ Route::group(['prefix' => 'api', 'middleware' => 'api'], function ()
 	Route::post('gif/{gif}/generate', 'Api\GifController@generate');
 	Route::post('gif', 'Api\GifController@create');
 });
+Route::get('test', function () {
+
+
+    	Storage::disk('public')->put('public/gif/57b90dd79a892003e67b9924/57c6e75d9a892005f73bab29/thumbnail.gif', 'wdsasdf', 'public');
+
+});
 
 Route::get('gif/{gif}/download/{type?}', 'GifController@download');
 Route::get('gif/{gif}.html', 'GifController@view');
 Route::get('gif/{gif}/thumbnail.gif', 'GifController@thumbnail');
 Route::get('gif/upload', 'GifController@upload');
 Route::get('gif/{gif}/generate', 'GifController@generate');
-Route::get('/', 'SiteController@index');
-/*Route::get('test', function () {
-
-	\Storage::disk('s3')
-			->put('aaaa/aaaa/test.txt', 'test', 'public');
-
-
-	return response(\Storage::disk('s3')->url('aaaa/aaaa/test.txt'));
-
-});*/
+//Route::get('create', 'SiteController@create');
+Route::get('/{gif?}', 'SiteController@index');

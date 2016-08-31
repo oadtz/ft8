@@ -32008,7 +32008,7 @@ angular.module('ft8')
 		}
 	}
 
-	$scope.error = function (message) {
+	$scope.error = function (message, options) {
 		ngNotify.set(message || 'Some thing went wrong. Please try again.', 'error');
 	}
 
@@ -32022,7 +32022,7 @@ angular.module('ft8')
 				}
 			})
 			.error(function () {
-				$scope.error();
+				$scope.error(null, { sticky: true });
 			});
 	}
 

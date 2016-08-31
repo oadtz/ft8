@@ -59,7 +59,8 @@ class Gif extends BaseModel
 
     public function getUrlAttribute()
     {
-        return asset('gif/' . $this->_id . '.html');
+        return url($this->_id);
+        //return asset('gif/' . $this->_id . '.html');
     }
 
     public function getGifUrlAttribute()
@@ -149,11 +150,7 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        Storage::disk(config('_protected.asset_storage'))->put(
-            config('_protected.asset_folder') . '/gif/' . $this->userId . '/' . $this->_id . '/thumbnail.gif',
-            file_get_contents($this->outputPath.'/thumbnail.gif'),
-            'public'
-        );
+        $this->store($this->outputPath.'/thumbnail.gif', '/gif/' . $this->userId . '/' . $this->_id, 'thumbnail.gif');
 
         return true;
     }
@@ -176,11 +173,8 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        Storage::disk(config('_protected.asset_storage'))->put(
-            config('_protected.asset_folder') . '/gif/' . $this->userId . '/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.gif',
-            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif'),
-            'public'
-        );
+
+        $this->store($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.gif', '/gif/' . $this->userId . '/' . $this->_id, static::OUTPUT_FILE_NAME.'.gif');
 
         return true;
     }
@@ -305,11 +299,7 @@ class Gif extends BaseModel
             throw new ProcessFailedException($process);
         }
 
-        Storage::disk(config('_protected.asset_storage'))->put(
-            config('_protected.asset_folder') . '/mp4/' . $this->userId . '/' . $this->_id . '/' . static::OUTPUT_FILE_NAME . '.mp4',
-            file_get_contents($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4'),
-            'public'
-        );
+        $this->store($this->outputPath.'/'.static::OUTPUT_FILE_NAME.'.mp4', '/mp4/' . $this->userId . '/' . $this->_id, static::OUTPUT_FILE_NAME.'.mp4');
 
         return true;
     }
