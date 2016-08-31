@@ -20,9 +20,7 @@ class GifController extends Controller
     	}
     	Cookie::queue(cookie()->forever('userId', $userId));
 
-        $gif = $gifService->get(session('gif'));
-
-        return view('gif.upload', compact('gif'));
+        return view('gif.upload');
     }
 
     public function generate(GifService $gifService, $gif)
@@ -33,12 +31,17 @@ class GifController extends Controller
         return view('gif.generate', compact('gif'));
     }
 
-    public function view(GifService $gifService, $gif)
+    public function viewOnce(GifService $gifService, $gif)
+    {
+        return $this->view($gifService, $gif, true);
+    }
+
+    public function view(GifService $gifService, $gif, $once = false)
     {
         if (!$gif = $gifService->get($gif))
             abort(404);
 
-        return view('gif.view', compact('gif'));
+        return view('gif.view', compact('gif', 'once'));
     }
 
     public function download(GifService $gifService, $gif, $type = 'gif')

@@ -2,9 +2,12 @@
 
 @section('title', !empty($gif->settings['caption']) ? $gif->settings['caption'] : 'Untitled GIF animation')
 
-@section('stylesheet')
+@section('meta')
 @parent
 
+@if(!$once)
+<meta http-equiv="refresh" content="0; url={{url('/')}}">
+@endif
 <meta property="og:site_name" content="{{trans('site.app_name')}}" />
 <meta property="og:title" content="{{!empty($gif->settings['caption']) ? $gif->settings['caption'] : 'Untitled GIF animation'}}" />
 <meta property="og:url" content="{{asset('gif/' . $gif->_id . '/thumbnail.gif')}}">

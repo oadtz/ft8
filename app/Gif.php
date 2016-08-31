@@ -59,8 +59,7 @@ class Gif extends BaseModel
 
     public function getUrlAttribute()
     {
-        return url($this->_id);
-        //return asset('gif/' . $this->_id . '.html');
+        return asset('gif/' . $this->_id . '.html');
     }
 
     public function getGifUrlAttribute()

@@ -12,18 +12,18 @@ class SiteController extends Controller
 {
 
     //
-    public function index($gif = null)
+    public function index()
     {
-        return redirect()->action('GifController@upload')->with('gif', $gif);
+        $response = redirect()->action('GifController@upload');
 
-        //return redirect()->action('SiteController@create')->with('gif', $gif);
+        return $response;
+
+        //return redirect()->action('SiteController@create')->with('gif', $gif); // Not work for redirect
     }
 
     public function create(GifService $gifService)
     {
-    	$gif = $gifService->get(session('gif'));
-
-    	return view('create', compact('gif'));
+    	return view('create');
     }
 
     public function test()

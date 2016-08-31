@@ -12,6 +12,7 @@
     <meta name="broadcast_url" content="{{config('site.broadcast_url')}}">
     @endif
     <meta property="fb:app_id" content="{{config('site.facebook_app_id')}}">
+    @yield('meta')
     <base href="{{ url('/') }}">
     <title>@yield('title') - @lang('site.app_name')</title>
 

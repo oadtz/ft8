@@ -23,10 +23,11 @@ Route::get('test', function () {
 
 });
 
+Route::get('gif/upload', 'GifController@upload');
 Route::get('gif/{gif}/download/{type?}', 'GifController@download');
 Route::get('gif/{gif}.html', 'GifController@view');
+Route::get('gif/{gif}', 'GifController@viewOnce');
 Route::get('gif/{gif}/thumbnail.gif', 'GifController@thumbnail');
-Route::get('gif/upload', 'GifController@upload');
 Route::get('gif/{gif}/generate', 'GifController@generate');
 //Route::get('create', 'SiteController@create');
-Route::get('/{gif?}', 'SiteController@index');
+Route::get('/', 'SiteController@index');
